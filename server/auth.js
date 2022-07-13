@@ -40,6 +40,7 @@ const setUpAuth = function (app) {
     app.post("/session", passport.authenticate("local"), (req, res) => (
         res.status(201).json({message: "Succesfully created session"
      } )))
+     
     app.get("/session", (req, res) =>{
         if(!req.user) {
             res.status(401).json({message: "unauthorized"});
