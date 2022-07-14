@@ -9,7 +9,6 @@
 </head>
 <body>
     <div id="app">
-<<<<<<< HEAD
       <v-app>
         <v-main class="lime lighten-5">
 
@@ -18,18 +17,19 @@
           elevation="3 green darken-4"
           >
           <v-toolbar-title class="white--text">Shrubhub</v-toolbar-title>
-          <v-btn icon>
+          <v-btn icon @click="page='landing-page'">
             <v-icon class="white--text" size="50px">mdi-grass</v-icon>     
           </v-btn>
           <v-spacer></v-spacer>
-          <div v-if="page == 'landing-page'"></div>
+          <div v-if="page == 'landing-page'">
           <v-btn width="80px" height="30px" class="grey lighten-2">
-          <v-toolbar-title>Log in</v-toolbar-title>
+          <v-toolbar-title @click="page= 'login-page'">Log in</v-toolbar-title>
         </v-btn>
+      </div>
         </v-app-bar>
         
         <!-- LANDING PAGE -->
-        <div v-if="page == 'landing-page'"></div>
+        <div v-if="page == 'landing-page'">
         <v-parallax
     dark
     src="https://images.unsplash.com/photo-1458245201577-fc8a130b8829?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=876&q=80"
@@ -73,42 +73,35 @@
       </v-row>
   </v-container>
 
+</div>
             
           <!-- LOGIN PAGE -->
 <div v-if="page == 'login-page'">
-=======
-        <!-- LANDING PAGE --  page = "landing"; -->
-        <v-app>
-            <v-main class="lime lighten-5">
-                <v-app-bar
-                    elevation="3 green darken-4"
-                >
-                <v-toolbar-title class="white--text">Shrubhub</v-toolbar-title>
-                <v-btn icon>
-                    <v-icon class="white--text" size="50px">mdi-grass</v-icon>     
-                </v-btn>
-               
-                </v-app-bar>
-            </v-main>
-          </v-app>
->>>>>>> bf121a89637b9f2fd77083b27ad98f8ac2c7d082
         
-
-
-
-
-
-
-
-<<<<<<< HEAD
+  <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
+    <v-card-title>Log in</v-card-title>
+    <v-card-text>
+       <v-text-field 
+           label="Username"
+           v-model="usernameInput"
+       >
+       </v-text-field>
+       <v-text-field 
+           label="Password"
+           v-model="passwordInput"
+       >
+       </v-text-field>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn v-on:click="recordAddress" class="mx-auto" color="grey lighten-4">
+          Login 
+      </v-btn>
+   </v-card-actions>
+   <v-card-text>Dont have an account? Create one <v-btn elevation="0" class="lime lighten-5">here</v-btn></v-card-text>
+  </v-card>
 </div>
-    </v-main>
-   </v-app>
+    
           <!-- PROFILE PAGE -->
-=======
-
-          <!-- PROFILE PAGE -- page = "profile"; -->
->>>>>>> bf121a89637b9f2fd77083b27ad98f8ac2c7d082
 
 
 
@@ -133,10 +126,6 @@
 
 
 
-<<<<<<< HEAD
-=======
-          <!-- LOGIN PAGE -- page = "login" -->
->>>>>>> bf121a89637b9f2fd77083b27ad98f8ac2c7d082
 
 
 
@@ -166,7 +155,9 @@
 
 
 
-
+</v-main>
+   </v-app>
+   
     </div> 
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
