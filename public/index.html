@@ -59,7 +59,7 @@
         <v-card  elevation="10"width="550" height="400" class="mx-auto green darken-4 white--text">
             <v-card-title class="mx-auto justify-center text-h4 mb-10">Lawn-Mowers</v-card-title>
             <v-card-text class="white--text subtitle-1 mb-16"><div style="width: fit-content" class="mx-auto">Sign up today to find jobs. Completely free to use</div></v-card-text>
-            <v-card-actions class="justify-center"><v-btn width="300px" height="60px"class="mt-16px grey lighten-2">Sign Up</v-btn></v-card-actions>
+            <v-card-actions class="justify-center"><v-btn v-on:click="page = 'create-account-page'" width="300px" height="60px"class="mt-16px grey lighten-2">Sign Up</v-btn></v-card-actions>
         </v-card>
         </v-col>
         
@@ -67,7 +67,7 @@
           <v-card  elevation="10"width="550" height="400" class="mx-auto green darken-4 white--text">
             <v-card-title class="mx-auto justify-center text-h4 mb-10">Lawn-Posters</v-card-title>
             <v-card-text class="white--text subtitle-1 mb-16"><div style="width: fit-content" class="mx-auto">Sign up today to get your lawn mowed </div></v-card-text>
-            <v-card-actions class="justify-center"><v-btn  width="300px" height="60px"class="mt-16px grey lighten-2">Sign Up</v-btn></v-card-actions>
+            <v-card-actions class="justify-center"><v-btn  v-on:click="page = 'create-account-page'" width="300px" height="60px"class="mt-16px grey lighten-2">Sign Up</v-btn></v-card-actions>
         </v-card>
       </v-col>
       </v-row>
@@ -97,10 +97,64 @@
           Login 
       </v-btn>
    </v-card-actions>
-   <v-card-text>Dont have an account? Create one <v-btn elevation="0" class="lime lighten-5">here</v-btn></v-card-text>
+   <v-card-text>Dont have an account? Create one <v-btn v-on:click="page = 'create-account-page'" elevation="0" class="lime lighten-5">here</v-btn></v-card-text>
   </v-card>
 </div>
-    
+          <!-- CREATE ACCOUNT PAGE -->
+<div v-if="page == 'create-account-page'">
+  <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
+    <v-card-title>Create Account</v-card-title>
+    <v-card-text>
+       <v-text-field 
+           label="Username"
+           v-model="newUsernameInput"
+       >
+       </v-text-field>
+       <v-text-field 
+           label="Password"
+           v-model="newPasswordInput"
+       >
+       </v-text-field>
+       <v-text-field 
+           label="Retype Password"
+           v-model="newPasswordInput2"
+       >
+       </v-text-field>
+       Are you planning on mowing or posting a lawn?
+    </v-card-text>
+    <v-card-actions>
+      <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
+        Mowing
+    </v-btn> <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
+      Posting
+  </v-btn>
+  </v-card-actions>
+  <v-card-text>
+    <v-text-field 
+        label="Email"
+        v-model="newEmailInput"
+    >
+    </v-text-field>
+    <v-text-field 
+        label="Phone Number"
+        v-model="newPhoneInput"
+    >
+    </v-text-field>
+    </v-text-field>
+   
+ </v-card-text>
+ <v-card-actions>
+      <v-btn v-on:click="" class="mx-auto"  color="grey lighten-4">
+          Create Account
+      </v-btn>
+   </v-card-actions>
+   <v-card-text>Already have an account?<v-btn @click="page = 'login-page'"elevation="0" class="lime lighten-5">Log in</v-btn></v-card-text>
+  </v-card>
+
+
+
+
+</div>
           <!-- PROFILE PAGE -->
 
 
@@ -136,7 +190,6 @@
 
 
 
-          <!-- CREATE ACCOUNT PAGE page = "createAccount" -->
 
 
 
