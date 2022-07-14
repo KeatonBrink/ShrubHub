@@ -11,7 +11,7 @@ onConnect(() => {
 
 try{
     //The mongo user and pass should be safe in the config file, which is not uploaded to github
-    connect(config.mongo_user, config.mongo_pass);
+    connect(config.user, config.password);
     // connect();
 } catch (err) {
     console.log(err);

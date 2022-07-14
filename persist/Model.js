@@ -16,11 +16,11 @@ const userSchema = mongoose.Schema({
     profilepic: {},
     // lawns: {type: lawnSchema, required: true, default: []},
     phonenumber: {type: String, required: false, default: ""},
-    lawns: {type: [mongoose.Schema.Types.ObjectID],
-        ref: "lawnSchema",
+    lawns: [{type: mongoose.Schema.Types.ObjectID,
+        ref: "Lawn",
         required: true,
-        defualt: [],
-    },
+        default: [],
+    }],
     defaultrole: {type: String, required: true},
     // mowerreviews: {type: reviewSchema, required: true, default: []},
     // posterreview: {rype: reviewSchema, required: true, default: []},
@@ -38,7 +38,7 @@ const userSchema = mongoose.Schema({
 // });
 
 const lawnSchema = mongoose.Schema({
-    addresss: {type: String, required: true},
+    address: {type: String, required: true},
     user_id: {
         type: mongoose.Schema.Types.ObjectID,
         ref: "User",
@@ -53,9 +53,15 @@ const lawnSchema = mongoose.Schema({
     startdate: {type: Date, required: true, default: new Date},
     enddate: {type: Date, required: true, default: new Date},
     description: {type: String, required: true, default: ""},
+    //Lets plan on time to mow being in minutes
+    time2mow: {type: Number, required: true, default: 10},
+    haslawnmower: {type: Boolean, required: true, default: false},
+    hasdogpoop: {type: Boolean, required: true, default: false},
+    hasfreefood: {type: Boolean, required: true, default: false},
+    hasfreewater: {type: Boolean, required: true, default: false},
     },
     {timestamps: true},
-    )
+);
 
 // const reviewSchema = mongoose.Schema({
 //     user_id: {
