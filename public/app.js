@@ -10,7 +10,7 @@ var app = new Vue({
 
         usernameInput: "",
         passwordInput: "",
-
+        Name:"heehee",
         newUsername: "",
         newPassword:"",
         newEmail:"",
