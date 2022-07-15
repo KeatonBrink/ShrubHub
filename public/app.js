@@ -47,25 +47,9 @@ var app = new Vue({
                 console.log("Error logging in, status: " + response.status);
             }
         },
-
-        createUser: async function () {
-            if (this.newUsernameInput != null) {
-                if (this.newPasswordInput != null) {
-                    if (this.newPasswordInput == this.newPasswordInput2) {
-                        if (this.newEmailInput != null) {
-                            if (this.newDefaultRole != null) {
-                                console.log("Credentials complete. Account created.")
-
-                            } else { console.log("Please select Mower or Poster role.") };
-                        } else { console.log("Please insert your email address.") };
-                    } else { console.log("Password inputs do not match. Re-type your password.") };
-                } else { console.log("Please insert a password") };
-            } else { console.log("Please insert a username.") };
-
-        },
-
-        //GET User
-        getUser: async function (userID) {
+        
+         //GET User
+         getUser: async function (userID) {
             let response = await fetch(URL + "/user/" + userID, {
                 //Never put body in get request
                 method: "GET",
@@ -88,6 +72,8 @@ var app = new Vue({
             } else {
                 console.log("Some sort of error when GET /user/:id");
             }
+
+
         },
 
         postSession: async function () {
@@ -152,6 +138,56 @@ var app = new Vue({
                 console.log("Some sort of error when GET /lawns");
             }
         },
+        
+        postUser: async function () {
+            if (this.newUsernameInput == null) {
+                console.log("Please insert a username.");
+                return
+            } else if (this.newPasswordInput == null) {
+                console.log("Please insert a password");
+                return
+            } else if (this.newPasswordInput != this.newPasswordInput2) {
+                console.log("Password inputs do not match. Re-type your password.");
+                return
+            } else if (this.newDefaultRole == null) {
+                console.log("Please select a mowing or posting role.");
+                return
+            } else if (this.newEmailInput == null) {
+                console.log("Please insert a valid email address.");
+                return
+            } else if (this.newPhoneInput == null) {
+                console.log("Please insert a valid phone number");
+                return
+            } else if (this.newPhoneInput == null) {
+                console.log("Please insert a valid phone number");
+                return
+            //Once user passes all checks, and no fields are null...
+            } else {
+                let userCredentials = {
+                    "username" : this.newUsernameInput,
+                    "password" : this.newPasswordInput,
+                    "fullname" : this.newFullNameInput,
+                    "role" : this.newDefaultRoleInput,
+                    "email" : this.newEmailInput,
+                    "phone" : this.newPhoneInput,
+                }
+                let response = await fetch(URL + "/user", {
+                    method: "POST",
+                    body: JSON.stringify(userCredentials),
+                    headers: {
+                        "Content-Type" : "application/json"
+                    },
+                    credentials: "include"
+                });
+
+// START HERE - I haven't added response status checks.
+
+                this.page = "login-page"
+                console.log("Account credentials valid. Account Created.");
+                return
+            }
+        },
+
     },
 
     created: function () {
