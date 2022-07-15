@@ -125,7 +125,7 @@ app.post("/lawn", async (req, res) => {
     return;
 })
 
-app.post("/lawn/:lawnid", async (req, res) => {
+app.get("/lawn/:lawnid", async (req, res) => {
     let lawnID = req.params.lawnid
     if(!req.user) {
         res.status(401).json({message: "unauthorized"});
@@ -140,6 +140,7 @@ app.post("/lawn/:lawnid", async (req, res) => {
             })
             return;
         }
+        res.status(200).json(lawn);
     } catch(err) {
         res.status(500).json({
             message: "Error finding lawn",

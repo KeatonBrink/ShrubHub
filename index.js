@@ -1,7 +1,6 @@
 const app = require("./server/server.js");
 const {connect, onConnect} = require("./persist/connect");
 //This file is missing from github for security reasons
-const config = require("./config")
 const configg = require('dotenv').config()
 
 onConnect(() => {
