@@ -22,8 +22,8 @@
           </v-btn>
           <v-spacer></v-spacer>
           <div v-if="page == 'landing-page'">
-          <v-btn width="80px" height="30px" class="grey lighten-2">
-          <v-toolbar-title @click="page= 'login-page'">Log in</v-toolbar-title>
+          <v-btn width="80px" height="30px" class="rounded-pill grey lighten-2">
+          <v-toolbar-title  @click="page= 'login-page'">Log in</v-toolbar-title>
         </v-btn>
       </div>
         </v-app-bar>
@@ -57,7 +57,7 @@
   <v-container fluid>
     <v-row dense>
       <v-col>
-        <v-card  elevation="10"width="550" height="400" class="mx-auto green darken-4 white--text">
+        <v-card elevation="10"width="550" height="400" class="mx-auto green darken-4 white--text">
             <v-card-title class="mx-auto justify-center text-h4 mb-10">Lawn-Mowers</v-card-title>
             <v-card-text class="white--text subtitle-1 mb-16"><div style="width: fit-content" class="mx-auto">Sign up today to find jobs. Completely free to use</div></v-card-text>
             <v-card-actions class="justify-center"><v-btn v-on:click="page = 'create-account-page'" width="300px" height="60px"class="mt-16px grey lighten-2">Sign Up</v-btn></v-card-actions>
@@ -94,7 +94,7 @@
        </v-text-field>
     </v-card-text>
     <v-card-actions>
-      <v-btn v-on:click="postSession();" class="mx-auto" color="grey lighten-4">
+      <v-btn v-on:click="page = 'profile-page'; postSession();" class="mx-auto" color="grey lighten-4">
           Login 
       </v-btn>
    </v-card-actions>
@@ -161,17 +161,41 @@
     <h1 v-if="page == 'login'"> log in page </h1>
 </div>
           <!-- PROFILE PAGE -->
-<div v-if="page == 'profile-page'">
-<v-card>
-
-
-
-
-
-
-
-
+<div style="width: fit-content" class="mx-auto" v-if="page == 'profile-page'">
+<v-card width="350" elevation="0" class="lime lighten-5  mt-6">
+<v-card-title>Your Profile</v-card-title>
+<v-card-text><b>Name: </b>{{Name}}</v-card-text>
+<v-card-text><b>Username: </b>{{Name}}</v-card-text>
+<v-card-text><b>Email Address: </b>{{Name}}</v-card-text>
+<v-card-text><b>Phone Number: </b>{{Name}}</v-card-text>
+<v-card-text><b>Current Page View: </b>{{Name}}</v-card-text>
+<v-card-title>Your Posts</v-card-title>
 </v-card>
+<v-divider></v-divider>
+<v-card width="700" class="mx-auto my-6 py-6 grey lighten-4">
+  <v-row dense>
+    <v-col>
+  <v-img
+  lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+  max-height="200"
+  max-width="400"
+  contain
+  class="py-4 ml-n6"
+  src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+>
+</v-col>
+<v-col>
+<v-card-text class="ml-n16 py-0"><b>Address: </b>{{Name}}</v-card-text>
+<v-card-text class="ml-n16 py-0"><b>Status: </b>{{Name}}</v-card-text>
+<v-card-text class="ml-n16 py-0"><b>Pay: </b>{{Name}}</v-card-text>
+<v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{Name}}</v-card-text>
+<v-card-text class="ml-n16 py-0"><b>One Time/Repeating: </b>{{Name}}</v-card-text>
+<v-card-text class="ml-n16 py-0"><b>Description: </b>{{Name}}</v-card-text>
+</v-col>
+</v-row>
+</v-card>
+
+<v-btn class="mx-auto rounded-pill">Add New Lawn +</v-btn>
 </div>
           <!-- MOWER MAIN PAGE -- page = "mowermain"-->
 
