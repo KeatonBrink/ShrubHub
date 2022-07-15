@@ -2,9 +2,9 @@ const session = require("express-session");
 
 
 const setUpSessionStore = function(app) {
-    const config = require("../config")
     app.use(session({
-        secret: config.session_key,
+        //Secret should be in env frankly
+        secret: "123",
         resave: false,
         saveUninitialized: false,
     })
