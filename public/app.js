@@ -91,5 +91,9 @@ var app = new Vue({
                 console.log("Some sort of error when POST /session");
             }
         },
+    },
+
+    created: function () {
+        this.getSession();
     }
 });
