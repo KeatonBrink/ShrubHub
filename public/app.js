@@ -22,6 +22,7 @@ var app = new Vue({
         posterView: false,
 
         startDateFilterReveal: false,
+        lawnmowerProvidedFilter: false,
     },
 
     methods: {
