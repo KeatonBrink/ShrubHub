@@ -168,41 +168,58 @@
 
 
 </v-card>
-</div>
+</div v-if="page == 'mowermain'">
           <!-- MOWER MAIN PAGE -- page = "mowermain"-->
+  
+  <v-col class="pa-0">
+    <!-- Filters -->
+    <v-card width="300" elevation="0" class='justify-start' color="grey lighten-2" tile>
+      <v-card-title class="mx-auto">Filters</v-card-title>
 
+      <!-- Pay -->
+      <v-row class="mx-auto justify-center">
+        <v-card-text class="mx-auto pa-0 pl-8"><div style="width: fit-content"><b>Pay</b></div></v-card-text>
 
+        <v-text-field
+        label="Minumim"
+        style="max-width: 40%"
+        class="pa-4"
+        >
+        </v-text-field>
+        <v-text-field
+        label="Maximum"
+        style="max-width: 40%"
+        class="pa-4"
+        >
+        </v-text-field>
+      </v-row>
 
+      <!-- Job Duration -->
+      <v-row class="mx-auto justify-center">
+        <v-card-text class="mx-auto pa-0 pl-8"><div style="width: fit-content"><b>Job Duration</b></div></v-card-text>
 
+        <v-text-field
+        label="Minumim"
+        style="max-width: 40%"
+        class="pa-4"
+        >
+        </v-text-field>
+        <v-text-field
+        label="Maximum"
+        style="max-width: 40%"
+        class="pa-4"
+        >
+        </v-text-field>
+      </v-row>
 
+    </v-card>
+  </v-col>
 
+  <v-col>
 
+  </v-col>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
 
 
           <!-- POST A LAWN PAGE -- page = "createPost"-->
