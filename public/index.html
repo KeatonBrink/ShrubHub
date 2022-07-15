@@ -16,13 +16,58 @@
                     elevation="3 green darken-4"
                 >
                 <v-toolbar-title class="white--text">Shrubhub</v-toolbar-title>
-                <v-btn icon>
+                <v-btn icon @click="page = login">
                     <v-icon class="white--text" size="50px">mdi-grass</v-icon>     
                 </v-btn>
                
                 </v-app-bar>
             </v-main>
-          </v-app>
+        </v-app>
+        
+
+
+
+
+
+
+
+        <!-- LOGIN PAGE -- page = "login"; -->
+        <div id = "loginPage">
+            <h1 v-if="page = login"> log in page </h1>
+        </div>
+
+
+
+
+
+    
+    
+        <!-- PROFILE PAGE -- page = "profile"; -->
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- MOWER MAIN PAGE -- page = "mowermain"; -->
+
+
+
+
+
+
+
+
+
+
+
+
         
 
 
@@ -32,43 +77,8 @@
 
 
 
-          <!-- PROFILE PAGE -- page = "profile"; -->
 
-
-
-
-
-
-
-
-
-
-
-
-          <!-- MOWER MAIN PAGE -- page = "mowermain"-->
-
-
-
-
-
-
-
-
-
-
-
-          <!-- LOGIN PAGE -- page = "login" -->
-
-
-
-
-
-
-
-
-
-
-          <!-- CREATE ACCOUNT PAGE page = "createAccount" -->
+        <!-- CREATE ACCOUNT PAGE page = "createAccount"; -->
 
 
 
@@ -83,7 +93,7 @@
 
 
 
-          <!-- POST A LAWN PAGE -- page = "createPost"-->
+          <!-- POST A LAWN PAGE -- page = "createPost"; -->
 
 
 
