@@ -86,7 +86,7 @@ var app = new Vue({
                 this.passwordInput = "";
             } else if (response.status == 401) {
                 console.log ("Unsuccesful login attempt")
-                this.loginPassWord = "";
+                this.passwordInput = "";
             } else {
                 console.log("Some sort of error when POST /session");
             }
