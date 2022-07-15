@@ -53,7 +53,7 @@ app.get("/user/:userid", async (req, res) => {
     let user;
     try {
         //Find use all the lawn ids found in the user model, and replace them with the corresponding lawns
-        user = await User.findById(userID).populate('lawns')
+        user = await User.findById(userID, "-password -username").populate('lawns')
         if (!user) {
             res.status(404).json({
                 message: "User could not be found",
@@ -133,7 +133,7 @@ app.get("/lawn/:lawnid", async (req, res) => {
     }
     let lawn;
     try {
-        lawn = Lawn.findById(lawnID);
+        lawn = await Lawn.findById(lawnID);
         if (!lawn) {
             res.status(404).json({
                 message: "Lawn could not be found",
@@ -141,6 +141,23 @@ app.get("/lawn/:lawnid", async (req, res) => {
             return;
         }
         res.status(200).json(lawn);
+    } catch(err) {
+        res.status(500).json({
+            message: "Error finding lawn",
+            error: err,
+        })
+        return;
+    }
+    return;
+})
+
+app.get("/lawns", async (req, res) => {
+    let lawns
+    try {
+        console.log("Start lawn try")
+        lawns = await Lawn.find();
+        console.log(lawns);
+        res.status(200).json(lawns);
     } catch(err) {
         res.status(500).json({
             message: "Error finding lawn",
