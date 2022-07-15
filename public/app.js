@@ -4,7 +4,7 @@ var app = new Vue({
     el: "#app",
     vuetify: new Vuetify(),
     data: {
-        page: "mowingmain",
+        page: "login-page",
 
         currentUser: null,
         currentLawn: null,
@@ -15,9 +15,9 @@ var app = new Vue({
         passwordInput: "",
 
         newUsernameInput: "",
-        newPasswordInput:"",
-        newPasswordInput2:"",
-        newEmailInput:"",
+        newPasswordInput: "",
+        newPasswordInput2: "",
+        newEmailInput: "",
         newPhoneInput: "",
         newProfilePic: "",
         newDefaultRole: "",
@@ -44,7 +44,7 @@ var app = new Vue({
                 this.page = "landing-page";
             } else {
                 this.page = "landing-page";
-                console.log("Error logging in, status: "+ response.status);
+                console.log("Error logging in, status: " + response.status);
             }
         },
 
@@ -56,16 +56,16 @@ var app = new Vue({
                             if (this.newDefaultRole != null) {
                                 console.log("Credentials complete. Account created.")
 
-                            } else { console.log("Please select Mower or Poster role.")};
-                        } else {console.log("Please insert your email address.")};
-                    } else {console.log("Password inputs do not match. Re-type your password.")};
-                } else {console.log("Please insert a password")};
-            } else {console.log("Please insert a username.")};
-            
+                            } else { console.log("Please select Mower or Poster role.") };
+                        } else { console.log("Please insert your email address.") };
+                    } else { console.log("Password inputs do not match. Re-type your password.") };
+                } else { console.log("Please insert a password") };
+            } else { console.log("Please insert a username.") };
+
         },
-        
-         //GET User
-         getUser: async function (userID) {
+
+        //GET User
+        getUser: async function (userID) {
             let response = await fetch(URL + "/user/" + userID, {
                 //Never put body in get request
                 method: "GET",
@@ -74,7 +74,7 @@ var app = new Vue({
                 },
                 credentials: "include"
             });
-            
+
             //Parse response data
             let body = await response.json();
 
@@ -84,18 +84,18 @@ var app = new Vue({
                 this.targetUser = body;
                 console.log("Successful user get");
             } else if (response.status >= 400) {
-                console.log ("Unsuccesful get user")
+                console.log("Unsuccesful get user")
             } else {
                 console.log("Some sort of error when GET /user/:id");
             }
         },
-        
+
         postSession: async function () {
             if (this.usernameInput == "" || this.passwordInput == "") {
                 console.log("Username or Password field is empty");
             }
             let loginCredentials = {
-                username: this.usernameInput, 
+                username: this.usernameInput,
                 password: this.passwordInput
             };
             let response = await fetch(URL + "/session", {
@@ -119,7 +119,7 @@ var app = new Vue({
                 //This is a terrible idea, I think
                 this.getSession();
             } else if (response.status == 401) {
-                console.log ("Unsuccesful login attempt")
+                console.log("Unsuccesful login attempt")
                 this.passwordInput = "";
             } else {
                 console.log("Some sort of error when POST /session");
@@ -136,7 +136,7 @@ var app = new Vue({
                 },
                 credentials: "include"
             });
-            
+
             //Parse response data
             let body = await response.json();
 
@@ -147,7 +147,7 @@ var app = new Vue({
                 console.log("Successful lawns get");
                 this.curPage = 3;
             } else if (response.status >= 400) {
-                console.log ("Unsuccesful get lawns")
+                console.log("Unsuccesful get lawns")
             } else {
                 console.log("Some sort of error when GET /lawns");
             }
