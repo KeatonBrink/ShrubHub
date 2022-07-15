@@ -51,7 +51,6 @@ app.get("/user/:userid", async (req, res) => {
         return;
     }
     let user;
-    let user1;
     try {
         //Find use all the lawn ids found in the user model, and replace them with the corresponding lawns
         user = await User.findById(userID).populate('lawns')

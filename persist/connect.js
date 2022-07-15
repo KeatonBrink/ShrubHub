@@ -2,10 +2,10 @@
 const mongoose = require('mongoose')
 const db = mongoose.connection;
 
-async function connect(user, pass){
+async function connect(URL){
     //mongoose.set("useCreateIndex", true);
     try {
-        await mongoose.connect(`mongodb+srv://${user}:${pass}@cluster0.tdfgs.mongodb.net/?retryWrites=true&w=majority`, {
+        await mongoose.connect(URL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })

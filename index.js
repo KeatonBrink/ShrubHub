@@ -2,6 +2,7 @@ const app = require("./server/server.js");
 const {connect, onConnect} = require("./persist/connect");
 //This file is missing from github for security reasons
 const config = require("./config")
+const configg = require('dotenv').config()
 
 onConnect(() => {
     app.listen(8080, () => {
@@ -11,7 +12,7 @@ onConnect(() => {
 
 try{
     //The mongo user and pass should be safe in the config file, which is not uploaded to github
-    connect(config.user, config.password);
+    connect(process.env.MURL);
     // connect();
 } catch (err) {
     console.log(err);
