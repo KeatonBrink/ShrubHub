@@ -7,6 +7,7 @@ var app = new Vue({
         page: "landing-page",
 
         currentUser: null,
+        currentLawn: null,
 
         usernameInput: "",
         passwordInput: "",
@@ -58,7 +59,31 @@ var app = new Vue({
             
         },
         
-    
+         //GET User
+         getUser: async function (userID) {
+            let response = await fetch(URL + "/user/" + userID, {
+                //Never put body in get request
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
+            
+            //Parse response data
+            let body = await response.json();
+
+            //Check for successful creation
+            if (response.status == 200) {
+                //Succesful creation
+                this.currentUser = body;
+                console.log("Successful user get");
+            } else if (response.status >= 400) {
+                console.log ("Unsuccesful get user")
+            } else {
+                console.log("Some sort of error when GET /user/:id");
+            }
+        },
         
         postSession: async function () {
             if (this.usernameInput == "" || this.passwordInput == "") {
