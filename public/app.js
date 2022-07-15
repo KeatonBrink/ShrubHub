@@ -8,6 +8,8 @@ var app = new Vue({
 
         currentUser: null,
         currentLawn: null,
+        targetUser: null,
+        allLawns: null,
 
         usernameInput: "",
         passwordInput: "",
@@ -76,7 +78,7 @@ var app = new Vue({
             //Check for successful creation
             if (response.status == 200) {
                 //Succesful creation
-                this.currentUser = body;
+                this.targetUser = body;
                 console.log("Successful user get");
             } else if (response.status >= 400) {
                 console.log ("Unsuccesful get user")
@@ -108,14 +110,43 @@ var app = new Vue({
             //Check for successful login
             if (response.status == 201) {
                 //Succesful login
-                console.log("Successful login attempt");
+                // console.log("Successful login attempt ", body);
                 this.usernameInput = "";
                 this.passwordInput = "";
+                //This is a terrible idea, I think
+                this.getSession();
             } else if (response.status == 401) {
                 console.log ("Unsuccesful login attempt")
                 this.passwordInput = "";
             } else {
                 console.log("Some sort of error when POST /session");
+            }
+        },
+
+        //GET threads
+        getLawns: async function () {
+            let response = await fetch(URL + "/lawns", {
+                //Never put body in get request
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
+            
+            //Parse response data
+            let body = await response.json();
+
+            //Check for successful creation
+            if (response.status == 200) {
+                //Succesful creation
+                this.allLawns = body;
+                console.log("Successful lawns get");
+                this.curPage = 3;
+            } else if (response.status >= 400) {
+                console.log ("Unsuccesful get lawns")
+            } else {
+                console.log("Some sort of error when GET /lawns");
             }
         },
     },
