@@ -4,7 +4,7 @@ var app = new Vue({
     el: "#app",
     vuetify: new Vuetify(),
     data: {
-        page: "mowermain",
+        page: "mowingmain",
 
         currentUser: null,
 
@@ -20,6 +20,8 @@ var app = new Vue({
 
         mowerView: false,
         posterView: false,
+
+        startDateFilterReveal: false,
     },
 
     methods: {

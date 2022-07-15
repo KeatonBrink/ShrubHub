@@ -212,11 +212,11 @@
         </v-text-field>
       </v-row>
 
-      <!-- Day of the week -->
-      <v-row>
-        <v-card-text class="mx-auto pa-0 pl-8"><div style="width: fit-content"><b>Day</b></div></v-card-text>
+      <!-- Days of the week -->
+      <v-row class="mx-auto justify-center">
+        <v-card-text class="mx-auto pa-0 pl-8"><div style="width: fit-content"><b>Days</b></div></v-card-text>
 
-        <v-row class="mx-12 my-2 justify-center">
+        <v-row class="mx-8 my-2 justify-center">
           <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Sunday</v-btn>
           <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Monday</v-btn>
           <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Tuesday</v-btn>
@@ -225,6 +225,19 @@
           <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Friday</v-btn>
           <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Saturday</v-btn>
         </v-row>
+
+      </v-row>
+
+      <!-- Date -->
+      <v-row class="mx-auto justify-center">
+        <v-card-text class="mx-auto pa-0 pl-8"><div style="width: fit-content"><b>Date</b></div></v-card-text>
+
+        <v-card-actions class="justify-center">
+          <v-btn v-if="!startDateFilterReveal" @click="startDateFilterReveal = true" style="max-width: 40%" class="pa-4 px-14">Start Date</v-btn>
+          <v-btn v-else @click="startDateFilterReveal = false" style="max-width: 40%" class="pa-4 px-14">Start Date</v-btn>
+        </v-card-actions>
+
+        <v-date-picker v-if="startDateFilterReveal"></v-date-picker>
 
       </v-row>
 
