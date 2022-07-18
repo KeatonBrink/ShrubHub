@@ -9,6 +9,7 @@ var app = new Vue({
         currentUser: null,
         currentLawn: null,
         targetUser: null,
+        targetLawn: null,
         allLawns: null,
 
         usernameInput: "",
@@ -112,7 +113,7 @@ var app = new Vue({
             }
         },
 
-        //GET threads
+        //GET lawns
         getLawns: async function () {
             let response = await fetch(URL + "/lawns", {
                 //Never put body in get request
@@ -136,6 +137,31 @@ var app = new Vue({
                 console.log("Unsuccesful get lawns")
             } else {
                 console.log("Some sort of error when GET /lawns");
+            }
+        },
+
+        getLawn: async function (lawnID) {
+            let response = await fetch(URL + "/lawn/" + lawnID, {
+                //Never put body in get request
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
+
+            //Parse response data
+            let body = await response.json();
+
+            //Check for successful get request
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful lawn get
+                this.targetLawn = body;
+                console.log("Successful lawn get");
+            } else if (response.status >= 400) {
+                console.log("Unsuccesful get lawn")
+            } else {
+                console.log("Some sort of error when GET /lawn/:id");
             }
         },
         
@@ -186,6 +212,10 @@ var app = new Vue({
                 console.log("Account credentials valid. Account Created.");
                 return
             }
+        },
+
+        postLawn: async function () {
+            
         },
 
     },

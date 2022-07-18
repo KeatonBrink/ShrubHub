@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
     //  This will be edited when we figure out how to add picture files to a schema
     profilepic: {},
     // lawns: {type: lawnSchema, required: true, default: []},
-    phonenumber: {type: String, required: false, default: ""},
+    phonenumber: {type: String, required: true, default: ""},
     lawns: [{type: mongoose.Schema.Types.ObjectID,
         ref: "Lawn",
         required: true,
