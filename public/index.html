@@ -20,11 +20,25 @@
             <v-img src="https://svgur.com/i/jDN.svg" height="80px" width="80px"></v-img>
           </div>
           <v-spacer></v-spacer>
+
+          <v-btn v-show="page != 'mowermain'" @click="page = 'mowermain'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+            <v-toolbar-title>Lawn Search</v-toolbar-title>
+          </v-btn>
+
           <div v-if="page == 'landing-page'">
             <v-btn width="80px" height="30px" class="rounded-pill grey lighten-2">
               <v-toolbar-title @click="page= 'login-page'">Log in</v-toolbar-title>
             </v-btn>
           </div>
+
+          <v-btn v-show="page == 'profile-page'" @click="page = 'create-post-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+            <v-toolbar-title>Post Lawn</v-toolbar-title>
+          </v-btn>
+
+          <v-btn v-show="page != 'profile-page'" @click="page = 'profile-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+            <v-toolbar-title>Profile</v-toolbar-title>
+          </v-btn>
+
         </v-app-bar>
 
         <!-- LANDING PAGE -->
