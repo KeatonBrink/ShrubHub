@@ -38,7 +38,7 @@ var app = new Vue({
             if (response.status == 200) {
                 this.currentUser = await response.json()
                 console.log("Log In Successful");
-                this.page = "mowermain";
+                this.page = "profile-page";
             } else if (response.status == 401) {
                 console.log("Incorrect username or password. Try again.");
                 this.page = "landing-page";
@@ -131,7 +131,7 @@ var app = new Vue({
                 //Succesful creation
                 this.allLawns = body;
                 console.log("Successful lawns get");
-                this.curPage = 3;
+                this.page = "mowermain";
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get lawns")
             } else {
