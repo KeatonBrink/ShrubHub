@@ -5,6 +5,7 @@ const {User, Lawn} = require("../persist/model");
 const setUpAuth = require("./auth");
 const setUpSession = require("./session");
 const app = express();
+const configg = require('dotenv').config()
 
 /*
 Check authenticated
@@ -43,6 +44,14 @@ app.post("/user", async (req, res) => {
         });
         return;
     }
+});
+
+app.get("/mapurl", async (req, res) => {
+    if(!req.user) {
+        res.status(401).json({message: "unauthorized"});
+        return;
+    }
+    res.status(201).json(process.env.GOOGLE_API_KEY);
 });
 
 app.get("/user/:userid", async (req, res) => {

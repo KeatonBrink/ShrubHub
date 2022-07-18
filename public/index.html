@@ -325,9 +325,9 @@
           </v-col>
           <v-card-text>Just a one time job?</v-card-text>
           <v-checkbox
-    v-model="dontRepeatBox"
-    :label= "DontRepeat"
-  ></v-checkbox>
+            v-model="dontRepeatBox"
+            :label= "DontRepeat"
+          ></v-checkbox>
          <v-card-actions justify-center>
               <v-btn v-on:click="" class="mx-auto"  color="grey lighten-4">
                   Post Lawn
@@ -345,7 +345,21 @@
 
       </v-main>
     </v-app>
-
+    <v-sheet v-if="mapIsInitialized" height="600" id="map"></v-sheet>
+    <v-sheet v-else class="transparent" height="600">
+      <v-card class="fill-height" loading="green lighten-2">
+          <v-card-title>Loading Map</v-card-title>
+          <v-card-text>
+              If this is taking a long time, make sure you've
+              entered in your google api key in the html script tag. It
+              will not work until you've provided one
+          </v-card-text>
+      </v-card>
+  </v-sheet>
+    <script
+        :src="mapsAPIKey"
+        defer
+    ></script>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>

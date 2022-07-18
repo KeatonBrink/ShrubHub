@@ -1,3 +1,17 @@
+var MAP;
+var GEOCODER;
+
+// disables poi's (Points of Interest)
+const myStyles = [
+    {
+        featureType: "poi",
+        elementType: "labels",
+        stylers: [
+              { visibility: "off" }
+        ]
+    }
+];
+
 const URL = "http://localhost:8080"
 
 var app = new Vue({
@@ -11,6 +25,8 @@ var app = new Vue({
         targetUser: null,
         targetLawn: null,
         allLawns: null,
+
+        mapsAPIKey: null,
 
         usernameInput: "",
         passwordInput: "",
@@ -58,6 +74,14 @@ var app = new Vue({
         date1: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         dayWeek: ["days", "weeks"],
         repeatIntervalInput: [1,2,3,4,5,6,7,8,9,10,11,12,13],
+
+        map: null,
+        geocoder: null,
+        // displays a placeholder if false
+        mapIsInitialized: false,
+        // if you want to look at the most recent marker object in the console:
+        recentMarker: null,
+        addressInput: "",
     },
 
     methods: {
@@ -134,6 +158,7 @@ var app = new Vue({
                 // console.log("Successful login attempt ", body);
                 this.usernameInput = "";
                 this.passwordInput = "";
+                this.getMapURL();
                 //This is a terrible idea, I think
                 this.getSession();
             } else if (response.status == 401) {
@@ -341,6 +366,7 @@ var app = new Vue({
                 console.log("Some sort of error when PATCH /lawn");
             }
         },
+        
         toggleDayFilter: function (day) {
             if (this.dayOfWeekFilter[day]) {
                 this.dayOfWeekFilter[day] = false;
@@ -349,7 +375,67 @@ var app = new Vue({
             }
             console.log(day + ': ' + this.dayOfWeekFilter[day]);
             return this.dayOfWeekFilter
-        }
+        },
+
+        getMapURL: async function () {
+            let response = await fetch(URL + "/mapurl", {
+                //Never put body in get request
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
+
+            let body = await response.json();
+
+            //Check for successful get request
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful lawn get
+                this.mapsAPIKey = body;
+                console.log("Successful mapAPI get");
+            } else if (response.status >= 400) {
+                console.log("Unsuccesful get mapAPI")
+            } else {
+                console.log("Some sort of error when GET mapAPI");
+            }
+        },
+
+        // optional parameter: parameterAddress (default value when left undefined is null)
+        // if left undefined (ie. addMarker()) the function defaults to using addressInput
+        addMarker: function (parameterAddress = null) {
+            let address = "";
+            if (parameterAddress !== null) {
+                address = parameterAddress;
+            } else {
+                address = this.addressInput;
+            }
+
+            // uses geocode api to look up address
+            GEOCODER.geocode( {'address': address}, (results, status) => {
+                if (status == 'OK') {
+                    // centers/zooms map
+                    this.map.setCenter(results[0].geometry.location);
+                    this.map.setZoom(16);
+
+                    // creates new marker
+                    var marker = new google.maps.Marker({
+                        map: this.map,
+                        position: results[0].geometry.location,
+                    });
+                    this.recentMarker = marker;
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+                this.addressInput = "";
+            });
+        },
+        initializeMap: function () {
+            console.log(MAP);
+            this.map = MAP;
+            this.geocoder = GEOCODER;
+            this.mapIsInitialized = true;
+        },
     },
 
     created: function () {
@@ -357,3 +443,28 @@ var app = new Vue({
     }
             
 });
+
+// This function is a callback that is given to the google api
+// It is ran when the api has finished loading
+function initMap() {
+    // geocoder is for turning an address (1234 E 5678 S) into Latitude and Longitude
+    GEOCODER = new google.maps.Geocoder();
+
+    // Center on the map on St. George using the Geocoder
+    GEOCODER.geocode({'address' : 'St. George, UT'}, function (results, status) {
+        switch (status) {
+        case "OK":
+            // creates the map
+            MAP = new google.maps.Map(document.getElementById("map"), {
+                zoom: 14,
+                center: results[0].geometry.location,
+                styles: myStyles,
+            });
+            // calls vue's initialize map function
+            app.initializeMap();
+            break;
+        default:
+            console.error('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
