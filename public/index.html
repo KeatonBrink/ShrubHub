@@ -1,331 +1,355 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    <title>Shrubhub</title>
-</head>
-<body>
-    <div id="app">
-      <v-app>
-        <v-main class="lime lighten-5">
 
-      <!-- header -->
-          <v-app-bar
-          elevation="3 green darken-4"
-          >
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <title>Shrubhub</title>
+</head>
+
+<body>
+  <div id="app">
+    <v-app>
+      <v-main class="lime lighten-5">
+
+        <!-- header -->
+        <v-app-bar elevation="3 green darken-4">
           <v-toolbar-title class="white--text">Shrubhub</v-toolbar-title>
           <v-btn icon @click="page='landing-page'">
-            <v-icon class="white--text" size="50px">mdi-grass</v-icon>     
+            <v-icon class="white--text" size="50px">mdi-grass</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
           <div v-if="page == 'landing-page'">
-          <v-btn width="80px" height="30px" class="rounded-pill grey lighten-2">
-          <v-toolbar-title  @click="page= 'login-page'">Log in</v-toolbar-title>
-        </v-btn>
-      </div>
+            <v-btn width="80px" height="30px" class="rounded-pill grey lighten-2">
+              <v-toolbar-title @click="page= 'login-page'">Log in</v-toolbar-title>
+            </v-btn>
+          </div>
         </v-app-bar>
-        
+
         <!-- LANDING PAGE -->
         <div v-if="page == 'landing-page'">
           <v-img
-          lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-          height="650"
-          src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-        >
-    <v-row
-      align="center"
-      justify="center"
-    >
-      <v-col
-        class="text-center"
-        cols="12"
-      >
-        <h1 class="mt-16 text-h1  mb-4 white--text">
-          Shrubhub
-        </h1>
-        <h4 class="text-h4 white--text">
-          Get Your Lawn Mowed Today!
-        </h4>
-      </v-col>
-    </v-row>
-  </v-img>
-  
+            lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+            height="650"
+            src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
+            <v-row align="center" justify="center">
+              <v-col class="text-center" cols="12">
+                <h1 class="mt-16 text-h1  mb-4 white--text">
+                  Shrubhub
+                </h1>
+                <h4 class="text-h4 white--text">
+                  Get Your Lawn Mowed Today!
+                </h4>
+              </v-col>
+            </v-row>
+          </v-img>
 
-  <v-container fluid>
-    <v-row dense>
-      <v-col>
-        <v-card elevation="10"width="550" height="400" class="mx-auto green darken-4 white--text">
-            <v-card-title class="mx-auto justify-center text-h4 mb-10">Lawn-Mowers</v-card-title>
-            <v-card-text class="white--text subtitle-1 mb-16"><div style="width: fit-content" class="mx-auto">Sign up today to find jobs. Completely free to use</div></v-card-text>
-            <v-card-actions class="justify-center"><v-btn v-on:click="page = 'create-account-page'" width="300px" height="60px"class="mt-16px grey lighten-2">Sign Up</v-btn></v-card-actions>
-        </v-card>
-        </v-col>
-        
-        <v-col>
-          <v-card  elevation="10"width="550" height="400" class="mx-auto green darken-4 white--text">
-            <v-card-title class="mx-auto justify-center text-h4 mb-10">Lawn-Posters</v-card-title>
-            <v-card-text class="white--text subtitle-1 mb-16"><div style="width: fit-content" class="mx-auto">Sign up today to get your lawn mowed </div></v-card-text>
-            <v-card-actions class="justify-center"><v-btn  v-on:click="page = 'create-account-page'" width="300px" height="60px"class="mt-16px grey lighten-2">Sign Up</v-btn></v-card-actions>
-        </v-card>
-      </v-col>
-      </v-row>
-  </v-container>
 
-</div>
-            
-          <!-- LOGIN PAGE -->
-<div v-if="page == 'login-page'">
-        
-  <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
-    <v-card-title>Log in</v-card-title>
-    <v-card-text>
-       <v-text-field 
-           label="Username"
-           v-model="usernameInput"
-       >
-       </v-text-field>
-       <v-text-field 
-           label="Password"
-           v-model="passwordInput"
-       >
-       </v-text-field>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn v-on:click="page = 'profile-page'; postSession();" class="mx-auto" color="grey lighten-4">
-          Login 
-      </v-btn>
-   </v-card-actions>
-   <v-card-text>Dont have an account? Create one <v-btn v-on:click="page = 'create-account-page'" elevation="0" class="lime lighten-5">here</v-btn></v-card-text>
-  </v-card>
-</div>
-          <!-- CREATE ACCOUNT PAGE -->
-<div v-if="page == 'create-account-page'">
-  <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
-    <v-card-title>Create Account</v-card-title>
-    <v-card-text>
-       <v-text-field 
-           label="Username"
-           v-model="newUsernameInput"
-       >
-       </v-text-field>
-       <v-text-field 
-           label="Password"
-           v-model="newPasswordInput"
-       >
-       </v-text-field>
-       <v-text-field 
-           label="Retype Password"
-           v-model="newPasswordInput2"
-       >
-       </v-text-field>
-       Are you planning on mowing or posting a lawn?
-    </v-card-text>
-    <v-card-actions>
-      <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
-        Mowing
-    </v-btn> <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
-      Posting
-  </v-btn>
-  </v-card-actions>
-  <v-card-text>
-    <v-text-field 
-        label="Email"
-        v-model="newEmailInput"
-    >
-    </v-text-field>
-    <v-text-field 
-        label="Phone Number"
-        v-model="newPhoneInput"
-    >
-    </v-text-field>
-    </v-text-field>
-   
- </v-card-text>
- <v-card-actions>
-      <v-btn v-on:click="" class="mx-auto"  color="grey lighten-4">
-          Create Account
-      </v-btn>
-   </v-card-actions>
-   <v-card-text>Already have an account?<v-btn @click="page = 'login-page'"elevation="0" class="lime lighten-5">Log in</v-btn></v-card-text>
-  </v-card>
+          <v-container fluid>
+            <v-row dense>
+              <v-col>
+                <v-card elevation="10" width="550" height="400" class="mx-auto green darken-4 white--text">
+                  <v-card-title class="mx-auto justify-center text-h4 mb-10">Lawn-Mowers</v-card-title>
+                  <v-card-text class="white--text subtitle-1 mb-16">
+                    <div style="width: fit-content" class="mx-auto">Sign up today to find jobs. Completely free to use
+                    </div>
+                  </v-card-text>
+                  <v-card-actions class="justify-center">
+                    <v-btn v-on:click="page = 'create-account-page'" width="300px" height="60px"
+                      class="mt-16px grey lighten-2">Sign Up</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+
+              <v-col>
+                <v-card elevation="10" width="550" height="400" class="mx-auto green darken-4 white--text">
+                  <v-card-title class="mx-auto justify-center text-h4 mb-10">Lawn-Posters</v-card-title>
+                  <v-card-text class="white--text subtitle-1 mb-16">
+                    <div style="width: fit-content" class="mx-auto">Sign up today to get your lawn mowed </div>
+                  </v-card-text>
+                  <v-card-actions class="justify-center">
+                    <v-btn v-on:click="page = 'create-account-page'" width="300px" height="60px"
+                      class="mt-16px grey lighten-2">Sign Up</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-container>
+
+        </div>
+
+        <!-- LOGIN PAGE -->
+        <div v-if="page == 'login-page'">
+
+          <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
+            <v-card-title>Log in</v-card-title>
+            <v-card-text>
+              <v-text-field label="Username" v-model="usernameInput">
+              </v-text-field>
+              <v-text-field label="Password" v-model="passwordInput">
+              </v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn v-on:click="page = 'profile-page'; postSession();" class="mx-auto" color="grey lighten-4">
+                Login
+              </v-btn>
+            </v-card-actions>
+            <v-card-text>Dont have an account? Create one <v-btn v-on:click="page = 'create-account-page'" elevation="0"
+                class="lime lighten-5">here</v-btn>
+            </v-card-text>
+          </v-card>
+        </div>
+        <!-- CREATE ACCOUNT PAGE -->
+        <div v-if="page == 'create-account-page'">
+          <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
+            <v-card-title>Create Account</v-card-title>
+            <v-card-text>
+              <v-text-field label="Username" v-model="newUsernameInput">
+              </v-text-field>
+              <v-text-field label="Password" v-model="newPasswordInput">
+              </v-text-field>
+              <v-text-field label="Retype Password" v-model="newPasswordInput2">
+              </v-text-field>
+              Are you planning on mowing or posting a lawn?
+            </v-card-text>
+            <v-card-actions>
+              <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
+                Mowing
+              </v-btn>
+              <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
+                Posting
+              </v-btn>
+            </v-card-actions>
+            <v-card-text>
+              <v-text-field label="Email" v-model="newEmailInput">
+              </v-text-field>
+              <v-text-field label="Phone Number" v-model="newPhoneInput">
+              </v-text-field>
+              </v-text-field>
+
+            </v-card-text>
+            <v-card-actions>
+              <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
+                Create Account
+              </v-btn>
+            </v-card-actions>
+            <v-card-text>Already have an account?<v-btn @click="page = 'login-page'" elevation="0"
+                class="lime lighten-5">Log in</v-btn>
+            </v-card-text>
+          </v-card>
 
 
 
-</div>
+        </div>
 
-<!-- LOGIN PAGE -- page = "login"; -->
-<div id = "loginPage">
-    <h1 v-if="page == 'login'"> log in page </h1>
-</div>
-          <!-- PROFILE PAGE -->
-<div style="width: fit-content" class="mx-auto" v-if="page == 'profile-page'">
-<v-card width="350" elevation="0" class="lime lighten-5  mt-6">
-<v-card-title>Your Profile</v-card-title>
-<v-card-text><b>Name: </b>{{Name}}</v-card-text>
-<v-card-text><b>Username: </b>{{Name}}</v-card-text>
-<v-card-text><b>Email Address: </b>{{Name}}</v-card-text>
-<v-card-text><b>Phone Number: </b>{{Name}}</v-card-text>
-<v-card-text><b>Current Page View: </b>{{Name}}</v-card-text>
-<v-card-title>Your Posts</v-card-title>
-</v-card>
-<v-divider></v-divider>
-<v-card width="700" class="mx-auto my-6 py-6 grey lighten-4">
-  <v-row dense>
-    <v-col>
-  <v-img
-  lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-  max-height="200"
-  max-width="400"
-  contain
-  class="py-4 ml-n6"
-  src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
->
-</v-col>
-<v-col>
-<v-card-text class="ml-n16 py-0"><b>Address: </b>{{Name}}</v-card-text>
-<v-card-text class="ml-n16 py-0"><b>Status: </b>{{Name}}</v-card-text>
-<v-card-text class="ml-n16 py-0"><b>Pay: </b>{{Name}}</v-card-text>
-<v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{Name}}</v-card-text>
-<v-card-text class="ml-n16 py-0"><b>One Time/Repeating: </b>{{Name}}</v-card-text>
-<v-card-text class="ml-n16 py-0"><b>Description: </b>{{Name}}</v-card-text>
-</v-col>
-</v-row>
-</v-card>
-<v-card-actions justify-center>
-<v-btn @click="page = 'create-post-page'"class="mx-auto rounded-pill">Add New Lawn +</v-btn>
-</v-card-actions>
-</div>
-          <!-- MOWER MAIN PAGE -- page = "mowermain"-->
+        <!-- PROFILE PAGE -->
+        <div style="width: fit-content" class="mx-auto" v-if="page == 'profile-page'">
+          <v-card width="350" elevation="0" class="lime lighten-5  mt-6">
+            <v-card-title>Your Profile</v-card-title>
+            <v-card-text><b>Name: </b>{{Name}}</v-card-text>
+            <v-card-text><b>Username: </b>{{Name}}</v-card-text>
+            <v-card-text><b>Email Address: </b>{{Name}}</v-card-text>
+            <v-card-text><b>Phone Number: </b>{{Name}}</v-card-text>
+            <v-card-text><b>Current Page View: </b>{{Name}}</v-card-text>
+            <v-card-title>Your Posts</v-card-title>
+          </v-card>
+          <v-divider></v-divider>
+          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4">
+            <v-row dense>
+              <v-col>
+                <v-img
+                  lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+                  max-height="200" max-width="400" contain class="py-4 ml-n6"
+                  src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
+              </v-col>
+              <v-col>
+                <v-card-text class="ml-n16 py-0"><b>Address: </b>{{Name}}</v-card-text>
+                <v-card-text class="ml-n16 py-0"><b>Status: </b>{{Name}}</v-card-text>
+                <v-card-text class="ml-n16 py-0"><b>Pay: </b>{{Name}}</v-card-text>
+                <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{Name}}</v-card-text>
+                <v-card-text class="ml-n16 py-0"><b>One Time/Repeating: </b>{{Name}}</v-card-text>
+                <v-card-text class="ml-n16 py-0"><b>Description: </b>{{Name}}</v-card-text>
+              </v-col>
+            </v-row>
+          </v-card>
+          <v-btn class="mx-auto rounded-pill" @click="page = 'create-post-page'">Add New Lawn +</v-btn>
+        </div>
 
 
+        <!-- MOWER MAIN PAGE -- page = "mowermain"-->
+        <div v-if="page == 'mowermain'">
+          <v-col class="pa-0">
+            <!-- Filters -->
+            <v-card width="320" elevation="0" class='justify-start' color="grey lighten-2" tile>
+              <v-card-title class="mx-auto">Filters</v-card-title>
 
+              <!-- Pay -->
+              <v-row class="mx-auto justify-center">
+                <v-card-text class="mx-auto pa-0 pl-8">
+                  <div style="width: fit-content"><b>Pay</b></div>
+                </v-card-text>
 
+                <v-text-field label="Minumim" style="max-width: 40%" class="pa-4">
+                </v-text-field>
+                <v-text-field label="Maximum" style="max-width: 40%" class="pa-4">
+                </v-text-field>
+              </v-row>
 
+              <!-- Job Duration -->
+              <v-row class="mx-auto justify-center">
+                <v-card-text class="mx-auto pa-0 pl-8">
+                  <div style="width: fit-content"><b>Job Duration</b></div>
+                </v-card-text>
 
+                <v-text-field label="Minumim" style="max-width: 40%" class="pa-4">
+                </v-text-field>
+                <v-text-field label="Maximum" style="max-width: 40%" class="pa-4">
+                </v-text-field>
+              </v-row>
 
+              <!-- Days of the week -->
+              <v-row class="mx-auto justify-center">
+                <v-card-text class="mx-auto pa-0 pl-8">
+                  <div style="width: fit-content"><b>Days</b></div>
+                </v-card-text>
 
+                <v-row class="mx-8 my-2 justify-center">
+                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Sunday</v-btn>
+                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Monday</v-btn>
+                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Tuesday</v-btn>
+                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Wednesday</v-btn>
+                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Thursday</v-btn>
+                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Friday</v-btn>
+                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Saturday</v-btn>
+                </v-row>
 
+              </v-row>
 
+              <!-- Date -->
+              <v-row class="mx-auto justify-center">
+                <v-card-text class="mx-auto pa-0 pl-8">
+                  <div style="width: fit-content"><b>Date</b></div>
+                </v-card-text>
 
+                <v-card-actions class="justify-center">
+                  <v-btn v-if="!startDateFilterReveal" @click="startDateFilterReveal = true" class="pa-4 px-13">Show
+                    Start Date
+                  </v-btn>
+                  <v-btn v-else @click="startDateFilterReveal = false" class="pa-4 px-13">Hide Start Date</v-btn>
+                </v-card-actions>
 
-          <!-- POST A LAWN PAGE -->
+                <v-date-picker v-if="startDateFilterReveal"></v-date-picker>
 
-          <div v-if="page == 'create-post-page'">
-            <v-card width="500" elevation="5" class="ma-auto mt-8 lime lighten-5">
-              <v-card-title class="text-h2">Post Your Lawn</v-card-title>
-              <v-card-text>The information provided below will be displayed on a public page. 
-                Please be concise and clear for faster mower reservations.</v-card-text>
-              <v-card-text>
-                 <v-text-field 
-                     label="Address"
-                     v-model="newPostAddressInput"
-                 >
-                 </v-text-field>
-                 <v-text-field 
-                     label="Esimated time to mow"
-                     v-model="estimatedTimeInput"
-                 >
-                 </v-text-field>
-                 <v-text-field 
-                     label="Image Url"
-                     v-model="imageInput"
-                 >
-                 <v-text-field 
-                     label="Pay"
-                     v-model="payInput"
-                 >
-                 <v-text-field 
-                 label="Description/Extra Info"
-                 v-model="descriptionInput"
-             >
+              </v-row>
 
+              <!-- Lawnmower Provided -->
+              <v-row class="mx-auto justify-center">
+                <v-card-text class="mx-auto pa-0 pl-8">
+                  <div style="width: fit-content"><b>Lawnmower Provided</b></div>
+                </v-card-text>
+                <v-checkbox v-model="lawnmowerProvidedFilter" :label="`LawnMower Provided`"></v-checkbox>
 
-           </v-card-text>
-           <v-card-title class="text-h5">When do you want your lawn mowed?</v-card-title>
-           <v-row justify="center">
-            <v-date-picker color="green darken-4" v-model="date1" :show-current="false" min="2022-07-15"></v-date-picker>
-          </v-row>
-          <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
-          <v-row align="center" justify-space-between>
-            <v-col
-              class="d-flex"
-              cols="12"
-              sm="6"
-            >
-            <v-card-text align="center" class="mt-n3 text-h5">Every</v-card-text>
-            
-            
-              <v-select
-              dense
-                :items="repeatIntervalInput"
-                outlined
-                label=""
-              ></v-select>
-            </v-col>
-      
-            <v-col
-              
-              class="d-flex"
-              cols="12"
-              sm="6"
-            >
-              <v-select
-              dense
-                :items="dayWeek"
-                outlined
-                label=""
-              ></v-select>
-            </v-col>
-            <v-card-text>Just a one time job?</v-card-text>
-            <v-checkbox
-      v-model="dontRepeatBox"
-      :label= "DontRepeat"
-    ></v-checkbox>
-           <v-card-actions justify-center>
-                <v-btn v-on:click="" class="mx-auto"  color="grey lighten-4">
-                    Post Lawn
-                </v-btn>
-             </v-card-actions>
-    
+              </v-row>
+
             </v-card>
+          </v-col>
+        </div>
+        <!-- Post a lawn Page -->
+        <div v-if="page == 'create-post-page'">
+          <v-card width="500" elevation="5" class="ma-auto mt-8 lime lighten-5">
+            <v-card-title class="text-h2">Post Your Lawn</v-card-title>
+            <v-card-text>The information provided below will be displayed on a public page. 
+              Please be concise and clear for faster mower reservations.</v-card-text>
+            <v-card-text>
+               <v-text-field 
+                   label="Address"
+                   v-model="newPostAddressInput"
+               >
+               </v-text-field>
+               <v-text-field 
+                   label="Esimated time to mow"
+                   v-model="estimatedTimeInput"
+               >
+               </v-text-field>
+               <v-text-field 
+                   label="Image Url"
+                   v-model="imageInput"
+               >
+               <v-text-field 
+                   label="Pay"
+                   v-model="payInput"
+               >
+               <v-text-field 
+               label="Description/Extra Info"
+               v-model="descriptionInput"
+           >
+
+
+         </v-card-text>
+         <v-card-title class="text-h5">When do you want your lawn mowed?</v-card-title>
+         <v-row justify="center">
+          <v-date-picker color="green darken-4" v-model="date1" :show-current="false" min="2022-07-15"></v-date-picker>
+        </v-row>
+        <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
+        <v-row align="center" justify-space-between>
+          <v-col
+            class="d-flex"
+            cols="12"
+            sm="6"
+          >
+          <v-card-text align="center" class="mt-n3 text-h5">Every</v-card-text>
           
           
-          
-          </div>
+            <v-select
+            dense
+              :items="repeatIntervalInput"
+              outlined
+              label=""
+            ></v-select>
+          </v-col>
+    
+          <v-col
+            
+            class="d-flex"
+            cols="12"
+            sm="6"
+          >
+            <v-select
+            dense
+              :items="dayWeek"
+              outlined
+              label=""
+            ></v-select>
+          </v-col>
+          <v-card-text>Just a one time job?</v-card-text>
+          <v-checkbox
+    v-model="dontRepeatBox"
+    :label= "DontRepeat"
+  ></v-checkbox>
+         <v-card-actions justify-center>
+              <v-btn v-on:click="" class="mx-auto"  color="grey lighten-4">
+                  Post Lawn
+              </v-btn>
+           </v-card-actions>
+  
+          </v-card>
+        
+        
+        
+        </div>
 
 
 
 
+      </v-main>
+    </v-app>
 
-
-
-
-
-
-
-
-
-
-
-
-
-          
-
-
-
-
-          
-
-
-</v-main>
-   </v-app>
-   
-    </div> 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-    <script src="app.js"></script>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="app.js"></script>
 </body>
+
 </html>
