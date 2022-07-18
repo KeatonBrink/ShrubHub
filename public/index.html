@@ -164,10 +164,10 @@
         <div style="width: fit-content" class="mx-auto" v-if="page == 'profile-page'">
           <v-card width="350" elevation="0" class="lime lighten-5  mt-6">
             <v-card-title>Your Profile</v-card-title>
-            <v-card-text><b>Name: </b>{{Name}}</v-card-text>
-            <v-card-text><b>Username: </b>{{Name}}</v-card-text>
-            <v-card-text><b>Email Address: </b>{{Name}}</v-card-text>
-            <v-card-text><b>Phone Number: </b>{{Name}}</v-card-text>
+            <v-card-text><b>Name: </b>{{currentUser.fullname}}</v-card-text>
+            <v-card-text><b>Username: </b>{{currentUser.username}}</v-card-text>
+            <v-card-text><b>Email Address: </b>{{currentUser.email}}</v-card-text>
+            <v-card-text><b>Phone Number: </b>{{currentUser.phonenumber}}</v-card-text>
             <v-card-text><b>Current Page View: </b>{{Name}}</v-card-text>
             <v-card-title>Your Posts</v-card-title>
           </v-card>

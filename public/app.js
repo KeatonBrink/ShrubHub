@@ -22,6 +22,7 @@ var app = new Vue({
 
         currentUser: null,
         currentLawn: null,
+        currentLawns: [],
         targetUser: null,
         targetLawn: null,
         allLawns: null,
@@ -121,6 +122,7 @@ var app = new Vue({
             if (response.status == 200) {
                 //Succesful creation
                 this.targetUser = body;
+                this.currentLawns = body.lawns;
                 console.log("Successful user get");
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get user")
@@ -156,9 +158,9 @@ var app = new Vue({
                 // console.log("Successful login attempt ", body);
                 this.usernameInput = "";
                 this.passwordInput = "";
-                this.getMapURL();
                 //This is a terrible idea, I think
                 this.getSession();
+                this.getUser(this.currentUser.id)
             } else if (response.status == 401) {
                 console.log("Unsuccesful login attempt")
                 this.passwordInput = "";
@@ -384,66 +386,6 @@ var app = new Vue({
             console.log(day + ': ' + this.dayOfWeekFilter[day]);
             return this.dayOfWeekFilter
         },
-
-        getMapURL: async function () {
-            let response = await fetch(URL + "/mapurl", {
-                //Never put body in get request
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include"
-            });
-
-            let body = await response.json();
-
-            //Check for successful get request
-            if (response.status >= 200 && response.status < 300) {
-                //Succesful lawn get
-                this.mapsAPIKey = body;
-                console.log("Successful mapAPI get");
-            } else if (response.status >= 400) {
-                console.log("Unsuccesful get mapAPI")
-            } else {
-                console.log("Some sort of error when GET mapAPI");
-            }
-        },
-
-        // optional parameter: parameterAddress (default value when left undefined is null)
-        // if left undefined (ie. addMarker()) the function defaults to using addressInput
-        addMarker: function (parameterAddress = null) {
-            let address = "";
-            if (parameterAddress !== null) {
-                address = parameterAddress;
-            } else {
-                address = this.addressInput;
-            }
-
-            // uses geocode api to look up address
-            GEOCODER.geocode( {'address': address}, (results, status) => {
-                if (status == 'OK') {
-                    // centers/zooms map
-                    this.map.setCenter(results[0].geometry.location);
-                    this.map.setZoom(16);
-
-                    // creates new marker
-                    var marker = new google.maps.Marker({
-                        map: this.map,
-                        position: results[0].geometry.location,
-                    });
-                    this.recentMarker = marker;
-                } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
-                this.addressInput = "";
-            });
-        },
-        initializeMap: function () {
-            console.log(MAP);
-            this.map = MAP;
-            this.geocoder = GEOCODER;
-            this.mapIsInitialized = true;
-        },
     },
 
     created: function () {
@@ -451,28 +393,3 @@ var app = new Vue({
     }
             
 });
-
-// This function is a callback that is given to the google api
-// It is ran when the api has finished loading
-function initMap() {
-    // geocoder is for turning an address (1234 E 5678 S) into Latitude and Longitude
-    GEOCODER = new google.maps.Geocoder();
-
-    // Center on the map on St. George using the Geocoder
-    GEOCODER.geocode({'address' : 'St. George, UT'}, function (results, status) {
-        switch (status) {
-        case "OK":
-            // creates the map
-            MAP = new google.maps.Map(document.getElementById("map"), {
-                zoom: 14,
-                center: results[0].geometry.location,
-                styles: myStyles,
-            });
-            // calls vue's initialize map function
-            app.initializeMap();
-            break;
-        default:
-            console.error('Geocode was not successful for the following reason: ' + status);
-        }
-    });
-}

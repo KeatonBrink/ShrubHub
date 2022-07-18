@@ -31,7 +31,7 @@ const setUpAuth = function (app) {
     passport.serializeUser(function(user, cb) {
         //The following function creats a data type that holds the given data and the cookie it is associated with
         //these parameters will be found in req.user when a client calls in to the api
-        cb(null, {id: user._id, username: user.username, fullname: user.fullname, email: user.email, address: user.address, defaultrole: user.defaultrole})
+        cb(null, {id: user._id, username: user.username, fullname: user.fullname, email: user.email, address: user.address, defaultrole: user.defaultrole, phonenumber: user.phonenumber})
     });
     passport.deserializeUser(function(user, cb) {
         return cb(null, user);
@@ -46,7 +46,7 @@ const setUpAuth = function (app) {
             res.status(401).json({message: "unauthorized"});
             return;
         }
-        res.status(200).json({message: "authorized", username: req.user.username, fullname: req.user.fullname, role: req.user.defaultrole, address: req.user.address});
+        res.status(200).json({message: "authorized", username: req.user.username, fullname: req.user.fullname, role: req.user.defaultrole, address: req.user.address, email: req.user.email, phonenumber: req.user.phonenumber});
     })
 }
 
