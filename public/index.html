@@ -323,11 +323,10 @@
               label=""
             ></v-select>
           </v-col>
+          <v-row align-center>
           <v-card-text>Just a one time job?</v-card-text>
-          <v-checkbox
-    v-model="dontRepeatBox"
-    :label= "DontRepeat"
-  ></v-checkbox>
+        </v-row>
+        <v-checkbox v-model="dontRepeatBox" :label= "'Dont Repeat'"></v-checkbox>
          <v-card-actions justify-center>
               <v-btn v-on:click="" class="mx-auto"  color="grey lighten-4">
                   Post Lawn
