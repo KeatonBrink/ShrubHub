@@ -92,7 +92,7 @@
               </v-text-field>
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="page = 'profile-page'; postSession();" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="postSession();" class="mx-auto" color="grey lighten-4">
                 Login
               </v-btn>
             </v-card-actions>
@@ -179,82 +179,128 @@
 
 
         <!-- MOWER MAIN PAGE -- page = "mowermain"-->
-        <div v-if="page == 'mowermain'">
-          <v-col class="pa-0">
-            <!-- Filters -->
-            <v-card width="320" elevation="0" class='justify-start' color="grey lighten-2" tile>
-              <v-card-title class="mx-auto">Filters</v-card-title>
+        </div v-show="page == 'mowermain'">
 
-              <!-- Pay -->
-              <v-row class="mx-auto justify-center">
-                <v-card-text class="mx-auto pa-0 pl-8">
-                  <div style="width: fit-content"><b>Pay</b></div>
-                </v-card-text>
+          <v-col class="pa-0" v-show="page == 'mowermain'">
+          <!-- Filters -->
+          <v-card width="320" elevation="0" class='justify-start' color="grey lighten-2" v-show="page == 'mowermain'" tile>
+            <v-card-title class="mx-auto">Filters</v-card-title>
 
-                <v-text-field label="Minumim" style="max-width: 40%" class="pa-4">
-                </v-text-field>
-                <v-text-field label="Maximum" style="max-width: 40%" class="pa-4">
-                </v-text-field>
+            <!-- Pay -->
+            <v-row class="mx-auto justify-center">
+              <v-card-text class="mx-auto pa-0 pl-8"><div style="width: fit-content"><b>Pay</b></div></v-card-text>
+
+              <v-text-field
+              label="Minumim"
+              v-model="minimumPayFilter"
+              style="max-width: 40%"
+              class="pa-4"
+              >
+              </v-text-field>
+              <v-text-field
+              label="Maximum"
+              v-model="maximumPayFilter"
+              style="max-width: 40%"
+              class="pa-4"
+              >
+              </v-text-field>
+            </v-row>
+
+            <!-- Job Duration -->
+            <v-row class="mx-auto justify-center">
+              <v-card-text class="mx-auto pa-0 pl-8"><div style="width: fit-content"><b>Job Duration</b></div></v-card-text>
+
+              <v-text-field
+              label="Minumim"
+              v-model="minimumJobDurationFilter"
+              style="max-width: 40%"
+              class="pa-4"
+              >
+              </v-text-field>
+              <v-text-field
+              label="Maximum"
+              v-model="maximumJobDurationFilter"
+              style="max-width: 40%"
+              class="pa-4"
+              >
+              </v-text-field>
+            </v-row>
+
+            <!-- Days of the week -->
+            <v-row class="mx-auto justify-center">
+              <v-card-text class="mx-auto pa-0 pl-8"><div style="width: fit-content"><b>Days</b></div></v-card-text>
+
+              <v-row class="mx-8 my-2 justify-center">
+                <v-btn @click="toggleDayFilter('Sunday')" :color='dayOfWeekFilter["Sunday"] ? "#005921" : "grey lighten-4"'
+                class="pa-1 ma-1 text-sm-body-3"
+                :class="dayOfWeekFilter['Sunday'] ? 'white--text' : 'black--text'"
+                >Sunday</v-btn>
+
+                <v-btn @click="toggleDayFilter('Monday')"
+                :color='dayOfWeekFilter["Monday"] ? "#005921" : "grey lighten-4"'
+                class="pa-1 ma-1 text-sm-body-3"
+                :class="dayOfWeekFilter['Monday'] ? 'white--text' : 'black--text'"
+                >Monday</v-btn>
+
+                <v-btn @click="toggleDayFilter('Tuesday')"
+                :color='dayOfWeekFilter["Tuesday"] ? "#005921" : "grey lighten-4"'
+                class="pa-1 ma-1 text-sm-body-3"
+                :class="dayOfWeekFilter['Tuesday'] ? 'white--text' : 'black--text'"
+                >Tuesday</v-btn>
+
+                <v-btn @click="toggleDayFilter('Wednesday')"
+                :color='dayOfWeekFilter["Wednesday"] ? "#005921" : "grey lighten-4"'
+                class="pa-1 ma-1 text-sm-body-3"
+                :class="dayOfWeekFilter['Wednesday'] ? 'white--text' : 'black--text'"
+                >Wednesday</v-btn>
+
+                <v-btn @click="toggleDayFilter('Thursday')"
+                :color='dayOfWeekFilter["Thursday"] ? "#005921" : "grey lighten-4"'
+                class="pa-1 ma-1 text-sm-body-3"
+                :class="dayOfWeekFilter['Thursday'] ? 'white--text' : 'black--text'"
+                >Thursday</v-btn>
+
+                <v-btn @click="toggleDayFilter('Friday')"
+                :color='dayOfWeekFilter["Friday"] ? "#005921" : "grey lighten-4"'
+                class="pa-1 ma-1 text-sm-body-3"
+                :class="dayOfWeekFilter['Friday'] ? 'white--text' : 'black--text'"
+                >Friday</v-btn>
+
+                <v-btn @click="toggleDayFilter('Saturday')"
+                :color='dayOfWeekFilter["Saturday"] ? "#005921" : "grey lighten-4"'
+                class="pa-1 ma-1 text-sm-body-3"
+                :class="dayOfWeekFilter['Saturday'] ? 'white--text' : 'black--text'"
+                >Saturday</v-btn>
               </v-row>
 
-              <!-- Job Duration -->
-              <v-row class="mx-auto justify-center">
-                <v-card-text class="mx-auto pa-0 pl-8">
-                  <div style="width: fit-content"><b>Job Duration</b></div>
-                </v-card-text>
+            </v-row>
 
-                <v-text-field label="Minumim" style="max-width: 40%" class="pa-4">
-                </v-text-field>
-                <v-text-field label="Maximum" style="max-width: 40%" class="pa-4">
-                </v-text-field>
-              </v-row>
+            <!-- Date -->
+            <v-row class="mx-auto justify-center">
+              <v-card-text class="mx-auto pa-0 pl-8"><div style="width: fit-content"><b>Date</b></div></v-card-text>
 
-              <!-- Days of the week -->
-              <v-row class="mx-auto justify-center">
-                <v-card-text class="mx-auto pa-0 pl-8">
-                  <div style="width: fit-content"><b>Days</b></div>
-                </v-card-text>
+              <v-card-actions class="justify-center">
+                <v-btn v-if="!startDateFilterReveal" @click="startDateFilterReveal = true" class="pa-4 px-13">Show Start Date</v-btn>
+                <v-btn v-else @click="startDateFilterReveal = false" class="pa-4 px-13">Hide Start Date</v-btn>
+              </v-card-actions>
 
-                <v-row class="mx-8 my-2 justify-center">
-                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Sunday</v-btn>
-                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Monday</v-btn>
-                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Tuesday</v-btn>
-                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Wednesday</v-btn>
-                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Thursday</v-btn>
-                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Friday</v-btn>
-                  <v-btn @click="" color="grey lighten-4" class="pa-1 ma-1 text-sm-body-3">Saturday</v-btn>
-                </v-row>
+              <v-date-picker v-if="startDateFilterReveal" v-model="startDateFilter"></v-date-picker>
 
-              </v-row>
+            </v-row>
 
-              <!-- Date -->
-              <v-row class="mx-auto justify-center">
-                <v-card-text class="mx-auto pa-0 pl-8">
-                  <div style="width: fit-content"><b>Date</b></div>
-                </v-card-text>
+            <!-- Lawnmower Provided -->
+            <v-row class="mx-auto justify-center">
+              <v-checkbox v-model="lawnmowerProvidedFilter" :label="`LawnMower Provided`"></v-checkbox>
 
-                <v-card-actions class="justify-center">
-                  <v-btn v-if="!startDateFilterReveal" @click="startDateFilterReveal = true" class="pa-4 px-13">Show
-                    Start Date
-                  </v-btn>
-                  <v-btn v-else @click="startDateFilterReveal = false" class="pa-4 px-13">Hide Start Date</v-btn>
-                </v-card-actions>
+            </v-row>
 
-                <v-date-picker v-if="startDateFilterReveal"></v-date-picker>
-
-              </v-row>
-
-              <!-- Lawnmower Provided -->
-              <v-row class="mx-auto justify-center">
-                <v-card-text class="mx-auto pa-0 pl-8">
-                  <div style="width: fit-content"><b>Lawnmower Provided</b></div>
-                </v-card-text>
-                <v-checkbox v-model="lawnmowerProvidedFilter" :label="`LawnMower Provided`"></v-checkbox>
-
-              </v-row>
-
-            </v-card>
+          </v-card>
           </v-col>
+
+          <v-col>
+
+          </v-col>
+
         </div>
         <!-- Post a lawn Page -->
         <div v-if="page == 'create-post-page'">
