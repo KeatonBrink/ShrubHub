@@ -3,6 +3,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const {User} = require("../persist/model.js");
 const app = require('./server.js');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 
 //This stuff is wild, not sure how it works, but I believe is can be copy and pasted
 passport.use(new LocalStrategy(async(username, password, done) => {
@@ -10,6 +13,7 @@ passport.use(new LocalStrategy(async(username, password, done) => {
     try {
         //This will change with password encryption
         //Try to find the user
+        
         user = await User.findOne({username:username, password:password});
         //Did we find anything
         if (!user) {
