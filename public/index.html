@@ -16,13 +16,13 @@
 
         <!-- header -->
         <v-app-bar elevation="3 green darken-4">
-          <v-toolbar-title class="white--text">Shrubhub</v-toolbar-title>
-          <v-btn icon @click="page='landing-page'">
-            <v-icon class="white--text" size="50px">mdi-grass</v-icon>
-          </v-btn>
+          
+          <div @click="page='landing-page'">
+            <v-img src="https://svgur.com/i/jDN.svg" height="80px" width="80px"></v-img>
+          </div>
           <v-spacer></v-spacer>
           <div v-if="page == 'landing-page'">
-            <v-btn width="80px" height="30px" class="rounded-pill grey lighten-2">
+            <v-btn width="80px" height="30px" class="rounded-pill white">
               <v-toolbar-title @click="page= 'login-page'">Log in</v-toolbar-title>
             </v-btn>
           </div>
@@ -92,11 +92,7 @@
               </v-text-field>
             </v-card-text>
             <v-card-actions>
-<<<<<<< HEAD
-              <v-btn v-on:click="postSession();" class="mx-auto" color="grey lighten-4">
-=======
               <v-btn v-on:click="page = 'profile-page'; postSession();" class="mx-auto" color="grey lighten-4">
->>>>>>> 747a06e1891eb40ac3b7d9b87269744e75f9f175
                 Login
               </v-btn>
             </v-card-actions>
