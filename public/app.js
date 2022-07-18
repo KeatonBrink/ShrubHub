@@ -34,6 +34,7 @@ var app = new Vue({
         newUsernameInput: "",
         newPasswordInput: "",
         newPasswordInput2: "",
+        newFullNameInput: "",
         newEmailInput: "",
         newPhoneInput: "",
         newProfilePic: "",
@@ -194,7 +195,7 @@ var app = new Vue({
                     "username" : this.newUsernameInput,
                     "password" : this.newPasswordInput,
                     "fullname" : this.newFullNameInput,
-                    "defaultrole" : this.newDefaultRole,
+                    "role" : this.newDefaultRole,
                     "email" : this.newEmailInput,
                     "phone" : this.newPhoneInput,
                 }
@@ -206,8 +207,8 @@ var app = new Vue({
                     },
                     credentials: "include"
                 });
-
-                if (response.status == 501) {
+                
+                if (response.status == 500) {
                     console.log("Username or email already taken. Please provide a new username.")
                     console.log("Response status is "+response.status+". More info: "+response)
                     return
@@ -216,7 +217,6 @@ var app = new Vue({
                     console.log("Response status is "+response.status+". More info: "+response)
                     return
                 } else {
-                    console.log("Response status is "+response.status+". More info: "+response)
                     this.page = "login-page"
                     console.log("Account credentials valid. Account Created.");
                     return

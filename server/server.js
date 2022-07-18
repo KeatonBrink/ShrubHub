@@ -24,7 +24,9 @@ setUpAuth(app);
 
 //How the backend handles a create mower request
 app.post("/user", async (req, res) => {
+    console.log(req.body)
     try {
+        console.log("1")
         // Take all the data from the front end and create a user
         let user = await User.create({
             username: req.body.username,
@@ -36,7 +38,10 @@ app.post("/user", async (req, res) => {
             defaultrole: req.body.role,
             phonenumber: req.body.phone
         });
+        console.log("2")
+        console.log(user)
         res.status(201).json(user);
+        console.log("3")
     } catch (err) {
         res.status(500).json({
             message: `post request failed`,
