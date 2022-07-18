@@ -1,4 +1,4 @@
-const URL = ""
+const URL = "http://localhost:8080"
 
 var app = new Vue({
     el: "#app",
@@ -109,7 +109,7 @@ var app = new Vue({
                 console.log("Unsuccesful login attempt")
                 this.passwordInput = "";
             } else {
-                console.log("Some sort of error when POST /session");
+                console.log("Some sort of error when POST /session. Error details: "+response.status+" "+response);
             }
         },
 
@@ -206,11 +206,20 @@ var app = new Vue({
                     credentials: "include"
                 });
 
-// START HERE - I haven't added response status checks.
-
-                this.page = "login-page"
-                console.log("Account credentials valid. Account Created.");
-                return
+                if (response.status == 501) {
+                    console.log("Username or email already taken. Please provide a new username.")
+                    console.log("Response status is "+response.status+". More info: "+response)
+                    return
+                } else if (response.status == 404) {
+                    console.log("Coding error. 404 result.")
+                    console.log("Response status is "+response.status+". More info: "+response)
+                    return
+                } else {
+                    console.log("Response status is "+response.status+". More info: "+response)
+                    this.page = "login-page"
+                    console.log("Account credentials valid. Account Created.");
+                    return
+                }
             }
         },
 

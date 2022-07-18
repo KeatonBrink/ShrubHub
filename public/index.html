@@ -92,7 +92,7 @@
               </v-text-field>
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="page = 'profile-page'; postSession();" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="postSession()" class="mx-auto" color="grey lighten-4">
                 Login
               </v-btn>
             </v-card-actions>
@@ -131,7 +131,7 @@
 
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="postUser" class="mx-auto" color="grey lighten-4">
                 Create Account
               </v-btn>
             </v-card-actions>
@@ -144,10 +144,6 @@
 
         </div>
 
-        <!-- LOGIN PAGE -- page = "login"; -->
-        <div id="loginPage">
-          <h1 v-if="page == 'login'"> log in page </h1>
-        </div>
         <!-- PROFILE PAGE -->
         <div style="width: fit-content" class="mx-auto" v-if="page == 'profile-page'">
           <v-card width="350" elevation="0" class="lime lighten-5  mt-6">
