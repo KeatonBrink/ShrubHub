@@ -4,7 +4,7 @@ var app = new Vue({
     el: "#app",
     vuetify: new Vuetify(),
     data: {
-        page: "mowingmain",
+        page: "landing-page",
 
         currentUser: null,
 
