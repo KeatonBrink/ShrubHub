@@ -1,4 +1,4 @@
-const URL = ""
+const URL = "http://localhost:8080"
 
 var app = new Vue({
     el: "#app",
@@ -129,6 +129,7 @@ var app = new Vue({
 
             //Check for successful login
             if (response.status == 201) {
+                console.log("success login")
                 //Succesful login
                 // console.log("Successful login attempt ", body);
                 this.usernameInput = "";
