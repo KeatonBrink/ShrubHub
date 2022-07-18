@@ -62,6 +62,7 @@ var app = new Vue({
 
     methods: {
         getSession: async function () {
+            console.log("Commencing getSession...");
             let response = await fetch(`${URL}/session`, {
                 method: "GET",
                 credentials: "include"
@@ -144,58 +145,6 @@ var app = new Vue({
             }
         },
 
-        //GET lawns
-        getLawns: async function () {
-            let response = await fetch(URL + "/lawns", {
-                //Never put body in get request
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include"
-            });
-
-            //Parse response data
-            let body = await response.json();
-
-            //Check for successful creation
-            if (response.status == 200) {
-                //Succesful creation
-                this.allLawns = body;
-                console.log("Successful lawns get");
-                this.page = "mowermain";
-            } else if (response.status >= 400) {
-                console.log("Unsuccesful get lawns")
-            } else {
-                console.log("Some sort of error when GET /lawns");
-            }
-        },
-
-        getLawn: async function (lawnID) {
-            let response = await fetch(URL + "/lawn/" + lawnID, {
-                //Never put body in get request
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include"
-            });
-
-            //Parse response data
-            let body = await response.json();
-
-            //Check for successful get request
-            if (response.status >= 200 && response.status < 300) {
-                //Succesful lawn get
-                this.targetLawn = body;
-                console.log("Successful lawn get");
-            } else if (response.status >= 400) {
-                console.log("Unsuccesful get lawn")
-            } else {
-                console.log("Some sort of error when GET /lawn/:id");
-            }
-        },
-        
         postUser: async function () {
             if (this.newUsernameInput == null) {
                 console.log("Please insert a username.");
@@ -253,6 +202,60 @@ var app = new Vue({
                 }
             }
         },
+
+        //GET lawns
+        getLawns: async function () {
+            let response = await fetch(URL + "/lawns", {
+                //Never put body in get request
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
+
+            //Parse response data
+            let body = await response.json();
+
+            //Check for successful creation
+            if (response.status == 200) {
+                //Succesful creation
+                this.allLawns = body;
+                console.log("Successful lawns get");
+                this.page = "mowermain";
+            } else if (response.status >= 400) {
+                console.log("Unsuccesful get lawns")
+            } else {
+                console.log("Some sort of error when GET /lawns");
+            }
+        },
+
+        getLawn: async function (lawnID) {
+            let response = await fetch(URL + "/lawn/" + lawnID, {
+                //Never put body in get request
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
+
+            //Parse response data
+            let body = await response.json();
+
+            //Check for successful get request
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful lawn get
+                this.targetLawn = body;
+                console.log("Successful lawn get");
+            } else if (response.status >= 400) {
+                console.log("Unsuccesful get lawn")
+            } else {
+                console.log("Some sort of error when GET /lawn/:id");
+            }
+        },
+        
+        
 
         postLawn: async function () {
             if (this.newLawnDescription == "") {
