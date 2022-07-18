@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
     //Should be encrypted Use bcrypt
     password: {type: String, required: true},
     email: {type: String, required: true, unique: true},
-    address: {type: String, required: true},
+    address: {type: String, required: false, default: ""},
     //  This will be edited when we figure out how to add picture files to a schema
     profilepic: {},
     // lawns: {type: lawnSchema, required: true, default: []},

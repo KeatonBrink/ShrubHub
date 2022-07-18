@@ -31,7 +31,6 @@ app.post("/user", async (req, res) => {
             fullname: req.body.fullname,
             password: req.body.password,
             email: req.body.email,
-            address: req.body.address,
             // mower or poster
             defaultrole: req.body.role,
             phonenumber: req.body.phone
