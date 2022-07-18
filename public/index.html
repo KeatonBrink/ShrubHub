@@ -91,11 +91,11 @@
               </v-text-field>
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="page = 'profile-page'; postSession();" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="postSession();" class="mx-auto" color="grey lighten-4">
                 Login
               </v-btn>
             </v-card-actions>
-            <v-card-text>Dont have an account? Create one <v-btn v-on:click="page = 'create-account-page'" elevation="0"
+            <v-card-text>Dont have an account? Create one. <v-btn v-on:click="page = 'create-account-page'" elevation="0"
                 class="lime lighten-5">here</v-btn>
             </v-card-text>
           </v-card>
@@ -114,10 +114,10 @@
               Are you planning on mowing or posting a lawn?
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="newDefaultRole = `mower`" class="mx-auto" color="grey lighten-4">
                 Mowing
               </v-btn>
-              <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="newDefaultRole = `poster`" class="mx-auto" color="grey lighten-4">
                 Posting
               </v-btn>
             </v-card-actions>
@@ -130,7 +130,7 @@
 
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="postUser" class="mx-auto" color="grey lighten-4">
                 Create Account
               </v-btn>
             </v-card-actions>
