@@ -23,6 +23,18 @@ var app = new Vue({
         newProfilePic: "",
         newDefaultRole: "",
 
+        newLawnDescription: "",
+        newLawnAddress: "",
+        newLawnPay: "",
+        newLawnMowInterval: "",
+        newLawnStartDate: "",
+        newLawnEndDate: "",
+        newLawnTime2Mow: "",
+        newLawnHasLawnMower: false,
+        newLawnHasDogPoop: false,
+        newLawnHasFreeFood: false,
+        newLawnHasFreeWater: false,
+
         mowerView: false,
         posterView: false,
 
@@ -42,6 +54,10 @@ var app = new Vue({
         startDateFilter: '',
         startDateFilterReveal: false,
         lawnmowerProvidedFilter: false,
+
+        date1: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        dayWeek: ["days", "weeks"],
+        repeatIntervalInput: [1,2,3,4,5,6,7,8,9,10,11,12,13],
     },
 
     methods: {
@@ -53,7 +69,7 @@ var app = new Vue({
             if (response.status == 200) {
                 this.currentUser = await response.json()
                 console.log("Log In Successful");
-                this.page = "mowermain";
+                this.page = "profile-page";
             } else if (response.status == 401) {
                 console.log("Incorrect username or password. Try again.");
                 this.page = "landing-page";
@@ -64,7 +80,7 @@ var app = new Vue({
         },
         
          //GET User
-         getUser: async function (userID) {
+        getUser: async function (userID) {
             let response = await fetch(URL + "/user/" + userID, {
                 //Never put body in get request
                 method: "GET",
@@ -146,7 +162,7 @@ var app = new Vue({
                 //Succesful creation
                 this.allLawns = body;
                 console.log("Successful lawns get");
-                this.curPage = 3;
+                this.page = "mowermain";
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get lawns")
             } else {
@@ -229,7 +245,100 @@ var app = new Vue({
         },
 
         postLawn: async function () {
+            if (this.newLawnDescription == "") {
+                console.log("Please add a description.");
+                return
+            } else if (this.newLawnAddress == "") {
+                console.log("Please insert a password");
+                return
+            } else if (this.newLawnPay == "") {
+                console.log("Please insert a pay scale");
+                return
+            } else if (this.newLawnStartDate == "") {
+                console.log("Please pick a start date");
+                return
+            } else if (this.newLawnMowInterval == "") {
+                console.log("Please pick a mow interval");
+                return
+            } else if (this.newLawnEndDate == "") {
+                console.log("Please pick an end date.");
+                return
+            } else if (this.newLawnTime2Mow == "") {
+                console.log("Please pick an appropriate time to mow");
+                return
+            }
+            //Once user passes all checks, and no fields are null...
+            let lawnSpecifics = {
+                "description" : this.newLawnDescription,
+                "address" : this.newLawnAddress,
+                "pay" : this.newLawnPay,
+                "mowInterval" : this.newLawnMowInterval,
+                "startDate" : this.newLawnStartDate,
+                "endDate" : this.newLawnEndDate,
+                "time2Mow": this.newLawnTime2Mow,
+                "hasLawnMower": this.newLawnHasLawnMower,
+                "hasDogPoop": this.newLawnHasDogPoop,
+                "hasFreeFood": this.newLawnHasFreeFood,
+                "hasFreeWater": this.newLawnHasFreeWater,
+            }
+            let response = await fetch(URL + "/lawn", {
+                method: "POST",
+                body: JSON.stringify(lawnSpecifics),
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                credentials: "include"
+            });
+
+            //Parse response data
+            let body = await response.json();
             
+            //Check for successful creation
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful creation
+                this.newLawnDescription = "";
+                this.newLawnAddress = "";
+                this.newLawnPay = "";
+                this.newLawnStartDate = "";
+                this.newLawnEndDate = "";
+                this.newLawnTime2Mow = "";
+                this.newLawnMowInterval = "";
+                this.newLawnHasLawnMower = false;
+                this.newLawnHasDogPoop = false;
+                this.newLawnHasFreeFood = false;
+                this.newLawnHasFreeWater = false;
+                this.getUser(currentUser._id);
+                console.log("Successful lawn attempt");
+            } else if (response.status >= 400) {
+                console.log ("Unsuccesful lawn creation attempt")
+                this.hasFailedThread = 1;
+            } else {
+                console.log("Some sort of error when POST /lawn");
+            }
+        },
+
+        // Switch a lawn from public to private or private to public
+        patchLawnPublicity: async function (lawnID, newState) {
+            let newURL = URL + "/thread/" + lawnID + "/" + newState;
+            console.log(newURL);
+            let response = await fetch(newURL, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful update
+                if (this.page == "profile-page") {
+                    this.getUser(this.currentUser._id)
+                }
+                console.log("Successful patch attempt");
+            } else if (response.status >= 400) {
+                console.log ("Unsuccesful PATCH /lawn")
+            } else {
+                console.log("Some sort of error when PATCH /lawn");
+            }
         },
         toggleDayFilter: function (day) {
             if (this.dayOfWeekFilter[day]) {
