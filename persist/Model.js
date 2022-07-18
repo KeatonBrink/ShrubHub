@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
     },
     fullname: {type: String, required: true},
     //Consider adding roles (potentially a boolean "Admin: {type: Boolean, required: true, default: false}")
-    //Should be encrypted
+    //Should be encrypted Use bcrypt
     password: {type: String, required: true},
     email: {type: String, required: true, unique: true},
     address: {type: String, required: true},
