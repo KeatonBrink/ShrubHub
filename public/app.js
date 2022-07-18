@@ -4,7 +4,7 @@ var app = new Vue({
     el: "#app",
     vuetify: new Vuetify(),
     data: {
-        page: "login-page",
+        page: "landing-page",
 
         currentUser: null,
         currentLawn: null,
@@ -26,6 +26,20 @@ var app = new Vue({
         mowerView: false,
         posterView: false,
 
+        minimumPayFilter: 0,
+        maximumPayFilter: 1000,
+        minimumJobDurationFilter: 0,
+        maximumJobDurationFilter: 10,
+        dayOfWeekFilter: {
+            'Sunday': false,
+            'Monday': false,
+            'Tuesday': false,
+            'Wednesday': false,
+            'Thursday': false,
+            'Friday': false,
+            'Saturday': false
+        },
+        startDateFilter: '',
         startDateFilterReveal: false,
         lawnmowerProvidedFilter: false,
     },
@@ -217,10 +231,19 @@ var app = new Vue({
         postLawn: async function () {
             
         },
-
+        toggleDayFilter: function (day) {
+            if (this.dayOfWeekFilter[day]) {
+                this.dayOfWeekFilter[day] = false;
+            } else {
+                this.dayOfWeekFilter[day] = true;
+            }
+            console.log(day + ': ' + this.dayOfWeekFilter[day]);
+            return this.dayOfWeekFilter
+        }
     },
 
     created: function () {
         this.getSession();
     }
+            
 });
