@@ -21,6 +21,11 @@ var app = new Vue({
 
         mowerView: false,
         posterView: false,
+
+        date1: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        dayWeek: ["days", "weeks"],
+        repeatIntervalInput: [1,2,3,4,5,6,7,8,9,10,11,12,13]
+        
     },
 
     methods: {

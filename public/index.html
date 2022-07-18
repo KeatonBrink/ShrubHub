@@ -194,8 +194,9 @@
 </v-col>
 </v-row>
 </v-card>
-
-<v-btn class="mx-auto rounded-pill">Add New Lawn +</v-btn>
+<v-card-actions justify-center>
+<v-btn @click="page = 'create-post-page'"class="mx-auto rounded-pill">Add New Lawn +</v-btn>
+</v-card-actions>
 </div>
           <!-- MOWER MAIN PAGE -- page = "mowermain"-->
 
@@ -210,6 +211,90 @@
 
 
 
+          <!-- POST A LAWN PAGE -->
+
+          <div v-if="page == 'create-post-page'">
+            <v-card width="500" elevation="5" class="ma-auto mt-8 lime lighten-5">
+              <v-card-title class="text-h2">Post Your Lawn</v-card-title>
+              <v-card-text>The information provided below will be displayed on a public page. 
+                Please be concise and clear for faster mower reservations.</v-card-text>
+              <v-card-text>
+                 <v-text-field 
+                     label="Address"
+                     v-model="newPostAddressInput"
+                 >
+                 </v-text-field>
+                 <v-text-field 
+                     label="Esimated time to mow"
+                     v-model="estimatedTimeInput"
+                 >
+                 </v-text-field>
+                 <v-text-field 
+                     label="Image Url"
+                     v-model="imageInput"
+                 >
+                 <v-text-field 
+                     label="Pay"
+                     v-model="payInput"
+                 >
+                 <v-text-field 
+                 label="Description/Extra Info"
+                 v-model="descriptionInput"
+             >
+
+
+           </v-card-text>
+           <v-card-title class="text-h5">When do you want your lawn mowed?</v-card-title>
+           <v-row justify="center">
+            <v-date-picker color="green darken-4" v-model="date1" :show-current="false" min="2022-07-15"></v-date-picker>
+          </v-row>
+          <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
+          <v-row align="center" justify-space-between>
+            <v-col
+              class="d-flex"
+              cols="12"
+              sm="6"
+            >
+            <v-card-text align="center" class="mt-n3 text-h5">Every</v-card-text>
+            
+            
+              <v-select
+              dense
+                :items="repeatIntervalInput"
+                outlined
+                label=""
+              ></v-select>
+            </v-col>
+      
+            <v-col
+              
+              class="d-flex"
+              cols="12"
+              sm="6"
+            >
+              <v-select
+              dense
+                :items="dayWeek"
+                outlined
+                label=""
+              ></v-select>
+            </v-col>
+            <v-card-text>Just a one time job?</v-card-text>
+            <v-checkbox
+      v-model="dontRepeatBox"
+      :label= "DontRepeat"
+    ></v-checkbox>
+           <v-card-actions justify-center>
+                <v-btn v-on:click="" class="mx-auto"  color="grey lighten-4">
+                    Post Lawn
+                </v-btn>
+             </v-card-actions>
+    
+            </v-card>
+          
+          
+          
+          </div>
 
 
 
@@ -219,7 +304,6 @@
 
 
 
-<!-- CREATE ACCOUNT PAGE page = "createAccount"; -->
 
 
 
@@ -228,14 +312,12 @@
 
 
 
+          
 
 
 
 
-
-
-  <!-- POST A LAWN PAGE -- page = "createPost"; -->
-
+          
 
 
 </v-main>
