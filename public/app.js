@@ -97,9 +97,7 @@ var app = new Vue({
                 this.page = "profile-page";
             } else if (response.status == 401) {
                 console.log("Incorrect username or password. Try again.");
-                this.page = "landing-page";
             } else {
-                this.page = "landing-page";
                 console.log("Error logging in, status: " + response.status);
             }
         },
@@ -135,6 +133,7 @@ var app = new Vue({
         postSession: async function () {
             if (this.usernameInput == "" || this.passwordInput == "") {
                 console.log("Username or Password field is empty");
+                return
             }
             let loginCredentials = {
                 username: this.usernameInput,
@@ -148,9 +147,6 @@ var app = new Vue({
                 },
                 credentials: "include"
             });
-
-            //Parse response data
-            let body = await response.json();
 
             //Check for successful login
             if (response.status == 201) {
@@ -198,7 +194,7 @@ var app = new Vue({
                     "username" : this.newUsernameInput,
                     "password" : this.newPasswordInput,
                     "fullname" : this.newFullNameInput,
-                    "role" : this.newDefaultRoleInput,
+                    "defaultrole" : this.newDefaultRole,
                     "email" : this.newEmailInput,
                     "phone" : this.newPhoneInput,
                 }

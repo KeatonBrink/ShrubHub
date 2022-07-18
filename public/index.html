@@ -5,6 +5,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
   <title>Shrubhub</title>
 </head>
@@ -20,11 +21,25 @@
             <v-img src="https://svgur.com/i/jDN.svg" height="80px" width="80px"></v-img>
           </div>
           <v-spacer></v-spacer>
+
+          <v-btn v-show="page != 'mowermain'" @click="page = 'mowermain'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+            <v-toolbar-title>Lawn Search</v-toolbar-title>
+          </v-btn>
+
           <div v-if="page == 'landing-page'">
             <v-btn width="80px" height="30px" class="rounded-pill grey lighten-2">
               <v-toolbar-title @click="page= 'login-page'">Log in</v-toolbar-title>
             </v-btn>
           </div>
+
+          <v-btn v-show="page == 'profile-page'" @click="page = 'create-post-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+            <v-toolbar-title>Post Lawn</v-toolbar-title>
+          </v-btn>
+
+          <v-btn v-show="page != 'profile-page'" @click="page = 'profile-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+            <v-toolbar-title>Profile</v-toolbar-title>
+          </v-btn>
+
         </v-app-bar>
 
         <!-- LANDING PAGE -->
@@ -91,11 +106,11 @@
               </v-text-field>
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="page = 'profile-page'; postSession();" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="postSession();" class="mx-auto" color="grey lighten-4">
                 Login
               </v-btn>
             </v-card-actions>
-            <v-card-text>Dont have an account? Create one <v-btn v-on:click="page = 'create-account-page'" elevation="0"
+            <v-card-text>Dont have an account? Create one. <v-btn v-on:click="page = 'create-account-page'" elevation="0"
                 class="lime lighten-5">here</v-btn>
             </v-card-text>
           </v-card>
@@ -114,10 +129,10 @@
               Are you planning on mowing or posting a lawn?
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="newDefaultRole = `mower`" class="mx-auto" color="grey lighten-4">
                 Mowing
               </v-btn>
-              <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="newDefaultRole = `poster`" class="mx-auto" color="grey lighten-4">
                 Posting
               </v-btn>
             </v-card-actions>
@@ -130,7 +145,7 @@
 
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="postUser" class="mx-auto" color="grey lighten-4">
                 Create Account
               </v-btn>
             </v-card-actions>
@@ -331,7 +346,7 @@
           <v-date-picker color="green darken-4" v-model="date1" :show-current="false" min="2022-07-15"></v-date-picker>
         </v-row>
         <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
-        <v-row align="center" justify-space-between>
+        <v-row class="ma-3" align="center" justify-space-between>
           <v-col
             class="d-flex"
             cols="12"
@@ -361,17 +376,21 @@
               label=""
             ></v-select>
           </v-col>
-          <v-card-text>Just a one time job?</v-card-text>
-          <v-checkbox
-    v-model="dontRepeatBox"
-    :label= "DontRepeat"
-  ></v-checkbox>
+
+          <v-card-text class="mr-0"style="width:35%"> Is this a one time job?</v-card-text>
+          
+    <v-checkbox
+            class="mr-16 pr-16"
+            v-model="dontRepeatBox"
+           :label= "'Dont Repeat'"
+            ></v-checkbox>
+
          <v-card-actions justify-center>
               <v-btn v-on:click="" class="mx-auto"  color="grey lighten-4">
                   Post Lawn
               </v-btn>
            </v-card-actions>
-  
+
           </v-card>
         
         
