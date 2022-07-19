@@ -153,14 +153,10 @@ var app = new Vue({
 
             //Check for successful login
             if (response.status == 201) {
-                console.log("success login")
-                //Succesful login
-                // console.log("Successful login attempt ", body);
-                this.usernameInput = "";
-                this.passwordInput = "";
+                console.log("Successful login attempt ");
                 //This is a terrible idea, I think
                 this.getSession();
-                this.getUser(this.currentUser.id)
+                this.getUser(this.currentUser.id);
             } else if (response.status == 401) {
                 console.log("Unsuccesful login attempt")
                 this.passwordInput = "";

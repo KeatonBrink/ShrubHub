@@ -106,7 +106,7 @@
               </v-text-field>
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="postSession();" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="postSession" class="mx-auto" color="grey lighten-4">
                 Login
               </v-btn>
             </v-card-actions>
@@ -115,6 +115,8 @@
             </v-card-text>
           </v-card>
         </div>
+
+
         <!-- CREATE ACCOUNT PAGE -->
         <div v-if="page == 'create-account-page'">
           <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
@@ -168,11 +170,11 @@
             <v-card-text><b>Username: </b>{{currentUser.username}}</v-card-text>
             <v-card-text><b>Email Address: </b>{{currentUser.email}}</v-card-text>
             <v-card-text><b>Phone Number: </b>{{currentUser.phonenumber}}</v-card-text>
-            <v-card-text><b>Current Page View: </b>{{Name}}</v-card-text>
+            <v-card-text><b>Current Page View: </b>{{currentUser.defaultRole}}</v-card-text>
             <v-card-title>Your Posts</v-card-title>
           </v-card>
           <v-divider></v-divider>
-          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4">
+          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null" v-for="lawn in targetUser.lawns">
             <v-row dense>
               <v-col>
                 <v-img
@@ -181,12 +183,12 @@
                   src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
               </v-col>
               <v-col>
-                <v-card-text class="ml-n16 py-0"><b>Address: </b>{{Name}}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>Status: </b>{{Name}}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>Pay: </b>{{Name}}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{Name}}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>One Time/Repeating: </b>{{Name}}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>Description: </b>{{Name}}</v-card-text>
+                <!-- <v-card-text class="ml-n16 py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
+                <v-card-text class="ml-n16 py-0"><b>Status: </b>{{ lawn.public }}</v-card-text>
+                <v-card-text class="ml-n16 py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
+                <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{ lawn.startDate }}</v-card-text>
+                <v-card-text class="ml-n16 py-0"><b>One Time/Repeating: </b>{{ lawn.startDate }}</v-card-text>
+                <v-card-text class="ml-n16 py-0"><b>Description: </b>{{ lawn.description }}</v-card-text> -->
               </v-col>
             </v-row>
           </v-card>
