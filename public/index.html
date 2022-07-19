@@ -23,21 +23,21 @@
           <v-spacer></v-spacer>
 
           <v-btn v-show="page != 'mowermain' && currentUserID != null" @click="page = 'mowermain'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
-            <v-toolbar-title>Lawn Search</v-toolbar-title>
+            <v-toolbar-title>Lawn Search <v-icon dark>mdi-magnify</v-icon></v-toolbar-title>
           </v-btn>
 
           
-            <v-btn v-show="currentUserID == null" width="auto" height="30px" class="rounded-pill grey lighten-2">
-              <v-toolbar-title @click="page= 'login-page'">Log in</v-toolbar-title>
+            <v-btn v-show="currentUserID == null && page != 'login-page'" width="auto" height="30px" class="rounded-pill grey lighten-2">
+              <v-toolbar-title @click="page= 'login-page'">Log in <v-icon dark>mdi-login</v-icon></v-toolbar-title>
             </v-btn>
           
 
           <v-btn v-show="page == 'profile-page' " @click="page = 'create-post-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
-            <v-toolbar-title>Post Lawn</v-toolbar-title>
+            <v-toolbar-title>Post Lawn<v-icon dark>mdi-grass</v-icon></v-toolbar-title>
           </v-btn>
 
           <v-btn v-show="page != 'profile-page'  && currentUserID != null" @click="page = 'profile-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
-            <v-toolbar-title>Profile</v-toolbar-title>
+            <v-toolbar-title>Profile <v-icon dark>mdi-account-circle</v-icon></v-toolbar-title>
           </v-btn>
           <v-card-header v-if="currentUserID != null" class="white--text">Logged in as: {{currentUserFullName}}</v-card-header>
         </v-app-bar>
