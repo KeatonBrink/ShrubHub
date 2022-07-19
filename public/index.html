@@ -22,11 +22,11 @@
           </div>
           <v-spacer></v-spacer>
 
-          <v-btn v-show="page != 'mowermain'" @click="page = 'mowermain'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+          <v-btn v-show="page != 'mowermain' && currentUser != null" @click="page = 'mowermain'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
             <v-toolbar-title>Lawn Search</v-toolbar-title>
           </v-btn>
 
-          <div v-if="page == 'landing-page'">
+          <div v-if="page == 'landing-page' && currentUser == null">
             <v-btn width="80px" height="30px" class="rounded-pill grey lighten-2">
               <v-toolbar-title @click="page= 'login-page'">Log in</v-toolbar-title>
             </v-btn>
@@ -36,9 +36,10 @@
             <v-toolbar-title>Post Lawn</v-toolbar-title>
           </v-btn>
 
-          <v-btn v-show="page != 'profile-page'" @click="page = 'profile-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+          <v-btn v-show="page != 'profile-page' && currentUser != null" @click="page = 'profile-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
             <v-toolbar-title>Profile</v-toolbar-title>
           </v-btn>
+          <v-card-header v-show="currentUser != null" class="white--text">Logged in as {{currentUser.fullname}}</v-card-header>
 
         </v-app-bar>
 
