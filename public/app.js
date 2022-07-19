@@ -21,6 +21,7 @@ var app = new Vue({
         page: "landing-page",
 
         currentUserID: null,
+        currentUserFullName: null,
         currentLawn: null,
         targetUser: null,
         targetLawn: null,
@@ -95,6 +96,8 @@ var app = new Vue({
             if (response.status == 200) {
                 this.targetUser = await response.json();
                 this.currentUserID = this.targetUser.ID
+                console.log(this.targetUser.fullname)
+                this.currentUserFullName = this.targetUser.fullname
                 console.log("Log In Successful");
                 this.page = "profile-page";
                 return
