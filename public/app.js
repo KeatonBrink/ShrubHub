@@ -20,9 +20,8 @@ var app = new Vue({
     data: {
         page: "landing-page",
 
-        currentUser: null,
+        currentUserID: null,
         currentLawn: null,
-        currentLawns: [],
         targetUser: null,
         targetLawn: null,
         allLawns: null,
@@ -94,7 +93,8 @@ var app = new Vue({
                 credentials: "include"
             });
             if (response.status == 200) {
-                this.currentUser = await response.json()
+                this.targetUser = await response.json();
+                this.currentUserID = this.targetUser.ID
                 console.log("Log In Successful");
                 this.page = "profile-page";
             } else if (response.status == 401) {
@@ -122,15 +122,13 @@ var app = new Vue({
             if (response.status == 200) {
                 //Succesful creation
                 this.targetUser = body;
-                this.currentLawns = body.lawns;
                 console.log("Successful user get");
+                this.page = "profile-page";
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get user")
             } else {
                 console.log("Some sort of error when GET /user/:id");
             }
-
-
         },
 
         postSession: async function () {
@@ -160,7 +158,7 @@ var app = new Vue({
                 this.passwordInput = "";
                 //This is a terrible idea, I think
                 this.getSession();
-                this.getUser(this.currentUser.id)
+                this.getUser(this.currentUserID);
             } else if (response.status == 401) {
                 console.log("Unsuccesful login attempt")
                 this.passwordInput = "";

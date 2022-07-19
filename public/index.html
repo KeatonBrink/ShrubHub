@@ -164,11 +164,11 @@
         <div style="width: fit-content" class="mx-auto" v-if="page == 'profile-page'">
           <v-card width="350" elevation="0" class="lime lighten-5  mt-6">
             <v-card-title>Your Profile</v-card-title>
-            <v-card-text><b>Name: </b>{{currentUser.fullname}}</v-card-text>
-            <v-card-text><b>Username: </b>{{currentUser.username}}</v-card-text>
-            <v-card-text><b>Email Address: </b>{{currentUser.email}}</v-card-text>
-            <v-card-text><b>Phone Number: </b>{{currentUser.phonenumber}}</v-card-text>
-            <v-card-text><b>Current Page View: </b>{{Name}}</v-card-text>
+            <v-card-text><b>Name: </b>{{targetUser.fullname}}</v-card-text>
+            <v-card-text><b>Username: </b>{{targetUser.username}}</v-card-text>
+            <v-card-text><b>Email Address: </b>{{targetUser.email}}</v-card-text>
+            <v-card-text><b>Phone Number: </b>{{targetUser.phonenumber}}</v-card-text>
+            <!-- <v-card-text><b>Current Page View: </b>{{Name}}</v-card-text> -->
             <v-card-title>Your Posts</v-card-title>
           </v-card>
           <v-divider></v-divider>
@@ -181,12 +181,12 @@
                   src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
               </v-col>
               <v-col>
-                <v-card-text class="ml-n16 py-0"><b>Address: </b>{{Name}}</v-card-text>
+                <!-- <v-card-text class="ml-n16 py-0"><b>Address: </b>{{Name}}</v-card-text>
                 <v-card-text class="ml-n16 py-0"><b>Status: </b>{{Name}}</v-card-text>
                 <v-card-text class="ml-n16 py-0"><b>Pay: </b>{{Name}}</v-card-text>
                 <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{Name}}</v-card-text>
                 <v-card-text class="ml-n16 py-0"><b>One Time/Repeating: </b>{{Name}}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>Description: </b>{{Name}}</v-card-text>
+                <v-card-text class="ml-n16 py-0"><b>Description: </b>{{Name}}</v-card-text> -->
               </v-col>
             </v-row>
           </v-card>
