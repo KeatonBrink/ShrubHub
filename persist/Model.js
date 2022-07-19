@@ -63,6 +63,21 @@ const lawnSchema = mongoose.Schema({
     {timestamps: true},
 );
 
+var imageSchema = new mongoose.Schema({
+    name: String,
+    desc: String,
+    img:
+    {
+        data: Buffer,
+        contentType: String
+    },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectID,
+        ref: "User",
+        required: true,
+    },
+});
+
 // const reviewSchema = mongoose.Schema({
 //     user_id: {
 //         type: mongoose.Schema.Types.ObjectID,
@@ -81,8 +96,10 @@ const lawnSchema = mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 const Lawn = mongoose.model("Lawn", lawnSchema);
+const Image = mongoose.model("Image", imageSchema);
 
 module.exports = { 
     User,
     Lawn,
+    Image,
 };
