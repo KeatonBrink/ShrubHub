@@ -71,7 +71,7 @@
                     </div>
                   </v-card-text>
                   <v-card-actions class="justify-center">
-                    <v-btn v-on:click="page = 'create-account-page'" width="300px" height="60px"
+                    <v-btn v-on:click="page = 'create-account-page' ; newDefaultRole = 'mower'" width="300px" height="60px"
                       class="mt-16px grey lighten-2">Sign Up</v-btn>
                   </v-card-actions>
                 </v-card>
@@ -84,7 +84,7 @@
                     <div style="width: fit-content" class="mx-auto">Sign up today to get your lawn mowed </div>
                   </v-card-text>
                   <v-card-actions class="justify-center">
-                    <v-btn v-on:click="page = 'create-account-page'" width="300px" height="60px"
+                    <v-btn v-on:click="page = 'create-account-page' ; newDefaultRole = 'poster'" width="300px" height="60px"
                       class="mt-16px grey lighten-2">Sign Up</v-btn>
                   </v-card-actions>
                 </v-card>
@@ -102,7 +102,7 @@
             <v-card-text>
               <v-text-field label="Username" v-model="usernameInput">
               </v-text-field>
-              <v-text-field label="Password" v-model="passwordInput">
+              <v-text-field label="Password" v-model="passwordInput" type="password">
               </v-text-field>
             </v-card-text>
             <v-card-actions>
@@ -122,17 +122,23 @@
             <v-card-text>
               <v-text-field label="Username" v-model="newUsernameInput">
               </v-text-field>
-              <v-text-field label="Password" v-model="newPasswordInput">
+              <v-text-field label="Password" v-model="newPasswordInput" type="password">
               </v-text-field>
-              <v-text-field label="Retype Password" v-model="newPasswordInput2">
+              <v-text-field label="Retype Password" v-model="newPasswordInput2" type="password">
               </v-text-field>
               Are you planning on mowing or posting a lawn?
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="newDefaultRole = `mower`" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="newDefaultRole = `mower`"
+              class="mx-auto"
+              :color='newDefaultRole == "mower" ? "#005921" : "grey lighten-4"'
+              :class='newDefaultRole == "mower" ? "white--text" : "black--text"'>
                 Mowing
               </v-btn>
-              <v-btn v-on:click="newDefaultRole = `poster`" class="mx-auto" color="grey lighten-4">
+              <v-btn v-on:click="newDefaultRole = `poster`"
+              class="mx-auto"
+              :color='newDefaultRole == "poster" ? "#005921" : "grey lighten-4"'
+              :class='newDefaultRole == "poster" ? "white--text" : "black--text"'>
                 Posting
               </v-btn>
             </v-card-actions>
