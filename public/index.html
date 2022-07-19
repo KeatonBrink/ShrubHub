@@ -102,11 +102,11 @@
             <v-card-text>
               <v-text-field label="Username" v-model="usernameInput">
               </v-text-field>
-              <v-text-field label="Password" v-model="passwordInput" type="password">
+              <v-text-field v-on:keyup.enter="postSession"label="Password" v-model="passwordInput" type="password">
               </v-text-field>
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="postSession" class="mx-auto" color="grey lighten-4">
+              <v-btn  v-on:click="postSession" class="mx-auto" color="grey lighten-4">
                 Login
               </v-btn>
             </v-card-actions>
@@ -175,7 +175,6 @@
             <v-card-text><b>Name: </b>{{targetUser.fullname}}</v-card-text>
             <v-card-text><b>Email Address: </b>{{targetUser.email}}</v-card-text>
             <v-card-text><b>Phone Number: </b>{{targetUser.phonenumber}}</v-card-text>
-            <v-card-text><b>Current Page View: </b>{{targetUser.defaultrole}}</v-card-text>
             <v-card-title>Your Posts</v-card-title>
           </v-card>
           <v-divider></v-divider>
@@ -197,7 +196,7 @@
               </v-col>
             </v-row>
           </v-card>
-          <v-btn class="mx-auto rounded-pill" @click="page = 'create-post-page'">Add New Lawn +</v-btn>
+          <v-btn class="mx-auto rounded-pill my-4" @click="page = 'create-post-page'">Add New Lawn +</v-btn>
         </div>
 
 
@@ -306,7 +305,7 @@
                     <v-btn v-else @click="startDateFilterReveal = false" class="pa-4 px-13">Hide Start Date</v-btn>
                   </v-card-actions>
 
-                  <v-date-picker v-if="startDateFilterReveal" v-model="startDateFilter"></v-date-picker>
+                  <v-date-picker color="green darken-4"v-if="startDateFilterReveal" v-model="startDateFilter"></v-date-picker>
 
                 </v-row>
 
@@ -402,6 +401,7 @@
           <v-card-text class="mr-0"style="width:35%"> Is this a one time job?</v-card-text>
           
     <v-checkbox
+        color="green darken-4"
             class="mr-16 pr-16"
             v-model="dontRepeatBox"
            :label= "'Dont Repeat'"
