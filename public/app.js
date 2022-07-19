@@ -20,9 +20,8 @@ var app = new Vue({
     data: {
         page: "landing-page",
 
-        currentUser: null,
+        currentUserID: null,
         currentLawn: null,
-        currentLawns: [],
         targetUser: null,
         targetLawn: null,
         allLawns: null,
@@ -94,11 +93,13 @@ var app = new Vue({
                 credentials: "include"
             });
             if (response.status == 200) {
-                this.currentUser = await response.json()
+                this.targetUser = await response.json();
+                this.currentUserID = this.targetUser.ID
                 console.log("Log In Successful");
                 this.page = "profile-page";
+                return
             } else if (response.status == 401) {
-                console.log("Incorrect username or password. Try again.");
+                console.log("No User signed in.");
             } else {
                 console.log("Error logging in, status: " + response.status);
             }
@@ -122,15 +123,13 @@ var app = new Vue({
             if (response.status == 200) {
                 //Succesful creation
                 this.targetUser = body;
-                this.currentLawns = body.lawns;
                 console.log("Successful user get");
+                this.page = "profile-page";
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get user")
             } else {
                 console.log("Some sort of error when GET /user/:id");
             }
-
-
         },
 
         postSession: async function () {
@@ -153,14 +152,11 @@ var app = new Vue({
 
             //Check for successful login
             if (response.status == 201) {
-                console.log("success login")
-                //Succesful login
-                // console.log("Successful login attempt ", body);
-                this.usernameInput = "";
-                this.passwordInput = "";
+                console.log("Successful login attempt ");
                 //This is a terrible idea, I think
-                this.getSession();
-                this.getUser(this.currentUser.id)
+                await this.getSession();
+                console.log(this.currentUserID);
+                this.getUser(this.currentUserID);
             } else if (response.status == 401) {
                 console.log("Unsuccesful login attempt")
                 this.passwordInput = "";
