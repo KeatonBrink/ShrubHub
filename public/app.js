@@ -385,6 +385,11 @@ var app = new Vue({
             console.log(day + ': ' + this.dayOfWeekFilter[day]);
             return this.dayOfWeekFilter
         },
+
+        lengthOfLawns: function (array) {
+            console.log(Math.ceil(array.length / 3))
+            return Math.ceil(array.length / 3)
+        }
     },
 
     created: function () {
