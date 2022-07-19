@@ -97,8 +97,9 @@ var app = new Vue({
                 this.currentUserID = this.targetUser.ID
                 console.log("Log In Successful");
                 this.page = "profile-page";
+                return
             } else if (response.status == 401) {
-                console.log("Incorrect username or password. Try again.");
+                console.log("No User signed in.");
             } else {
                 console.log("Error logging in, status: " + response.status);
             }
@@ -153,7 +154,8 @@ var app = new Vue({
             if (response.status == 201) {
                 console.log("Successful login attempt ");
                 //This is a terrible idea, I think
-                this.getSession();
+                await this.getSession();
+                console.log(this.currentUserID);
                 this.getUser(this.currentUserID);
             } else if (response.status == 401) {
                 console.log("Unsuccesful login attempt")
