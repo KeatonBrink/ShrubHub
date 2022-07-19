@@ -46,7 +46,7 @@ const setUpAuth = function (app) {
             res.status(401).json({message: "unauthorized"});
             return;
         }
-        res.status(200).json({message: "authorized", username: req.user.username, fullname: req.user.fullname, role: req.user.defaultrole, address: req.user.address, email: req.user.email, phonenumber: req.user.phonenumber});
+        res.status(200).json({message: "authorized", ID: req.user.id, username: req.user.username, fullname: req.user.fullname, role: req.user.defaultrole, address: req.user.address, email: req.user.email, phonenumber: req.user.phonenumber});
     })
 }
 

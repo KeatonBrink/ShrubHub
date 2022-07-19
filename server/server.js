@@ -35,7 +35,7 @@ app.post("/user", async (req, res) => {
             email: req.body.email,
             // address: req.body.address,
             // mower or poster
-            defaultrole: req.body.role,
+            defaultRole: req.body.defaultRole,
             phonenumber: req.body.phone
         });
         console.log("2")
