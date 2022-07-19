@@ -1,11 +1,34 @@
 //Connecting all required files
 const express = require('express');
 //This may not be hooked up correctly
-const {User, Lawn} = require("../persist/model");
+const {User, Lawn, Image} = require("../persist/model");
 const setUpAuth = require("./auth");
 const setUpSession = require("./session");
 const app = express();
+var bodyParser = require('body-parser');
+
+var fs = require('fs');
+var path = require('path');
 const configg = require('dotenv').config()
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+  
+// Set EJS as templating engine 
+app.set("view engine", "ejs");
+
+var multer = require('multer');
+  
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+  
+var upload = multer({ storage: storage });
 
 /*
 Check authenticated
@@ -17,10 +40,43 @@ Perform action
 app.use(express.json());
 
 //allow serving of UI code
-app.use(express.static(`${__dirname}/../public`));
+app.use(express.static(`${__dirname}/../views`));
 
 setUpSession(app);
 setUpAuth(app);
+
+app.get('/images', (req, res) => {
+    Image.find({}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('An error occurred', err);
+        }
+        else {
+            res.render('index', { items: items });
+        }
+    });
+});
+
+app.post('/', upload.single('image'), (req, res, next) => {
+  
+    var obj = {
+        name: req.body.name,
+        desc: req.body.desc,
+        img: {
+            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+            contentType: 'image/png'
+        }
+    }
+    imgModel.create(obj, (err, item) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            // item.save();
+            res.redirect('/');
+        }
+    });
+});
 
 //How the backend handles a create mower request
 app.post("/user", async (req, res) => {
