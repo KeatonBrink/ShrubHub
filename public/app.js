@@ -394,6 +394,7 @@ var app = new Vue({
 
     created: function () {
         this.getSession();
+        this.getLawns();
     }
             
 });
