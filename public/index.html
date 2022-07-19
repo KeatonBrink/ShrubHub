@@ -39,7 +39,7 @@
           <v-btn v-show="page != 'profile-page'  && currentUserID != null" @click="page = 'profile-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
             <v-toolbar-title>Profile</v-toolbar-title>
           </v-btn>
-          <v-card-header v-if="currentUserID != null" class="white--text">Logged in as: {{currentUserID.fullname}}</v-card-header>
+          <v-card-header v-if="currentUserID != null" class="white--text">Logged in as: {{currentUserFullName}}</v-card-header>
         </v-app-bar>
 
         <!-- LANDING PAGE -->
