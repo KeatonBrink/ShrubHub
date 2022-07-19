@@ -5,7 +5,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style">
+  <link rel="stylesheet" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
   <title>Shrubhub</title>
 </head>
@@ -26,20 +26,20 @@
             <v-toolbar-title>Lawn Search</v-toolbar-title>
           </v-btn>
 
-          <div v-if="page == 'landing-page'">
-            <v-btn width="80px" height="30px" class="rounded-pill grey lighten-2">
+          
+            <v-btn v-show="currentUser == null" width="auto" height="30px" class="rounded-pill grey lighten-2">
               <v-toolbar-title @click="page= 'login-page'">Log in</v-toolbar-title>
             </v-btn>
-          </div>
+          
 
-          <v-btn v-show="page == 'profile-page'" @click="page = 'create-post-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+          <v-btn v-show="page == 'profile-page' " @click="page = 'create-post-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
             <v-toolbar-title>Post Lawn</v-toolbar-title>
           </v-btn>
 
-          <v-btn v-show="page != 'profile-page'" @click="page = 'profile-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+          <v-btn v-show="page != 'profile-page'  && currentUser != null" @click="page = 'profile-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
             <v-toolbar-title>Profile</v-toolbar-title>
           </v-btn>
-
+          <v-card-header v-if="currentUser != null" class="white--text">Logged in as: {{currentUser.fullname}}</v-card-header>
         </v-app-bar>
 
         <!-- LANDING PAGE -->
@@ -168,7 +168,6 @@
             <v-card-text><b>Username: </b>{{currentUser.username}}</v-card-text>
             <v-card-text><b>Email Address: </b>{{currentUser.email}}</v-card-text>
             <v-card-text><b>Phone Number: </b>{{currentUser.phonenumber}}</v-card-text>
-            <v-card-text><b>Current Page View: </b>{{Name}}</v-card-text>
             <v-card-title>Your Posts</v-card-title>
           </v-card>
           <v-divider></v-divider>
