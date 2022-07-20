@@ -326,11 +326,7 @@
 
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
-<<<<<<< HEAD
-              <v-card v-for="(lawn, index) in allLawns" key=index width="30%" class="my-5" v-on:click="getUser(lawn.user_id); page='profile-page';">
-=======
-              <v-card v-for="(lawn, index) in allLawns" key=index width="30%" class="my-5" v-show="lawnFilterCheck(lawn)">
->>>>>>> kenny-lawnFilters
+              <v-card v-for="(lawn, index) in allLawns" key=index width="30%" class="my-5" v-show="lawnFilterCheck(lawn)" v-on:click="getUser(lawn.user_id); page='profile-page';">
                 <v-card-text class="black--text"><b>Address: {{ lawn.address }}</b></v-card-text>
                 <v-card-text class="black--text"><b>Pay: ${{ lawn.pay }}</b></v-card-text>
                 <v-card-text class="black--text"><b>Start Date: {{ lawn.startdate }}</b></v-card-text>
@@ -372,11 +368,7 @@
          </v-card-text>
          <v-card-title class="text-h5">When do you want your lawn mowed?</v-card-title>
          <v-row justify="center">
-<<<<<<< HEAD
-          <v-date-picker color="green darken-4" v-model="date1" min="2022-07-20"></v-date-picker>
-=======
           <v-date-picker color="green darken-4" v-model="newLawnStartDate" :show-current="false" min="2022-07-15"></v-date-picker>
->>>>>>> george_fixPostLawn
         </v-row>
         <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
         <v-row class="ma-3" align="center" justify-space-between>
