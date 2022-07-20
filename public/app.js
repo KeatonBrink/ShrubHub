@@ -20,6 +20,10 @@ var app = new Vue({
     data: {
         page: "landing-page",
 
+        logInputError:"",
+        createAccError:"",
+        postLawnError:"",
+        
         currentUserID: null,
         currentUserFullName: null,
         currentLawn: null,
@@ -138,6 +142,7 @@ var app = new Vue({
         postSession: async function () {
             if (this.usernameInput == "" || this.passwordInput == "") {
                 console.log("Username or Password field is empty");
+                this.logInputError="Username or Password field is empty"
                 return
             }
             let loginCredentials = {
@@ -162,6 +167,7 @@ var app = new Vue({
                 this.getUser(this.currentUserID);
             } else if (response.status == 401) {
                 console.log("Unsuccesful login attempt")
+                this.logInputError= "Unsuccesful login attempt"
                 this.passwordInput = "";
             } else {
                 console.log("Some sort of error when POST /session. Error details: "+response.status+" "+response);
@@ -169,26 +175,33 @@ var app = new Vue({
         },
 
         postUser: async function () {
-            if (this.newUsernameInput == null) {
+            if (this.newUsernameInput == "") {
                 console.log("Please insert a username.");
+                this.createAccError="Please insert a username.";
                 return
-            } else if (this.newPasswordInput == null) {
+            } else if (this.newPasswordInput == "") {
                 console.log("Please insert a password");
+                this.createAccError="Please insert a password";
                 return
             } else if (this.newPasswordInput != this.newPasswordInput2) {
                 console.log("Password inputs do not match. Re-type your password.");
+                this.createAccError="Password inputs do not match. Re-type your password.";
                 return
-            } else if (this.newDefaultRole == null) {
+            } else if (this.newDefaultRole == "") {
                 console.log("Please select a mowing or posting role.");
+                this.createAccError="Please select a mowing or posting role.";
                 return
-            } else if (this.newEmailInput == null) {
+            } else if (this.newFullNameInput == "") {
+                console.log("Please insert your full name.");
+                this.createAccError="Please insert your full name.";
+                return
+            } else if (this.newEmailInput == "") {
                 console.log("Please insert a valid email address.");
+                this.createAccError="Please insert a valid email address.";
                 return
-            } else if (this.newPhoneInput == null) {
+            } else if (this.newPhoneInput == "") {
                 console.log("Please insert a valid phone number");
-                return
-            } else if (this.newPhoneInput == null) {
-                console.log("Please insert a valid phone number");
+                this.createAccError="Please insert a valid phone number";
                 return
             //Once user passes all checks, and no fields are null...
             } else {
@@ -210,7 +223,8 @@ var app = new Vue({
                 });
                 
                 if (response.status == 500) {
-                    console.log("Username or email already taken. Please provide a new username.")
+                    console.log("Username or email already taken. Please provide a new username or email.")
+                    this.createAccError="Username or email already taken. Please provide a new username or email.";
                     console.log("Response status is "+response.status+". More info: "+response)
                     return
                 } else if (response.status == 404) {
@@ -244,7 +258,7 @@ var app = new Vue({
                 //Succesful creation
                 this.allLawns = body;
                 console.log("Successful lawns get");
-                this.page = "mowermain";
+               
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get lawns")
             } else {
@@ -282,24 +296,31 @@ var app = new Vue({
         postLawn: async function () {
             if (this.newLawnDescription == "") {
                 console.log("Please add a description.");
+                this.postLawnError="Please add a description.";
                 return
             } else if (this.newLawnAddress == "") {
-                console.log("Please insert a password");
+                console.log("Please insert an address");
+                this.postLawnError="Please insert an address";
                 return
             } else if (this.newLawnPay == "") {
                 console.log("Please insert a pay scale");
+                this.postLawnError="Please insert a pay scale";
                 return
             } else if (this.newLawnStartDate == "") {
                 console.log("Please pick a start date");
+                this.postLawnError="Please pick a start date";
                 return
             } else if (this.newLawnMowInterval == "") {
                 console.log("Please pick a mow interval");
+                this.postLawnError="Please pick a mow interval";
                 return
             } else if (this.newLawnEndDate == "") {
                 console.log("Please pick an end date.");
+                this.postLawnError="Please pick an end date.";
                 return
             } else if (this.newLawnTime2Mow == "") {
                 console.log("Please pick an appropriate time to mow");
+                this.postLawnError="Please pick an appropriate time to mow";
                 return
             }
             //Once user passes all checks, and no fields are null...
