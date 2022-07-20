@@ -50,15 +50,15 @@ const lawnSchema = mongoose.Schema({
     image: {},
     pay: {type: Number, required: true, default: 0},
     // We can either change type, or use a parser on the api
-    mowInterval: {type: String, required: true, default: "1 week"},
+    mowInterval: {type: String, required: false, default: ""},
     startDate: {type: Date, required: true, default: new Date},
-    endDate: {type: Date, required: true, default: new Date},
+    //endDate: {type: Date, required: true, default: new Date},
     //Lets plan on time to mow being in minutes
     time2Mow: {type: Number, required: true, default: 10},
-    hasLawnMower: {type: Boolean, required: true, default: false},
-    hasDogPoop: {type: Boolean, required: true, default: false},
-    hasFreeFood: {type: Boolean, required: true, default: false},
-    hasFreeWater: {type: Boolean, required: true, default: false},
+    hasLawnMower: {type: Boolean, required: false, default: false},
+    hasDogPoop: {type: Boolean, required: false, default: false},
+    hasFreeFood: {type: Boolean, required: false, default: false},
+    hasFreeWater: {type: Boolean, required: false, default: false},
     },
     {timestamps: true},
 );

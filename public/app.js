@@ -37,16 +37,22 @@ var app = new Vue({
         newFullNameInput: "",
         newEmailInput: "",
         newPhoneInput: "",
-        newProfilePic: "",
+        //newProfilePic: "",
         newDefaultRole: "",
 
-        newLawnDescription: "",
+        
         newLawnAddress: "",
-        newLawnPay: "",
-        newLawnMowInterval: "",
-        newLawnStartDate: "",
-        newLawnEndDate: "",
         newLawnTime2Mow: "",
+        newLawnImage: "",
+        newLawnPay: "",
+        newLawnDescription: "",
+        newLawnStartDate: "",
+        newRepeatInterval_number: "",
+        newRepeatInterval_dayweek: "",
+        newLawnEndDate: "",
+        dontRepeatBox: false,
+        newLawnMowInterval: "",
+        
         newLawnHasLawnMower: false,
         newLawnHasDogPoop: false,
         newLawnHasFreeFood: false,
@@ -281,33 +287,35 @@ var app = new Vue({
                 console.log("Please add a description.");
                 return
             } else if (this.newLawnAddress == "") {
-                console.log("Please insert a password");
+                console.log("Please insert a valid address");
                 return
             } else if (this.newLawnPay == "") {
-                console.log("Please insert a pay scale");
+                console.log("Please insert a pay scale for this job.");
                 return
             } else if (this.newLawnStartDate == "") {
                 console.log("Please pick a start date");
                 return
-            } else if (this.newLawnMowInterval == "") {
-                console.log("Please pick a mow interval");
+            } else if (this.newRepeatInterval_dayweek == "" || this.newRepeatInterval_number == "") {
+                console.log("Please select your mow interval");
                 return
-            } else if (this.newLawnEndDate == "") {
-                console.log("Please pick an end date.");
-                return
+            // } else if (this.newLawnEndDate == "") {
+            //     console.log("Please pick an end date.");
+            //     return
             } else if (this.newLawnTime2Mow == "") {
-                console.log("Please pick an appropriate time to mow");
+                console.log("Please verify how long it takes to mow your lawn.");
                 return
             }
             //Once user passes all checks, and no fields are null...
             let lawnSpecifics = {
-                "description" : this.newLawnDescription,
                 "address" : this.newLawnAddress,
-                "pay" : this.newLawnPay,
-                "mowInterval" : this.newLawnMowInterval,
-                "startDate" : this.newLawnStartDate,
-                "endDate" : this.newLawnEndDate,
                 "time2Mow": this.newLawnTime2Mow,
+                "image" : this.newLawnImage,
+                "pay" : this.newLawnPay,
+                "description" : this.newLawnDescription,
+                "startDate" : this.newLawnStartDate,
+                "mowInterval" : this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek,
+
+                // "endDate" : this.newLawnEndDate,
                 "hasLawnMower": this.newLawnHasLawnMower,
                 "hasDogPoop": this.newLawnHasDogPoop,
                 "hasFreeFood": this.newLawnHasFreeFood,
@@ -342,10 +350,9 @@ var app = new Vue({
                 this.getUser(currentUser._id);
                 console.log("Successful lawn attempt");
             } else if (response.status >= 400) {
-                console.log ("Unsuccesful lawn creation attempt")
-                this.hasFailedThread = 1;
+                console.log ("Unsuccesful lawn creation attempt");
             } else {
-                console.log("Some sort of error when POST /lawn");
+                console.log("Some sort of error when POST /lawn: "+response.status+response);
             }
         },
 
