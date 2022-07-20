@@ -326,7 +326,7 @@
 
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
-              <v-card v-for="(lawn, index) in allLawns" key=index width="30%" class="my-5" v-show="lawnFilterCheck(lawn)" v-on:click="getUser(lawn.user_id); page='profile-page';">
+              <v-card v-for="(lawn, index) in allLawns" key=index width="30%" class="my-5" v-on:click="getUser(lawn.user_id); page='profile-page';" v-show="lawnFilterCheck(lawn)">
                 <v-card-text class="black--text"><b>Address: {{ lawn.address }}</b></v-card-text>
                 <v-card-text class="black--text"><b>Pay: ${{ lawn.pay }}</b></v-card-text>
                 <v-card-text class="black--text"><b>Start Date: {{ lawn.startdate }}</b></v-card-text>
@@ -340,35 +340,37 @@
         <div v-if="page == 'create-post-page'">
           <v-card width="500" elevation="5" class="ma-auto mt-8 lime lighten-5">
             <v-card-title class="text-h2">Post Your Lawn</v-card-title>
-            <v-card-text>The information provided below will be displayed on a public page. <br>
-              Please be clear and concise for faster mower reservations.</v-card-text>
+            <v-card-text>The information provided below will be displayed on a public page. 
+              Please be concise and clear for faster mower reservations.</v-card-text>
             <v-card-text>
                <v-text-field 
                    label="Address"
-                   v-model="newLawnAddress"
+                   v-model="newPostAddressInput"
                >
                </v-text-field>
                <v-text-field 
                    label="Esimated time to mow"
-                   v-model="newLawnTime2Mow"
+                   v-model="estimatedTimeInput"
                >
                </v-text-field>
                <v-text-field 
                    label="Image Url"
-                   v-model="newLawnImage"
-               ></v-text-field>
+                   v-model="imageInput"
+               >
                <v-text-field 
                    label="Pay"
-                   v-model="newLawnPay"
-               ></v-text-field>
+                   v-model="payInput"
+               >
                <v-text-field 
                label="Description/Extra Info"
-               v-model="newLawnDescription"
-           ></v-text-field>
+               v-model="descriptionInput"
+           >
+
+
          </v-card-text>
          <v-card-title class="text-h5">When do you want your lawn mowed?</v-card-title>
          <v-row justify="center">
-          <v-date-picker color="green darken-4" v-model="newLawnStartDate" :show-current="false" min="2022-07-15"></v-date-picker>
+          <v-date-picker color="green darken-4" v-model="date1" min="2022-07-20"></v-date-picker>
         </v-row>
         <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
         <v-row class="ma-3" align="center" justify-space-between>
@@ -385,7 +387,6 @@
               :items="repeatIntervalInput"
               outlined
               label=""
-              v-model="newRepeatInterval_number"
             ></v-select>
           </v-col>
     
@@ -400,7 +401,6 @@
               :items="dayWeek"
               outlined
               label=""
-              v-model="newRepeatInterval_dayweek"
             ></v-select>
           </v-col>
 
