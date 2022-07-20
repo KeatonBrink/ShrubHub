@@ -98,6 +98,7 @@ var app = new Vue({
                 this.currentUserID = this.targetUser.ID
                 // console.log(this.targetUser.fullname)
                 this.currentUserFullName = this.targetUser.fullname
+                this.getUser(this.currentUserID);
                 console.log("Log In Successful");
                 this.page = "profile-page";
                 return
@@ -159,7 +160,6 @@ var app = new Vue({
                 //This is a terrible idea, I think
                 await this.getSession();
                 // console.log(this.currentUserID);
-                this.getUser(this.currentUserID);
             } else if (response.status == 401) {
                 console.log("Unsuccesful login attempt")
                 this.passwordInput = "";
