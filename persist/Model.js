@@ -39,7 +39,7 @@ const userSchema = mongoose.Schema({
 
 const lawnSchema = mongoose.Schema({
     description: {type: String, required: false, default: ""},
-    address: {type: String, required: true},
+    address: {type: String, required: true, default: ""},
     user_id: {
         type: mongoose.Schema.Types.ObjectID,
         ref: "User",
@@ -47,18 +47,18 @@ const lawnSchema = mongoose.Schema({
     },
     public: {type: Boolean, required: true, default: false},
     // Picture needed here
-    image: {},
-    pay: {type: Number, required: true, default: 0},
+    image: {type: String, required: false, default: ""},
+    pay: {type: String, required: true, default: 0},
     // We can either change type, or use a parser on the api
-    mowinterval: {type: String, required: true, default: "1 week"},
-    startdate: {type: Date, required: true, default: new Date},
-    enddate: {type: Date, required: true, default: new Date},
+    mowInterval: {type: String, required: false, default: ""},
+    startDate: {type: String, required: true, default: new Date},
+    //endDate: {type: Date, required: true, default: new Date},
     //Lets plan on time to mow being in minutes
-    time2mow: {type: Number, required: true, default: 10},
-    haslawnmower: {type: Boolean, required: true, default: false},
-    hasdogpoop: {type: Boolean, required: true, default: false},
-    hasfreefood: {type: Boolean, required: true, default: false},
-    hasfreewater: {type: Boolean, required: true, default: false},
+    time2mow: {type: String, required: true, default: 10},
+    haslawnmower: {type: Boolean, required: false, default: false},
+    hasdogpoop: {type: Boolean, required: false, default: false},
+    hasfreefood: {type: Boolean, required: false, default: false},
+    hasfreewater: {type: Boolean, required: false, default: false},
     },
     {timestamps: true},
 );
