@@ -24,9 +24,9 @@ setUpAuth(app);
 
 //How the backend handles a create mower request
 app.post("/user", async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     try {
-        console.log("1")
+        // console.log("1 ", req.body)
         // Take all the data from the front end and create a user
         let user = await User.create({
             username: req.body.username,
@@ -35,13 +35,14 @@ app.post("/user", async (req, res) => {
             email: req.body.email,
             // address: req.body.address,
             // mower or poster
-            defaultRole: req.body.defaultRole,
+            defaultrole: req.body.role,
             phonenumber: req.body.phone
         });
-        console.log("2")
-        console.log(user)
+        // console.log("2")
+        // console.log(user)
         res.status(201).json(user);
-        console.log("3")
+        // console.log("3")
+        return;
     } catch (err) {
         res.status(500).json({
             message: `post request failed`,
@@ -193,7 +194,7 @@ app.patch("/lawn/:lawnid/:newPublicity", async (req, res) => {
     let lawn;
     try {
         lawn = await Lawn.findById(lawnID);
-        console.log(lawn.user_id, " ", req.user.id)
+        // console.log(lawn.user_id, " ", req.user.id)
         if (lawn.user_id != req.user.id) {
             res.status(403).json({
                 message: "The user is not owner of lawn"

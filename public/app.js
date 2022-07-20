@@ -21,6 +21,7 @@ var app = new Vue({
         page: "landing-page",
 
         currentUserID: null,
+        currentUserFullName: null,
         currentLawn: null,
         targetUser: null,
         targetLawn: null,
@@ -101,6 +102,8 @@ var app = new Vue({
             if (response.status == 200) {
                 this.targetUser = await response.json();
                 this.currentUserID = this.targetUser.ID
+                // console.log(this.targetUser.fullname)
+                this.currentUserFullName = this.targetUser.fullname
                 console.log("Log In Successful");
                 this.page = "profile-page";
                 return
@@ -161,7 +164,7 @@ var app = new Vue({
                 console.log("Successful login attempt ");
                 //This is a terrible idea, I think
                 await this.getSession();
-                console.log(this.currentUserID);
+                // console.log(this.currentUserID);
                 this.getUser(this.currentUserID);
             } else if (response.status == 401) {
                 console.log("Unsuccesful login attempt")
@@ -358,8 +361,8 @@ var app = new Vue({
 
         // Switch a lawn from public to private or private to public
         patchLawnPublicity: async function (lawnID, newState) {
-            let newURL = URL + "/thread/" + lawnID + "/" + newState;
-            console.log(newURL);
+            let newURL = URL + "/lawn/" + lawnID + "/" + newState;
+            // console.log(newURL);
             let response = await fetch(newURL, {
                 method: "PATCH",
                 headers: {
@@ -370,7 +373,7 @@ var app = new Vue({
             if (response.status >= 200 && response.status < 300) {
                 //Succesful update
                 if (this.page == "profile-page") {
-                    this.getUser(this.currentUser._id)
+                    this.getUser(this.currentUserID)
                 }
                 console.log("Successful patch attempt");
             } else if (response.status >= 400) {
@@ -389,10 +392,16 @@ var app = new Vue({
             console.log(day + ': ' + this.dayOfWeekFilter[day]);
             return this.dayOfWeekFilter
         },
+
+        lengthOfLawns: function (array) {
+            console.log(Math.ceil(array.length / 3))
+            return Math.ceil(array.length / 3)
+        }
     },
 
     created: function () {
         this.getSession();
+        this.getLawns();
     }
             
 });
