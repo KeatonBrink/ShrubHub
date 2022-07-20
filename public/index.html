@@ -274,20 +274,6 @@
                   :class="dayOfWeekFilter['Wednesday'] ? 'white--text' : 'black--text'"
                   >Wednesday</v-btn>
 
-<<<<<<< HEAD
-              <!-- Lawnmower Provided -->
-              <v-row class="mx-auto justify-center">
-                <v-checkbox v-model="lawnmowerProvidedFilter" :label="`LawnMower Provided`"></v-checkbox>
-              </v-row>
-
-            </v-card>
-          </v-col>
-        </div>
-
-
-
-        <!-- POST A LAWN PAGE -->
-=======
                     <v-btn @click="toggleDayFilter('Thursday')" :color='dayOfWeekFilter["Thursday"] ? "#005921" : "grey lighten-4"'
                   class="pa-1 ma-1 text-sm-body-3"
                   :class="dayOfWeekFilter['Thursday'] ? 'white--text' : 'black--text'"
@@ -346,7 +332,6 @@
           </v-row>
         </v-container>
         <!-- Post a lawn Page -->
->>>>>>> main
         <div v-if="page == 'create-post-page'">
           <v-card width="500" elevation="5" class="ma-auto mt-8 lime lighten-5">
             <v-card-title class="text-h2">Post Your Lawn</v-card-title>

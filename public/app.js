@@ -324,17 +324,25 @@ var app = new Vue({
                 "hasFreeFood": this.newLawnHasFreeFood,
                 "hasFreeWater": this.newLawnHasFreeWater,
             }
-            let response = await fetch(URL + "/lawn", {
-                method: "POST",
-                body: JSON.stringify(lawnSpecifics),
-                headers: {
-                    "Content-Type" : "application/json"
-                },
-                credentials: "include"
-            });
+            console.log("lawnSpecifics are updated: ", lawnSpecifics)
+            try {
+                let response = await fetch(URL + "/lawn", {
+                    method: "POST",
+                    body: JSON.stringify(lawnSpecifics),
+                    headers: {
+                        "Content-Type" : "application/json"
+                    },
+                    credentials: "include"
+                });
+            } catch (err){
+                console.log("stringify lawnSpecifics failed: "+err)
+                return;
+            }
+            console.log("lawnSpecifics successfully stringified. No error.")
 
             //Parse response data
             let body = await response.json();
+            console.log(body);
             
             //Check for successful creation
             if (response.status >= 200 && response.status < 300) {
@@ -351,9 +359,9 @@ var app = new Vue({
                 this.newLawnHasFreeFood = false;
                 this.newLawnHasFreeWater = false;
                 this.getUser(currentUser._id);
-                console.log("Successful lawn attempt");
+                console.log("Successful lawn attempt. Data field now holds: "+this.newLawnDescription);
             } else if (response.status >= 400) {
-                console.log ("Unsuccesful lawn creation attempt");
+                console.log ("Unsuccesful lawn creation attempt. Data field holds: "+this.newLawnDescription);
             } else {
                 console.log("Some sort of error when POST /lawn: "+response.status+response);
             }
