@@ -61,19 +61,19 @@ var app = new Vue({
         minimumJobDurationFilter: 0,
         maximumJobDurationFilter: 10,
         dayOfWeekFilter: {
-            'Sunday': false,
-            'Monday': false,
-            'Tuesday': false,
-            'Wednesday': false,
-            'Thursday': false,
-            'Friday': false,
-            'Saturday': false
+            'Sunday': true,
+            'Monday': true,
+            'Tuesday': true,
+            'Wednesday': true,
+            'Thursday': true,
+            'Friday': true,
+            'Saturday': true
         },
-        startDateFilter: '',
+        startDateFilter: (new Date(Date.now() - (new Date()).getTimezoneOffset())).toISOString().substr(0, 10),
         startDateFilterReveal: false,
         lawnmowerProvidedFilter: false,
 
-        date1: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        date1: (new Date(Date.now() - (new Date()).getTimezoneOffset())).toISOString().substr(0, 10),
         dayWeek: ["days", "weeks"],
         repeatIntervalInput: [1,2,3,4,5,6,7,8,9,10,11,12,13],
 
@@ -386,9 +386,41 @@ var app = new Vue({
             return this.dayOfWeekFilter
         },
 
-        lengthOfLawns: function (array) {
-            console.log(Math.ceil(array.length / 3))
-            return Math.ceil(array.length / 3)
+        lawnFilterCheck: function (lawn) {
+            //format dates to Date objects so they can be compared and day of the week can be found
+            let dateList = lawn.startDate.substr(0, 10).split('-');
+            let filterLawnDate = new Date(dateList[0], (parseInt(dateList[1]) - 1).toString(), (parseInt(dateList[2]) - 1).toString());
+            let startDateFilterList = this.startDateFilter.substr(0, 10).split('-');
+            let actualStartDateFilter = new Date(startDateFilterList[0], (parseInt(startDateFilterList[1]) - 1).toString(), (parseInt(startDateFilterList[2])).toString());
+
+            //Finding day of the week
+            let lawnDayInt = filterLawnDate.getDay();
+            let daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            let lawnDay = daysOfWeek[lawnDayInt];
+            
+
+            //Check filters
+            if (!(lawn.pay >= this.minimumPayFilter && lawn.pay <= this.maximumPayFilter)) {
+                console.log("Pay Filtered Out");
+                return false
+            }
+            if (!(lawn.time2Mow >= this.minimumJobDurationFilter && lawn.time2Mow <= this.maximumJobDurationFilter)) {
+                console.log("Job Duration Filtered Out");
+                return false
+            }
+            if (!this.dayOfWeekFilter[lawnDay]) {
+                return false
+            }
+            if (filterLawnDate < actualStartDateFilter) {
+                console.log("Date to start filtered out");
+                return false
+            }
+            if (!(lawn.hasLawnMower == this.lawnmowerProvidedFilter)) {
+                console.log("Has Lawn Mower Filtered Out");
+                return false
+            }
+            //console.log("Day of the week as an integer: " + lawn.startDate.getDay());
+            return true
         }
     },
 
