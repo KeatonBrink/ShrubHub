@@ -354,7 +354,7 @@ var app = new Vue({
 
         // Switch a lawn from public to private or private to public
         patchLawnPublicity: async function (lawnID, newState) {
-            let newURL = URL + "/thread/" + lawnID + "/" + newState;
+            let newURL = URL + "/lawn/" + lawnID + "/" + newState;
             // console.log(newURL);
             let response = await fetch(newURL, {
                 method: "PATCH",
@@ -366,7 +366,7 @@ var app = new Vue({
             if (response.status >= 200 && response.status < 300) {
                 //Succesful update
                 if (this.page == "profile-page") {
-                    this.getUser(this.currentUser._id)
+                    this.getUser(this.currentUserID)
                 }
                 console.log("Successful patch attempt");
             } else if (response.status >= 400) {

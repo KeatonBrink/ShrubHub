@@ -36,7 +36,7 @@
             <v-toolbar-title>Post Lawn<v-icon dark>mdi-grass</v-icon></v-toolbar-title>
           </v-btn>
 
-          <v-btn v-show="page != 'profile-page'  && currentUserID != null" @click="page = 'profile-page'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+          <v-btn v-show="page != 'profile-page'  && currentUserID != null" @click="page = 'profile-page'; getUser(currentUserID);" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
             <v-toolbar-title>Profile <v-icon dark>mdi-account-circle</v-icon></v-toolbar-title>
           </v-btn>
           <v-card-header v-if="currentUserID != null" class="white--text">Logged in as: {{currentUserFullName}}</v-card-header>
@@ -195,6 +195,7 @@
                 <v-card-text class="ml-n16 py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
               </v-col>
             </v-row>
+            <v-btn class="mx-auto rounded-pill my-4" v-if="lawn.user_id == currentUserID" @click="patchLawnPublicity(lawn._id, !lawn.public)">Change Lawn Visibility</v-btn>
           </v-card>
           <v-btn class="mx-auto rounded-pill my-4" @click="page = 'create-post-page'">Add New Lawn +</v-btn>
         </div>
