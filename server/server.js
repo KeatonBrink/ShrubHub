@@ -169,9 +169,9 @@ app.get("/lawn/:lawnid", async (req, res) => {
 app.get("/lawns", async (req, res) => {
     let lawns
     try {
-        console.log("Start lawn try")
+        // console.log("Start lawn try")
         lawns = await Lawn.find();
-        console.log(lawns);
+        // console.log(lawns);
         res.status(200).json(lawns);
     } catch(err) {
         res.status(500).json({
@@ -230,6 +230,59 @@ app.patch("/lawn/:lawnid/:newPublicity", async (req, res) => {
         return;
     }
     res.status(200).json(lawn)
+})
+
+app.post("/image", async (req, res) => {
+    if(!req.user) {
+        res.status(401).json({message: "unauthorized"});
+        return;
+    }
+    let updatedUser;
+    try {
+        let lawn = await Lawn.create({
+            user_id: req.user.id,
+            description: req.body.description,
+            address: req.body.address,
+            public: true,
+            pay: req.body.pay,
+            mowinterval: req.body.mowInterval,
+            startdate: req.body.startDate,
+            enddate: req.body.endDate,
+            //Time 2 mow should be submitted in minutes
+            time2mow: req.body.time2Mow,
+            haslawnmower: req.body.hasLawnMower,
+            hasdogpoop: req.body.hasDogPoop,
+            hasfreefood: req.body.hasFreeFood,
+            hasfreewater: req.body.hasFreeWater,
+        });
+        try{
+            updatedUser = await User.findByIdAndUpdate(
+                req.user.id,
+                {
+                    $push: {
+                        lawns: lawn._id,
+                    }
+                },
+    
+                //Return after changes are made
+                {
+                    new: true,
+                }
+            )
+            if (!updatedUser) {
+                res.status(404).json({
+                    message: "user not found"
+                })
+                return;
+            }
+        } catch(err) {
+            res.status(500).json({message: "could not connect lawn to user", error: err,})
+        }
+        res.status(201).json(lawn);
+    } catch(err) {
+        res.status(500).json({message: "could not create lawn", error: err,})
+    }
+    return;
 })
 
 module.exports = app;

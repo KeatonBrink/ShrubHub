@@ -1,16 +1,16 @@
-var MAP;
-var GEOCODER;
+// var MAP;
+// var GEOCODER;
 
-// disables poi's (Points of Interest)
-const myStyles = [
-    {
-        featureType: "poi",
-        elementType: "labels",
-        stylers: [
-              { visibility: "off" }
-        ]
-    }
-];
+// // disables poi's (Points of Interest)
+// const myStyles = [
+//     {
+//         featureType: "poi",
+//         elementType: "labels",
+//         stylers: [
+//               { visibility: "off" }
+//         ]
+//     }
+// ];
 
 const URL = "http://localhost:8080"
 
@@ -398,3 +398,15 @@ var app = new Vue({
     }
             
 });
+
+const fileInput = document.querySelector("#img");
+const formData = new FormData();
+
+formData.append("file", fileInput.files[0]);
+
+const options = {
+  method: "POST",
+  body: formData,
+};
+
+fetch(URL + "/imgupload", options);
