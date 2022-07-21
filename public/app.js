@@ -321,10 +321,10 @@ var app = new Vue({
                 console.log("Please pick a mow interval");
                 this.postLawnError="Please pick a mow interval";
                 return
-            } else if (this.newLawnEndDate == "") {
-                console.log("Please pick an end date.");
-                this.postLawnError="Please pick an end date.";
-                return
+            // } else if (this.newLawnEndDate == "") {
+            //     console.log("Please pick an end date.");
+            //     this.postLawnError="Please pick an end date.";
+            //     return
             // } else if (this.newLawnEndDate == "") {
             //     console.log("Please pick an end date.");
             //     return
