@@ -50,8 +50,8 @@ const lawnSchema = mongoose.Schema({
     image: {type: String, required: false, default: ""},
     pay: {type: String, required: true, default: 0},
     // We can either change type, or use a parser on the api
-    mowInterval: {type: String, required: false, default: ""},
-    startDate: {type: String, required: true, default: new Date},
+    mowinterval: {type: String, required: false, default: ""},
+    startdate: {type: String, required: true, default: new Date},
     //endDate: {type: Date, required: true, default: new Date},
     //Lets plan on time to mow being in minutes
     time2mow: {type: String, required: true, default: 10},
