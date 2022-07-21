@@ -429,12 +429,14 @@ var app = new Vue({
         lawnFilterCheck: function (lawn) {
             //format dates to Date objects so they can be compared and day of the week can be found
 
-            //Changes funny format to [year, month, day]
-            console.log(lawn.startdate);
-            let dateList = lawn.startdate.substr(0, 10).split('-');
+            //Changes funny format to [day, year, month]
+            let monthList = ['Jan ', 'Feb ', 'Mar ', 'Apr ', 'May ', 'Jun ', 'Jul ', 'Aug ', 'Sept', 'Oct ', 'Nov ', 'Dec ']
+            let month = monthList.indexOf(lawn.startdate.slice(4, 8));
+            let dateList = lawn.startdate.slice(8, 15).split(' ');
+            dateList.push(month);
             //Makes a new date object as new Date(year, month, day)
-            let filterLawnDate = new Date(dateList[0], (parseInt(dateList[1]) - 1).toString(), (parseInt(dateList[2])).toString());
-            //Same steps with the filter date
+            let filterLawnDate = new Date(parseInt(dateList[1]), (parseInt(dateList[2])).toString(), (parseInt(dateList[0])).toString());
+            //Changes funny filter format to a new Date object
             let startDateFilterList = this.startDateFilter.substr(0, 10).split('-');
             let actualStartDateFilter = new Date(startDateFilterList[0], (parseInt(startDateFilterList[1]) - 1).toString(), (parseInt(startDateFilterList[2])).toString());
 
@@ -455,9 +457,6 @@ var app = new Vue({
             }
             if (!this.dayOfWeekFilter[lawnDay]) {
                 console.log("Day of the week filtered out");
-                console.log("lawn date: " + filterLawnDate);
-                console.log("Lawn day as an integer: " + lawnDayInt + ", meaning lawn day is " + lawnDay);
-                console.log(lawnDay + " is " + this.dayOfWeekFilter[lawnDay]);
                 return false
             }
             if (filterLawnDate < actualStartDateFilter) {
