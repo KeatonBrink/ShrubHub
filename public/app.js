@@ -31,7 +31,7 @@ var app = new Vue({
         targetUser: null,
         targetLawn: null,
         allLawns: null,
-        acceptedLawns: null,
+        savedLawns: [],
 
         mapsAPIKey: null,
 
@@ -416,6 +416,30 @@ var app = new Vue({
                 console.log("Some sort of error when PATCH /lawn");
             }
         },
+
+        addSavedLawn: async function (lawn) {
+            let newURL = URL + "/savedlawn";
+            let response = await fetch(newURL, {
+                method: "PATCH",
+                body: {
+                    "command": "add",
+                    "lawnid": lawn._id
+                },
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
+
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful update
+                console.log("Successfully added saved lawn");
+            } else if (response.status >= 400) {
+                console.log ("Unsuccesful PATCH addSavedLawn")
+            } else {
+                console.log("Some sort of error when PATCH /savedlawn");
+            }
+        },
         
         toggleDayFilter: function (day) {
             if (this.dayOfWeekFilter[day]) {
@@ -425,6 +449,16 @@ var app = new Vue({
             }
             console.log(day + ': ' + this.dayOfWeekFilter[day]);
             return this.dayOfWeekFilter
+        },
+
+        toggleBookmark: function (lawn) {
+            if (this.savedLawns.includes(lawn._id)) {
+                let i = this.savedLawns.indexOf(lawn._id);
+                this.savedLawns.splice(i, 1);
+            } else {
+                this.savedLawns.push(lawn._id);
+                this.addSavedLawn(lawn);
+            }
         },
 
         lawnFilterCheck: function (lawn) {

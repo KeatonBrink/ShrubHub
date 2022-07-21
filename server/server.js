@@ -69,7 +69,7 @@ app.get("/user/:userid", async (req, res) => {
     let user;
     try {
         //Find use all the lawn ids found in the user model, and replace them with the corresponding lawns
-        user = await User.findById(userID, "-password -username").populate('lawns')
+        user = await User.findById(userID, "-password -username").populate('lawns', 'savedlawns')
         if (!user) {
             res.status(404).json({
                 message: "User could not be found",
@@ -146,6 +146,7 @@ app.patch("/savedlawn", async (req, res) => {
         res.status(401).json({message: "unauthorized"});
         return;
     }
+    console.log("Lawn id: " + req.body.lawnid);
 
     try {
         let updatedUser;
