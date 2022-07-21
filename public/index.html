@@ -183,7 +183,7 @@
             <v-card-title>Your Posts</v-card-title>
           </v-card>
           <v-divider></v-divider>
-          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null" v-for="(lawn, index) in targetUser.lawns" key="index">
+          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null" v-for="(lawn, index) in targetUser.lawns" :key="index">
             <v-row dense>
               <v-col>
                 <v-img
@@ -326,7 +326,7 @@
 
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
-              <v-card v-for="(lawn, index) in allLawns" key=index width="30%" class="my-5" v-on:click="getUser(lawn.user_id); page='profile-page';" v-show="lawnFilterCheck(lawn)">
+              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" class="my-5" v-on:click="getUser(lawn.user_id); page='profile-page';" v-show="lawnFilterCheck(lawn)">
                 <v-card-text class="black--text"><b>Address: {{ lawn.address }}</b></v-card-text>
                 <v-card-text class="black--text"><b>Pay: ${{ lawn.pay }}</b></v-card-text>
                 <v-card-text class="black--text"><b>Start Date: {{ lawn.startdate }}</b></v-card-text>

@@ -427,8 +427,12 @@ var app = new Vue({
 
         lawnFilterCheck: function (lawn) {
             //format dates to Date objects so they can be compared and day of the week can be found
-            let dateList = lawn.startDate.substr(0, 10).split('-');
-            let filterLawnDate = new Date(dateList[0], (parseInt(dateList[1]) - 1).toString(), (parseInt(dateList[2]) - 1).toString());
+
+            //Changes funny format to [year, month, day]
+            let dateList = lawn.startdate.substr(0, 10).split('-');
+            //Makes a new date object as new Date(year, month, day)
+            let filterLawnDate = new Date(dateList[0], (parseInt(dateList[1]) - 1).toString(), (parseInt(dateList[2])).toString());
+            //Same steps with the filter date
             let startDateFilterList = this.startDateFilter.substr(0, 10).split('-');
             let actualStartDateFilter = new Date(startDateFilterList[0], (parseInt(startDateFilterList[1]) - 1).toString(), (parseInt(startDateFilterList[2])).toString());
 
@@ -443,22 +447,23 @@ var app = new Vue({
                 console.log("Pay Filtered Out");
                 return false
             }
-            if (!(lawn.time2Mow >= this.minimumJobDurationFilter && lawn.time2Mow <= this.maximumJobDurationFilter)) {
+            if (!(parseInt(lawn.time2mow) >= this.minimumJobDurationFilter && parseInt(lawn.time2mow) <= this.maximumJobDurationFilter)) {
                 console.log("Job Duration Filtered Out");
                 return false
             }
             if (!this.dayOfWeekFilter[lawnDay]) {
+                console.log("Day of the week filtered out");
                 return false
             }
             if (filterLawnDate < actualStartDateFilter) {
                 console.log("Date to start filtered out");
                 return false
             }
-            if (!(lawn.hasLawnMower == this.lawnmowerProvidedFilter)) {
+            if (!(lawn.haslawnmower == this.lawnmowerProvidedFilter)) {
                 console.log("Has Lawn Mower Filtered Out");
                 return false
             }
-            //console.log("Day of the week as an integer: " + lawn.startDate.getDay());
+
             return true
         }
     },
