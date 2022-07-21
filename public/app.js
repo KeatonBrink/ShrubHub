@@ -135,11 +135,17 @@ var app = new Vue({
             let body = await response.json();
 
             //Check for successful creation
-            if (response.status == 200) {
-                //Succesful creation
+            
                 this.targetUser = body;
                 console.log("Successful user get");
-                this.page = "profile-page";
+                if (response.status == 200) {
+                //Succesful creation
+                if(this.currentUserID == this.targetUser._id){
+                   this.page = "profile-page"; 
+                } else {
+                    this.page = "target-profile-page";
+                }
+                
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get user")
             } else {
