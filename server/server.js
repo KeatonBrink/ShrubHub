@@ -141,6 +141,60 @@ app.post("/lawn", async (req, res) => {
     return;
 })
 
+app.patch("/savedlawn", async (req, res) => {
+    if(!req.user) {
+        res.status(401).json({message: "unauthorized"});
+        return;
+    }
+
+    try {
+        let updatedUser;
+        try {
+            if (req.body.command == 'add') {
+                updatedUser = await User.findByIdAndUpdate(
+                    req.user.id,
+                    {
+                        $push: {
+                            savedlawns: req.body.lawnid,
+                        }
+                    },
+        
+                    //Return after changes are made
+                    {
+                        new: true,
+                    }
+                )
+            } else {
+                updatedUser = await User.findByIdAndUpdate(
+                    req.user.id,
+                    {
+                        $pull: {
+                            savedlawns: req.body.lawnid,
+                        }
+                    },
+        
+                    //Return after changes are made
+                    {
+                        new: true,
+                    }
+                )
+            }
+            if (!updatedUser) {
+                res.status(404).json({
+                    message: "user not found"
+                })
+                return;
+            }
+        } catch(err) {
+            res.status(500).json({message: "could not connect lawn to user", error: err,})
+        }
+        res.status(201).json(lawn);
+    } catch(err) {
+        res.status(500).json({message: "could not create lawn", error: err,})
+    }
+    return;
+});
+
 app.get("/lawn/:lawnid", async (req, res) => {
     let lawnID = req.params.lawnid
     if(!req.user) {

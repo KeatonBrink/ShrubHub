@@ -31,6 +31,7 @@ var app = new Vue({
         targetUser: null,
         targetLawn: null,
         allLawns: null,
+        acceptedLawns: null,
 
         mapsAPIKey: null,
 
