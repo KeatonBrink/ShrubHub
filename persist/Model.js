@@ -47,7 +47,10 @@ const lawnSchema = mongoose.Schema({
     },
     public: {type: Boolean, required: true, default: false},
     // Picture needed here
-    image: {type: String, required: false, default: ""},
+    picture: {type: mongoose.Schema.Types.ObjectID,
+        ref: "Lawn",
+        required: false,
+    },
     pay: {type: String, required: true, default: 0},
     // We can either change type, or use a parser on the api
     mowinterval: {type: String, required: false, default: ""},
@@ -62,6 +65,17 @@ const lawnSchema = mongoose.Schema({
     },
     {timestamps: true},
 );
+
+const imageSchema = mongoose.Schema({
+    imageURL: {type: String, required: true},
+    lawn_id: {
+        type: mongoose.Schema.Types.ObjectID,
+        ref: "User",
+        required: true,
+    },
+    },
+    {timestamps: true},
+)
 
 // const reviewSchema = mongoose.Schema({
 //     user_id: {

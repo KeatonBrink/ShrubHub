@@ -1,5 +1,6 @@
 var MAP;
 var GEOCODER;
+const configg = require('dotenv').config()
 
 // disables poi's (Points of Interest)
 const myStyles = [
@@ -48,7 +49,7 @@ var app = new Vue({
         
         newLawnAddress: "",
         newLawnTime2Mow: "",
-        newLawnImage: "",
+        newLawnImageURL: "",
         newLawnPay: "",
         newLawnDescription: "",
         newLawnStartDate: "",
@@ -333,10 +334,11 @@ var app = new Vue({
                 return
             }
             //Once user passes all checks, and no fields are null...
+            this.addLawnPhoto();
             let lawnSpecifics = {
                 "address" : this.newLawnAddress,
                 "time2Mow": this.newLawnTime2Mow,
-                "image" : this.newLawnImage,
+                "image" : this.newLawnImageURL,
                 "pay" : this.newLawnPay,
                 "description" : this.newLawnDescription,
                 "startDate" : this.newLawnStartDate,
@@ -388,6 +390,29 @@ var app = new Vue({
                 console.log ("Unsuccesful lawn creation attempt. Data field holds: "+this.newLawnDescription);
             } else {
                 console.log("Some sort of error when POST /lawn: "+response.status+response);
+            }
+        },
+        
+        addphoto: async function () {
+            var files = document.getElementById("myfile").files;
+            if (!files.length) {
+              return alert("Please choose a file to upload first.");
+            }
+            var file = files[0];
+            var photoKey = this.currentUserID + "-" + file.name;
+            this.newLawnImageURL = process.env.AWS_URL + photoKey
+
+            let response = await fetch(this.newLawnImageURL, {
+                //Never put body in get request
+                method: "PUT",
+                body: file.blob
+            });
+            if (response.status >= 200 && response.status < 300) {
+                console.log("Successful patch attempt");
+            } else if (response.status >= 400) {
+                console.log ("Unsuccesful PATCH /lawn")
+            } else {
+                console.log("Some sort of error when PATCH /lawn");
             }
         },
 

@@ -100,6 +100,7 @@ app.post("/lawn", async (req, res) => {
             description: req.body.description,
             address: req.body.address,
             public: true,
+            picture: req.body.image,
             pay: req.body.pay,
             mowinterval: req.body.mowInterval,
             startdate: req.body.startDate,
