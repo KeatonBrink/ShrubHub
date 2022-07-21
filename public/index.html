@@ -127,11 +127,11 @@
           <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
             <v-card-title>Create Account</v-card-title>
             <v-card-text>
-              <v-text-field label="Username" v-model="newUsernameInput">
+              <v-text-field label="Username" v-model="newUsernameInput" required>
               </v-text-field>
-              <v-text-field label="Password" v-model="newPasswordInput" type="password">
+              <v-text-field label="Password" v-model="newPasswordInput" type="password" required>
               </v-text-field>
-              <v-text-field label="Retype Password" v-model="newPasswordInput2" type="password">
+              <v-text-field label="Retype Password" v-model="newPasswordInput2" type="password" required>
               </v-text-field>
               Are you planning on mowing or posting a lawn?
             </v-card-text>
@@ -150,12 +150,11 @@
               </v-btn>
             </v-card-actions>
             <v-card-text>
-              <v-text-field label="Full Name" v-model="newFullNameInput">
+              <v-text-field label="Full Name" v-model="newFullNameInput" required>
               </v-text-field>
-              <v-text-field label="Email" v-model="newEmailInput">
+              <v-text-field label="Email" v-model="newEmailInput" required>
               </v-text-field>
-              <v-text-field label="Phone Number" v-model="newPhoneInput">
-              </v-text-field>
+              <v-text-field label="Phone Number" v-model="newPhoneInput" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
               </v-text-field>
               <v-card-text class="red--text">{{createAccError}}</v-card-text>
             </v-card-text>
