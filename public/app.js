@@ -23,6 +23,7 @@ var app = new Vue({
         logInputError:"",
         createAccError:"",
         postLawnError:"",
+        postedOrSaved:"posted",
         
         currentUserID: null,
         currentUserFullName: null,
@@ -172,8 +173,8 @@ var app = new Vue({
                 await this.getSession();
                 // console.log(this.currentUserID);
             } else if (response.status == 401) {
-                console.log("Unsuccesful login attempt")
-                this.logInputError= "Unsuccesful login attempt"
+                console.log("Unsuccessful login attempt")
+                this.logInputError= "Unsuccessful login attempt"
                 this.passwordInput = "";
             } else {
                 console.log("Some sort of error when POST /session. Error details: "+response.status+" "+response);
@@ -263,7 +264,7 @@ var app = new Vue({
             if (response.status == 200) {
                 //Succesful creation
                 this.allLawns = body;
-                console.log("Successful lawns get");
+                console.log("Successful lawns get: ", this.allLawns);
                
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get lawns")
@@ -320,10 +321,10 @@ var app = new Vue({
                 console.log("Please pick a mow interval");
                 this.postLawnError="Please pick a mow interval";
                 return
-            } else if (this.newLawnEndDate == "") {
-                console.log("Please pick an end date.");
-                this.postLawnError="Please pick an end date.";
-                return
+            // } else if (this.newLawnEndDate == "") {
+            //     console.log("Please pick an end date.");
+            //     this.postLawnError="Please pick an end date.";
+            //     return
             // } else if (this.newLawnEndDate == "") {
             //     console.log("Please pick an end date.");
             //     return
