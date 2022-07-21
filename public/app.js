@@ -23,6 +23,7 @@ var app = new Vue({
         logInputError:"",
         createAccError:"",
         postLawnError:"",
+        postedOrSaved:"posted",
         
         currentUserID: null,
         currentUserFullName: null,
