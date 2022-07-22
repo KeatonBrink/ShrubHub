@@ -52,13 +52,20 @@ app.post("/user", async (req, res) => {
     }
 });
 
-app.get("/mapurl", async (req, res) => {
+app.get("/urls", async (req, res) => {
     if(!req.user) {
         res.status(401).json({message: "unauthorized"});
         return;
     }
-    res.status(201).json(process.env.GOOGLE_API_KEY);
-});
+    let awsPhoto = process.env.AWS_PHOTO_URL
+    let awsAPI = process.env.AWS_API_URL
+    let urls = {
+        awsPhotoURL: awsPhoto,
+        awsAPIURL: awsAPI
+    }
+    console.log(urls);
+    res.status(200).json(urls)
+})
 
 app.get("/user/:userid", async (req, res) => {
     let userID = req.params.userid

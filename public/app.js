@@ -1,6 +1,5 @@
 var MAP;
 var GEOCODER;
-const configg = require('dotenv').config()
 
 // disables poi's (Points of Interest)
 const myStyles = [
@@ -33,6 +32,8 @@ var app = new Vue({
         allLawns: null,
 
         mapsAPIKey: null,
+
+        awsURLs: null,
 
         usernameInput: "",
         passwordInput: "",
@@ -110,6 +111,7 @@ var app = new Vue({
                 // console.log(this.targetUser.fullname)
                 this.currentUserFullName = this.targetUser.fullname
                 this.getUser(this.currentUserID);
+                this.getURLs()
                 console.log("Log In Successful");
                 this.page = "profile-page";
                 return
@@ -117,6 +119,20 @@ var app = new Vue({
                 console.log("No User signed in.");
             } else {
                 console.log("Error logging in, status: " + response.status);
+            }
+        },
+
+        getURLs: async function () {
+            let response = await fetch(`${URL}/urls`, {
+                method: "GET",
+                credentials: "include"
+            });
+            if (response.status == 200) {
+                console.log(response)
+                console.log(response.body)
+                this.awsURLs = await response.json();
+            } else {
+                console.log("urls not delivered")
             }
         },
         
@@ -334,7 +350,7 @@ var app = new Vue({
                 return
             }
             //Once user passes all checks, and no fields are null...
-            this.addLawnPhoto();
+            await this.addLawnPhoto();
             let lawnSpecifics = {
                 "address" : this.newLawnAddress,
                 "time2Mow": this.newLawnTime2Mow,
@@ -393,27 +409,30 @@ var app = new Vue({
             }
         },
         
-        addphoto: async function () {
+        addLawnPhoto: async function () {
             var files = document.getElementById("myfile").files;
             if (!files.length) {
               return alert("Please choose a file to upload first.");
             }
             var file = files[0];
             var photoKey = this.currentUserID + "-" + file.name;
-            this.newLawnImageURL = process.env.AWS_URL + photoKey
 
-            let response = await fetch(this.newLawnImageURL, {
+            let response = await fetch(this.awsURLs.awsAPIURL + photoKey, {
                 //Never put body in get request
                 method: "PUT",
                 body: file.blob
             });
             if (response.status >= 200 && response.status < 300) {
-                console.log("Successful patch attempt");
+                console.log("Successful put photo attempt");
+                this.newLawnImageURL = this.awsURLs.awsPhotoURL + photoKey;
+
+                return;
             } else if (response.status >= 400) {
-                console.log ("Unsuccesful PATCH /lawn")
+                console.log ("Unsuccesful PUT /photo")
             } else {
                 console.log("Some sort of error when PATCH /lawn");
             }
+            this.newLawnImageURL = "";
         },
 
         // Switch a lawn from public to private or private to public
