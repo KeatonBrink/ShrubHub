@@ -186,7 +186,7 @@
           
           <v-row>
             <v-col>
-          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null" v-for="(lawn, index) in targetUser.lawns" key="index">
+          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null" v-for="(lawn, index) in targetUser.lawns" :key="index">
             <v-row dense>
               <v-col>
                 <v-img
@@ -216,7 +216,7 @@
         <v-col>
           <v-card-title>Your saved Lawns</v-card-title>
               <v-divider></v-divider>
-          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null" v-for="(lawn, index) in targetUser.lawns" key="index">
+          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null" v-for="(lawn, index) in targetUser.lawns" :key="index">
             <v-row dense>
               <v-col>
                 <v-img
@@ -415,32 +415,34 @@
             <v-card-text>
                <v-text-field 
                    label="Address"
-                   v-model="newPostAddressInput"
+                   v-model="newLawnAddress"
                >
                </v-text-field>
                <v-text-field 
                    label="Esimated time to mow"
-                   v-model="estimatedTimeInput"
+                   v-model="newLawnTime2Mow"
                >
                </v-text-field>
                <v-text-field 
                    label="Image Url"
-                   v-model="imageInput"
+                   v-model="newLawnImage"
                >
+              </v-text-field>
                <v-text-field 
                    label="Pay"
-                   v-model="payInput"
+                   v-model="newLawnPay"
                >
+              </v-text-field>
                <v-text-field 
                label="Description/Extra Info"
-               v-model="descriptionInput"
-           >
+               v-model="newLawnDescription"
+           > </v-text-field>
 
 
          </v-card-text>
          <v-card-title class="text-h5">When do you want your lawn mowed?</v-card-title>
          <v-row justify="center">
-          <v-date-picker color="green darken-4" v-model="date1" min="2022-07-20"></v-date-picker>
+          <v-date-picker color="green darken-4" v-model="newLawnStartDate" min="2022-07-20"></v-date-picker>
         </v-row>
         <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
         <v-row class="ma-3" align="center" justify-space-between>
@@ -457,6 +459,7 @@
               :items="repeatIntervalInput"
               outlined
               label=""
+              v-model="newRepeatInterval_number"
             ></v-select>
           </v-col>
     
@@ -471,20 +474,45 @@
               :items="dayWeek"
               outlined
               label=""
+              v-model="newRepeatInterval_dayweek"
             ></v-select>
           </v-col>
 
           <v-card-text class="mr-0"style="width:35%"> Is this a one time job?</v-card-text>
           
-    <v-checkbox
-        color="green darken-4"
+          <v-checkbox
+            color="green darken-4"
             class="mr-16 pr-16"
             v-model="dontRepeatBox"
            :label= "'Dont Repeat'"
-            ></v-checkbox>
+          ></v-checkbox>
+          <v-checkbox
+            color="green darken-4"
+            class="mr-16 pr-16"
+            v-model="newLawnHasLawnMower"
+           :label= "'Lawn Mower will be Provided'"
+          ></v-checkbox>
+          <v-checkbox
+            color="green darken-4"
+            class="mr-16 pr-16"
+            v-model="newLawnHasDogPoop"
+           :label= "'Dog Poop Needs to be Removed'"
+          ></v-checkbox>
+          <v-checkbox
+            color="green darken-4"
+            class="mr-16 pr-16"
+            v-model="newLawnHasFreeWater"
+           :label= "'Free Water - water bottles are recommended for mowers.'"
+          ></v-checkbox>
+          <v-checkbox
+            color="green darken-4"
+            class="mr-16 pr-16"
+            v-model="newLawnHasFreeFood"
+           :label= "'Free Food - granola bars, fruit, whatever isnt weird to feed to strangers.'"
+          ></v-checkbox>
           <v-card-text class="red--text">{{postLawnError}}</v-card-text>
          <v-card-actions justify-center>
-              <v-btn v-on:click="postLawn" class="mx-auto"  color="grey lighten-4">
+              <v-btn @click="postLawn()" class="mx-auto"  color="grey lighten-4">
                   Post Lawn
               </v-btn>
            </v-card-actions>
