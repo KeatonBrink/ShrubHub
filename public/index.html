@@ -196,7 +196,6 @@
                   <v-card-text v-if="lawn.public == true" class="py-0"><b>Status: </b>Public</v-card-text>
                   <v-card-text v-if="lawn.public == false" class="py-0"><b>Status: </b>Private</v-card-text>
                 </template>
-              </v-switch>
             <v-card-text class="ml-n16 py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
             <v-card-text class="ml-n16 py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
             <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{ lawn.startDate }}</v-card-text>
@@ -231,7 +230,7 @@
               </v-col>
               <v-col>
                 <!-- <v-card-text class="ml-n16 py-0"><b>Status: </b>{{ lawn.public }}<v-switch class="mx-auto rounded-pill my-4" v-if="lawn.user_id == currentUserID" @click="patchLawnPublicity(lawn._id, !lawn.public)"></v-switch></v-card-text> -->
-                  <v-switch class="my-n4" color="green darken-4"v-if="lawn.user_id == currentUserID" @click="patchLawnPublicity(lawn._id, !lawn.public)">
+                  <v-switch class="my-n4" v-model="lawn.public" color="green darken-4"v-if="lawn.user_id == currentUserID" @click="patchLawnPublicity(lawn._id, lawn.public)">
                     <template v-slot:label>
                       <v-card-text v-if="lawn.public == true" class="py-0"><b>Status: </b>Public</v-card-text>
                       <v-card-text v-if="lawn.public == false" class="py-0"><b>Status: </b>Private</v-card-text>
