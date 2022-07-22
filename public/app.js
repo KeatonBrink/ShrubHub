@@ -557,6 +557,10 @@ var app = new Vue({
             }
 
             return true
+        },
+        clearRepeat: function (){
+        this.newRepeatInterval_number= "";
+        this.newRepeatInterval_dayweek= "";
         }
     },
 
