@@ -424,6 +424,56 @@ var app = new Vue({
                 console.log("Some sort of error when PATCH /lawn");
             }
         },
+
+        addSavedLawn: async function (lawn) {
+            let newURL = URL + "/savedlawn";
+            let parsedBody = {
+                "command": "add",
+                "lawnid": lawn._id
+            }
+            let response = await fetch(newURL, {
+                method: "PATCH",
+                body: JSON.stringify(parsedBody),
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful update
+                console.log("Successfully added saved lawn");
+            } else if (response.status >= 400) {
+                console.log ("Unsuccesful PATCH addSavedLawn")
+            } else {
+                console.log("Some sort of error when PATCH /savedlawn");
+            }
+        },
+
+        removeSavedLawn: async function (lawn) {
+            let newURL = URL + "/savedlawn";
+            let parsedBody = {
+                "command": "remove",
+                "lawnid": lawn._id
+            }
+            let response = await fetch(newURL, {
+                method: "PATCH",
+                body: JSON.stringify(parsedBody),
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful update
+                console.log("Successfully removed saved lawn");
+            } else if (response.status >= 400) {
+                console.log ("Unsuccesful PATCH removeSavedLawn")
+            } else {
+                console.log("Some sort of error when PATCH /savedlawn");
+            }
+        },
         
         toggleDayFilter: function (day) {
             if (this.dayOfWeekFilter[day]) {
@@ -433,6 +483,17 @@ var app = new Vue({
             }
             console.log(day + ': ' + this.dayOfWeekFilter[day]);
             return this.dayOfWeekFilter
+        },
+
+        toggleBookmark: function (lawn) {
+            if (this.targetUser.savedlawns.includes(lawn._id)) {
+                let i = this.targetUser.savedlawns.indexOf(lawn._id);
+                this.targetUser.savedlawns.splice(i, 1);
+                this.removeSavedLawn(lawn);
+            } else {
+                this.targetUser.savedlawns.push(lawn._id);
+                this.addSavedLawn(lawn);
+            }
         },
 
         lawnFilterCheck: function (lawn) {

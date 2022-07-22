@@ -6,6 +6,7 @@ const setUpAuth = require("./auth");
 const setUpSession = require("./session");
 const app = express();
 const configg = require('dotenv').config()
+var bodyParser = require('body-parser');
 
 /*
 Check authenticated
@@ -18,6 +19,12 @@ app.use(express.json());
 
 //allow serving of UI code
 app.use(express.static(`${__dirname}/../public`));
+
+// configure the app to use bodyParser()
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 
 setUpSession(app);
 setUpAuth(app);
@@ -69,7 +76,7 @@ app.get("/user/:userid", async (req, res) => {
     let user;
     try {
         //Find use all the lawn ids found in the user model, and replace them with the corresponding lawns
-        user = await User.findById(userID, "-password -username").populate('lawns')
+        user = await User.findById(userID, "-password -username").populate('lawns', 'savedlawns')
         if (!user) {
             res.status(404).json({
                 message: "User could not be found",
@@ -140,6 +147,61 @@ app.post("/lawn", async (req, res) => {
     }
     return;
 })
+
+app.patch("/savedlawn", async (req, res) => {
+    if(!req.user) {
+        res.status(401).json({message: "unauthorized"});
+        return;
+    }
+
+    try {
+        let updatedUser;
+        try {
+            if (req.body.command == 'add') {
+                updatedUser = await User.findByIdAndUpdate(
+                    req.user.id,
+                    {
+                        $push: {
+                            savedlawns: req.body.lawnid,
+                        }
+                    },
+        
+                    //Return after changes are made
+                    {
+                        new: true,
+                    }
+                )
+            } else {
+                updatedUser = await User.findByIdAndUpdate(
+                    req.user.id,
+                    {
+                        $pull: {
+                            savedlawns: req.body.lawnid,
+                        }
+                    },
+        
+                    //Return after changes are made
+                    {
+                        new: true,
+                    }
+                )
+            }
+            console.log("Lawn " + req.body.command + " " + req.body.lawnid);
+            if (!updatedUser) {
+                res.status(404).json({
+                    message: "user not found"
+                })
+                return;
+            }
+        } catch(err) {
+            res.status(500).json({message: "could not connect lawn to user", error: err,})
+        }
+        res.status(201).json(req.body.lawnid);
+    } catch(err) {
+        res.status(500).json({message: "could not create lawn", error: err,})
+    }
+    return;
+});
 
 app.get("/lawn/:lawnid", async (req, res) => {
     let lawnID = req.params.lawnid
