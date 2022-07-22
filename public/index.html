@@ -423,7 +423,6 @@
 
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
-              <!-- v-on:click="getUser(lawn.user_id); page='profile-page';" -->
               <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" class="my-5"  v-show="lawnFilterCheck(lawn)">
                 <v-btn @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
                 <v-btn @click="toggleBookmark(lawn)" v-else><v-icon>mdi-bookmark</v-icon></v-btn>
