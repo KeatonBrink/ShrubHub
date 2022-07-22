@@ -1,3 +1,4 @@
+
 var MAP;
 var GEOCODER;
 
@@ -23,6 +24,7 @@ var app = new Vue({
         logInputError:"",
         createAccError:"",
         postLawnError:"",
+        postedOrSaved:"posted",
         
         currentUserID: null,
         currentUserFullName: null,
@@ -47,27 +49,30 @@ var app = new Vue({
         //newProfilePic: "",
         newDefaultRole: "",
 
-        
+        //input boxes
         newLawnAddress: "",
         newLawnTime2Mow: "",
         newLawnImageURL: "",
         newLawnPay: "",
         newLawnDescription: "",
+        //date selector and dropdown boxes
         newLawnStartDate: "",
         newRepeatInterval_number: "",
         newRepeatInterval_dayweek: "",
-        newLawnEndDate: "",
+        //checkboxes
         dontRepeatBox: false,
-        newLawnMowInterval: "",
-        
         newLawnHasLawnMower: false,
         newLawnHasDogPoop: false,
         newLawnHasFreeFood: false,
         newLawnHasFreeWater: false,
 
+        //variable for combination of newRepeatInterval_number and newRepeatInterval_dayweek 
+        newLawnMowInterval: "",
+
         mowerView: false,
         posterView: false,
 
+        //filter variables
         minimumPayFilter: 0,
         maximumPayFilter: 1000,
         minimumJobDurationFilter: 0,
@@ -151,11 +156,17 @@ var app = new Vue({
             let body = await response.json();
 
             //Check for successful creation
-            if (response.status == 200) {
-                //Succesful creation
+            
                 this.targetUser = body;
                 console.log("Successful user get");
-                this.page = "profile-page";
+                if (response.status == 200) {
+                //Succesful creation
+                if(this.currentUserID == this.targetUser._id){
+                   this.page = "profile-page"; 
+                } else {
+                    this.page = "target-profile-page";
+                }
+                
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get user")
             } else {
@@ -189,8 +200,8 @@ var app = new Vue({
                 await this.getSession();
                 // console.log(this.currentUserID);
             } else if (response.status == 401) {
-                console.log("Unsuccesful login attempt")
-                this.logInputError= "Unsuccesful login attempt"
+                console.log("Unsuccessful login attempt")
+                this.logInputError= "Unsuccessful login attempt"
                 this.passwordInput = "";
             } else {
                 console.log("Some sort of error when POST /session. Error details: "+response.status+" "+response);
@@ -280,7 +291,7 @@ var app = new Vue({
             if (response.status == 200) {
                 //Succesful creation
                 this.allLawns = body;
-                console.log("Successful lawns get");
+                console.log("Successful lawns get: ", this.allLawns);
                
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get lawns")
@@ -317,6 +328,7 @@ var app = new Vue({
         
 
         postLawn: async function () {
+            this.newLawnMowInterval = this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek;
             if (this.newLawnDescription == "") {
                 console.log("Please add a description.");
                 this.postLawnError="Please add a description.";
@@ -337,10 +349,10 @@ var app = new Vue({
                 console.log("Please pick a mow interval");
                 this.postLawnError="Please pick a mow interval";
                 return
-            } else if (this.newLawnEndDate == "") {
-                console.log("Please pick an end date.");
-                this.postLawnError="Please pick an end date.";
-                return
+            // } else if (this.newLawnEndDate == "") {
+            //     console.log("Please pick an end date.");
+            //     this.postLawnError="Please pick an end date.";
+            //     return
             // } else if (this.newLawnEndDate == "") {
             //     console.log("Please pick an end date.");
             //     return
@@ -358,7 +370,7 @@ var app = new Vue({
                 "pay" : this.newLawnPay,
                 "description" : this.newLawnDescription,
                 "startDate" : this.newLawnStartDate,
-                "mowInterval" : this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek,
+                "mowInterval" : this.newLawnMowInterval,
 
                 // "endDate" : this.newLawnEndDate,
                 "hasLawnMower": this.newLawnHasLawnMower,
@@ -367,23 +379,20 @@ var app = new Vue({
                 "hasFreeWater": this.newLawnHasFreeWater,
             }
             console.log("lawnSpecifics are updated: ", lawnSpecifics)
-            try {
-                let response = await fetch(URL + "/lawn", {
-                    method: "POST",
-                    body: JSON.stringify(lawnSpecifics),
-                    headers: {
-                        "Content-Type" : "application/json"
-                    },
-                    credentials: "include"
-                });
-            } catch (err){
-                console.log("stringify lawnSpecifics failed: "+err)
-                return;
-            }
+            let response = await fetch(URL + "/lawn", {
+                method: "POST",
+                body: JSON.stringify(lawnSpecifics),
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                credentials: "include"
+            });
+            
             console.log("lawnSpecifics successfully stringified. No error.")
 
             //Parse response data
             let body = await response.json();
+            
             console.log(body);
             
             //Check for successful creation
@@ -391,19 +400,20 @@ var app = new Vue({
                 //Succesful creation
                 this.newLawnDescription = "";
                 this.newLawnAddress = "";
+                this.newLawnImage = "",
                 this.newLawnPay = "";
                 this.newLawnStartDate = "";
                 this.newLawnEndDate = "";
                 this.newLawnTime2Mow = "";
                 this.newLawnMowInterval = "";
+                this.dontRepeatBox = false;
                 this.newLawnHasLawnMower = false;
                 this.newLawnHasDogPoop = false;
                 this.newLawnHasFreeFood = false;
                 this.newLawnHasFreeWater = false;
-                this.getUser(currentUser._id);
-                console.log("Successful lawn attempt. Data field now holds: "+this.newLawnDescription);
+                this.getUser(this.currentUserID);
             } else if (response.status >= 400) {
-                console.log ("Unsuccesful lawn creation attempt. Data field holds: "+this.newLawnDescription);
+                console.log ("Unsuccesful lawn creation attempt. Error: "+response.status+response);
             } else {
                 console.log("Some sort of error when POST /lawn: "+response.status+response);
             }
@@ -471,8 +481,15 @@ var app = new Vue({
 
         lawnFilterCheck: function (lawn) {
             //format dates to Date objects so they can be compared and day of the week can be found
-            let dateList = lawn.startDate.substr(0, 10).split('-');
-            let filterLawnDate = new Date(dateList[0], (parseInt(dateList[1]) - 1).toString(), (parseInt(dateList[2]) - 1).toString());
+
+            //Changes funny format to [day, year, month]
+            let monthList = ['Jan ', 'Feb ', 'Mar ', 'Apr ', 'May ', 'Jun ', 'Jul ', 'Aug ', 'Sept', 'Oct ', 'Nov ', 'Dec ']
+            let month = monthList.indexOf(lawn.startdate.slice(4, 8));
+            let dateList = lawn.startdate.slice(8, 15).split(' ');
+            dateList.push(month);
+            //Makes a new date object as new Date(year, month, day)
+            let filterLawnDate = new Date(parseInt(dateList[1]), (parseInt(dateList[2])).toString(), (parseInt(dateList[0])).toString());
+            //Changes funny filter format to a new Date object
             let startDateFilterList = this.startDateFilter.substr(0, 10).split('-');
             let actualStartDateFilter = new Date(startDateFilterList[0], (parseInt(startDateFilterList[1]) - 1).toString(), (parseInt(startDateFilterList[2])).toString());
 
@@ -487,22 +504,23 @@ var app = new Vue({
                 console.log("Pay Filtered Out");
                 return false
             }
-            if (!(lawn.time2Mow >= this.minimumJobDurationFilter && lawn.time2Mow <= this.maximumJobDurationFilter)) {
+            if (!(parseInt(lawn.time2mow) >= this.minimumJobDurationFilter && parseInt(lawn.time2mow) <= this.maximumJobDurationFilter)) {
                 console.log("Job Duration Filtered Out");
                 return false
             }
             if (!this.dayOfWeekFilter[lawnDay]) {
+                console.log("Day of the week filtered out");
                 return false
             }
             if (filterLawnDate < actualStartDateFilter) {
                 console.log("Date to start filtered out");
                 return false
             }
-            if (!(lawn.hasLawnMower == this.lawnmowerProvidedFilter)) {
+            if (!(lawn.haslawnmower == this.lawnmowerProvidedFilter)) {
                 console.log("Has Lawn Mower Filtered Out");
                 return false
             }
-            //console.log("Day of the week as an integer: " + lawn.startDate.getDay());
+
             return true
         }
     },
