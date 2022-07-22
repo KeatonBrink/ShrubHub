@@ -57,13 +57,12 @@ app.get("/urls", async (req, res) => {
         res.status(401).json({message: "unauthorized"});
         return;
     }
-    let awsPhoto = process.env.AWS_PHOTO_URL
-    let awsAPI = process.env.AWS_API_URL
     let urls = {
-        awsPhotoURL: awsPhoto,
-        awsAPIURL: awsAPI
+        awsPhotoURL: process.env.AWS_PHOTO_URL,
+        IdentityPoolId: process.env.IDENTITY_POOL_ID,
+        photoBucketName: process.env.PHOTO_BUCKET_NAME,
+        bucketRegion: process.env.BUCKET_REGION,
     }
-    console.log(urls);
     res.status(200).json(urls)
 })
 

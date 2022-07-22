@@ -13,22 +13,6 @@ const myStyles = [
     }
 ];
 
-var photoBucketName = "shrubhub-codeschool";
-var bucketRegion = "us-west-1";
-var IdentityPoolId = "us-west-1:27bbfdd0-6a7e-4b4a-ad28-9d1e252e00e9";
-
-AWS.config.update({
-  region: bucketRegion,
-  credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: IdentityPoolId
-  })
-});
-
-var s3 = new AWS.S3({
-  apiVersion: "2006-03-01",
-  params: { Bucket: photoBucketName }
-});
-
 const URL = "http://localhost:8080"
 
 var app = new Vue({
@@ -51,7 +35,11 @@ var app = new Vue({
 
         mapsAPIKey: null,
 
+        //Sorry, this is a terrible name now
         awsURLs: null,
+        IdentityPoolId: null,
+        bucketRegion: null,
+        photoBucketName: null,
 
         usernameInput: "",
         passwordInput: "",
@@ -149,9 +137,21 @@ var app = new Vue({
                 credentials: "include"
             });
             if (response.status == 200) {
-                console.log(response)
-                console.log(response.body)
                 this.awsURLs = await response.json();
+                this.photoBucketName = this.awsURLs.photoBucketName;
+                this.bucketRegion = this.awsURLs.bucketRegion;
+                this.IdentityPoolId = this.awsURLs.IdentityPoolId
+                AWS.config.update({
+                    region: this.bucketRegion,
+                    credentials: new AWS.CognitoIdentityCredentials({
+                      IdentityPoolId: this.IdentityPoolId
+                    })
+                  });
+                  
+                  var s3 = new AWS.S3({
+                    apiVersion: "2006-03-01",
+                    params: { Bucket: this.photoBucketName }
+                  });
             } else {
                 console.log("urls not delivered")
             }
@@ -379,6 +379,7 @@ var app = new Vue({
             }
             //Once user passes all checks, and no fields are null...
             await this.addLawnPhoto();
+            console.log("hey there ", this.newLawnImageURL);
             let lawnSpecifics = {
                 "address" : this.newLawnAddress,
                 "time2Mow": this.newLawnTime2Mow,
@@ -438,7 +439,8 @@ var app = new Vue({
         addLawnPhoto: async function () {
             var files = document.getElementById("myfile").files;
             if (!files.length) {
-              return alert("Please choose a file to upload first.");
+              console.log("Please choose a file to upload first.");
+              return;
             }
             console.log(files);
             var file = files[0];
@@ -454,18 +456,19 @@ var app = new Vue({
 
             var upload = new AWS.S3.ManagedUpload({
                 params: {
-                  Bucket: photoBucketName,
+                  Bucket: this.photoBucketName,
                   Key: photoKey,
                   Body: file
                 }
               });
 
+            this.newLawnImageURL = this.awsURLs.awsPhotoURL + photoKey;
+            
             var promise = upload.promise();
 
             promise.then(
                 function(data) {
                 console.log("Successfully uploaded photo.");
-                this.newLawnImageURL = this.awsURLs.awsPhotoURL + photoKey;
                 return;
                 },
                 function(err) {
