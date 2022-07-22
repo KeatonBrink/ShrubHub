@@ -13,6 +13,22 @@ const myStyles = [
     }
 ];
 
+var photoBucketName = "shrubhub-codeschool";
+var bucketRegion = "us-west-1";
+var IdentityPoolId = "us-west-1:27bbfdd0-6a7e-4b4a-ad28-9d1e252e00e9";
+
+AWS.config.update({
+  region: bucketRegion,
+  credentials: new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: IdentityPoolId
+  })
+});
+
+var s3 = new AWS.S3({
+  apiVersion: "2006-03-01",
+  params: { Bucket: photoBucketName }
+});
+
 const URL = "http://localhost:8080"
 
 var app = new Vue({
@@ -424,25 +440,53 @@ var app = new Vue({
             if (!files.length) {
               return alert("Please choose a file to upload first.");
             }
+            console.log(files);
             var file = files[0];
             var photoKey = this.currentUserID + "-" + file.name;
 
-            let response = await fetch(this.awsURLs.awsAPIURL + photoKey, {
-                //Never put body in get request
-                method: "PUT",
-                body: file.blob
-            });
-            if (response.status >= 200 && response.status < 300) {
-                console.log("Successful put photo attempt");
-                this.newLawnImageURL = this.awsURLs.awsPhotoURL + photoKey;
+            // let response = await fetch(this.awsURLs.awsAPIURL + photoKey, {
+            //     //Never put body in get request
+            //     // mode: 'no-cors',
+            //     method: "PUT",
+            //     headers: {"Content-Type": "multipart/form-data"},
+            //     body: file
+            // });
 
+            var upload = new AWS.S3.ManagedUpload({
+                params: {
+                  Bucket: photoBucketName,
+                  Key: photoKey,
+                  Body: file
+                }
+              });
+
+            var promise = upload.promise();
+
+            promise.then(
+                function(data) {
+                console.log("Successfully uploaded photo.");
+                this.newLawnImageURL = this.awsURLs.awsPhotoURL + photoKey;
                 return;
-            } else if (response.status >= 400) {
-                console.log ("Unsuccesful PUT /photo")
-            } else {
-                console.log("Some sort of error when PATCH /lawn");
-            }
-            this.newLawnImageURL = "";
+                },
+                function(err) {
+                console.log("There was an error uploading your photo: ", err.message);
+                this.newLawnImageURL = "";
+                return;
+                }
+            );
+
+            //Old code, don't look
+            // if (response.status >= 200 && response.status < 300) {
+            //     console.log("Successful put photo attempt");
+            //     this.newLawnImageURL = this.awsURLs.awsPhotoURL + photoKey;
+
+            //     return;
+            // } else if (response.status >= 400) {
+            //     console.log ("Unsuccesful PUT /photo")
+            // } else {
+            //     console.log("Some sort of error when PATCH /lawn");
+            // }
+            // this.newLawnImageURL = "";
         },
 
         // Switch a lawn from public to private or private to public
