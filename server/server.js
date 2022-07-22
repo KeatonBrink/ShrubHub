@@ -6,6 +6,7 @@ const setUpAuth = require("./auth");
 const setUpSession = require("./session");
 const app = express();
 const configg = require('dotenv').config()
+var bodyParser = require('body-parser');
 
 /*
 Check authenticated
@@ -18,6 +19,12 @@ app.use(express.json());
 
 //allow serving of UI code
 app.use(express.static(`${__dirname}/../public`));
+
+// configure the app to use bodyParser()
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 
 setUpSession(app);
 setUpAuth(app);
@@ -146,7 +153,6 @@ app.patch("/savedlawn", async (req, res) => {
         res.status(401).json({message: "unauthorized"});
         return;
     }
-    console.log("Lawn id: " + req.body.lawnid);
 
     try {
         let updatedUser;
@@ -180,6 +186,7 @@ app.patch("/savedlawn", async (req, res) => {
                     }
                 )
             }
+            console.log("Lawn " + req.body.command + " " + req.body.lawnid);
             if (!updatedUser) {
                 res.status(404).json({
                     message: "user not found"
@@ -189,7 +196,7 @@ app.patch("/savedlawn", async (req, res) => {
         } catch(err) {
             res.status(500).json({message: "could not connect lawn to user", error: err,})
         }
-        res.status(201).json(lawn);
+        res.status(201).json(req.body.lawnid);
     } catch(err) {
         res.status(500).json({message: "could not create lawn", error: err,})
     }
