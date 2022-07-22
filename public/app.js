@@ -1,3 +1,4 @@
+
 var MAP;
 var GEOCODER;
 
@@ -46,27 +47,30 @@ var app = new Vue({
         //newProfilePic: "",
         newDefaultRole: "",
 
-        
+        //input boxes
         newLawnAddress: "",
         newLawnTime2Mow: "",
         newLawnImage: "",
         newLawnPay: "",
         newLawnDescription: "",
+        //date selector and dropdown boxes
         newLawnStartDate: "",
         newRepeatInterval_number: "",
         newRepeatInterval_dayweek: "",
-        newLawnEndDate: "",
+        //checkboxes
         dontRepeatBox: false,
-        newLawnMowInterval: "",
-        
         newLawnHasLawnMower: false,
         newLawnHasDogPoop: false,
         newLawnHasFreeFood: false,
         newLawnHasFreeWater: false,
 
+        //variable for combination of newRepeatInterval_number and newRepeatInterval_dayweek 
+        newLawnMowInterval: "",
+
         mowerView: false,
         posterView: false,
 
+        //filter variables
         minimumPayFilter: 0,
         maximumPayFilter: 1000,
         minimumJobDurationFilter: 0,
@@ -307,6 +311,7 @@ var app = new Vue({
         
 
         postLawn: async function () {
+            this.newLawnMowInterval = this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek;
             if (this.newLawnDescription == "") {
                 console.log("Please add a description.");
                 this.postLawnError="Please add a description.";
@@ -347,7 +352,7 @@ var app = new Vue({
                 "pay" : this.newLawnPay,
                 "description" : this.newLawnDescription,
                 "startDate" : this.newLawnStartDate,
-                "mowInterval" : this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek,
+                "mowInterval" : this.newLawnMowInterval,
 
                 // "endDate" : this.newLawnEndDate,
                 "hasLawnMower": this.newLawnHasLawnMower,
@@ -356,23 +361,20 @@ var app = new Vue({
                 "hasFreeWater": this.newLawnHasFreeWater,
             }
             console.log("lawnSpecifics are updated: ", lawnSpecifics)
-            try {
-                let response = await fetch(URL + "/lawn", {
-                    method: "POST",
-                    body: JSON.stringify(lawnSpecifics),
-                    headers: {
-                        "Content-Type" : "application/json"
-                    },
-                    credentials: "include"
-                });
-            } catch (err){
-                console.log("stringify lawnSpecifics failed: "+err)
-                return;
-            }
+            let response = await fetch(URL + "/lawn", {
+                method: "POST",
+                body: JSON.stringify(lawnSpecifics),
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                credentials: "include"
+            });
+            
             console.log("lawnSpecifics successfully stringified. No error.")
 
             //Parse response data
             let body = await response.json();
+            
             console.log(body);
             
             //Check for successful creation
@@ -380,19 +382,20 @@ var app = new Vue({
                 //Succesful creation
                 this.newLawnDescription = "";
                 this.newLawnAddress = "";
+                this.newLawnImage = "",
                 this.newLawnPay = "";
                 this.newLawnStartDate = "";
                 this.newLawnEndDate = "";
                 this.newLawnTime2Mow = "";
                 this.newLawnMowInterval = "";
+                this.dontRepeatBox = false;
                 this.newLawnHasLawnMower = false;
                 this.newLawnHasDogPoop = false;
                 this.newLawnHasFreeFood = false;
                 this.newLawnHasFreeWater = false;
-                this.getUser(currentUser._id);
-                console.log("Successful lawn attempt. Data field now holds: "+this.newLawnDescription);
+                this.getUser(this.currentUserID);
             } else if (response.status >= 400) {
-                console.log ("Unsuccesful lawn creation attempt. Data field holds: "+this.newLawnDescription);
+                console.log ("Unsuccesful lawn creation attempt. Error: "+response.status+response);
             } else {
                 console.log("Some sort of error when POST /lawn: "+response.status+response);
             }
