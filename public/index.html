@@ -423,14 +423,18 @@
 
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
-              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" class="my-5" v-show="lawnFilterCheck(lawn)">
-                <v-spacer></v-spacer><v-btn @click="saveLawn"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
+              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px"class="my-5 overflow-auto" v-show="lawnFilterCheck(lawn)">
+                
+                <v-card-title class="ma-0 pa-2">Save Lawn
+                <v-spacer></v-spacer><v-btn @click="saveLawn"><v-icon>mdi-bookmark-outline</v-icon></v-btn></v-card-title>
+
                 <div style="cursor:pointer" v-on:click="getUser(lawn.user_id); page='target-profile-page';">
-                <v-card-text class="black--text"><b>Address: {{ lawn.address }}</b></v-card-text>
-                <v-card-text class="black--text"><b>Pay: ${{ lawn.pay }}</b></v-card-text>
-                <v-card-text class="black--text"><b>Start Date: {{ lawn.startdate }}</b></v-card-text>
-                <v-card-text class="black--text"><b>Interval: {{ lawn.mowinterval }}</b></v-card-text>
-                <v-card-text class="black--text"><b>Description: {{ lawn.description }}</b></v-card-text>
+                <v-img class="mx-2 "src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"></v-img>
+                <v-card-text class="py-1 black--text"><b>Address: {{ lawn.address }}</b></v-card-text>
+                <v-card-text class="py-1 black--text"><b>Pay: ${{ lawn.pay }}</b></v-card-text>
+                <v-card-text class="py-1 black--text"><b>Start Date: {{ lawn.startdate }}</b></v-card-text>
+                <v-card-text class="py-1 black--text"><b>Interval: {{ lawn.mowinterval }}</b></v-card-text>
+                <v-card-text class="py-1 black--text"><b>Description: {{ lawn.description }}</b></v-card-text>
               </div>
               </v-card>
             </v-col>
@@ -475,45 +479,29 @@
           <v-date-picker color="green darken-4" v-model="date1" min="2022-07-20"></v-date-picker>
         </v-row>
         <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
-        <v-row class="ma-3" align="center" justify-space-between>
-          <v-col
-            class="d-flex"
-            cols="12"
-            sm="6"
-          >
-          <v-card-text align="center" class="mt-n3 text-h5">Every</v-card-text>
+        <v-checkbox
+        
+        width="100px"
+        color="green darken-4"
+            class="mx-auto"
+            v-model="dontRepeatBox"
+           :label= "'Dont Repeat'"
+            ></v-checkbox>
           
-          
-            <v-select
+          <v-card-text align="center" class="mt-n3 text-h6 mx-auto">Repeat Every<v-select
+            :diabled="dontRepeatBox"
             dense
               :items="repeatIntervalInput"
               outlined
               label=""
-            ></v-select>
-          </v-col>
-    
-          <v-col
-            
-            class="d-flex"
-            cols="12"
-            sm="6"
-          >
-            <v-select
+            ></v-select><v-select
+            :diabled="dontRepeatBox"
             dense
               :items="dayWeek"
               outlined
               label=""
-            ></v-select>
-          </v-col>
+            ></v-select></v-card-text>
 
-          <v-card-text class="mr-0"style="width:35%"> Is this a one time job?</v-card-text>
-          
-    <v-checkbox
-        color="green darken-4"
-            class="mr-16 pr-16"
-            v-model="dontRepeatBox"
-           :label= "'Dont Repeat'"
-            ></v-checkbox>
           <v-card-text class="red--text">{{postLawnError}}</v-card-text>
          <v-card-actions justify-center>
               <v-btn v-on:click="postLawn" class="mx-auto"  color="grey lighten-4">
