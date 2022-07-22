@@ -344,6 +344,12 @@ var app = new Vue({
                 this.postLawnError="Please pick an appropriate time to mow";
                 return
             }
+
+            //Format start date to readable
+            let splitStartDate = this.newLawnStartDate.split('-');
+            let formattedStartDate = new Date(parseInt(splitStartDate[0]), (parseInt(splitStartDate[1]) - 1).toString(), (parseInt(splitStartDate[2])).toString());
+            console.log(formattedStartDate);
+
             //Once user passes all checks, and no fields are null...
             let lawnSpecifics = {
                 "address" : this.newLawnAddress,
@@ -351,7 +357,7 @@ var app = new Vue({
                 "image" : this.newLawnImage,
                 "pay" : this.newLawnPay,
                 "description" : this.newLawnDescription,
-                "startDate" : this.newLawnStartDate,
+                "startDate" : formattedStartDate,
                 "mowInterval" : this.newLawnMowInterval,
 
                 // "endDate" : this.newLawnEndDate,
@@ -499,13 +505,23 @@ var app = new Vue({
         lawnFilterCheck: function (lawn) {
             //format dates to Date objects so they can be compared and day of the week can be found
 
+            
             //Changes funny format to [day, year, month]
             let monthList = ['Jan ', 'Feb ', 'Mar ', 'Apr ', 'May ', 'Jun ', 'Jul ', 'Aug ', 'Sept', 'Oct ', 'Nov ', 'Dec ']
             let month = monthList.indexOf(lawn.startdate.slice(4, 8));
             let dateList = lawn.startdate.slice(8, 15).split(' ');
             dateList.push(month);
-            //Makes a new date object as new Date(year, month, day)
-            let filterLawnDate = new Date(parseInt(dateList[1]), (parseInt(dateList[2])).toString(), (parseInt(dateList[0])).toString());
+
+            //Checks the format of the date by trying to parse the first item as an integer
+            filterLawnDate = ''
+            if (parseInt(dateList[1]) == -1) {
+                let otherDateList = lawn.startdate.slice(0,10).split('-');
+                filterLawnDate = new Date(otherDateList[0], parseInt(otherDateList[1]) - 1, otherDateList[2]);
+            } else {
+                //Makes a new date object as new Date(year, month, day)
+                filterLawnDate = new Date(parseInt(dateList[1]), (parseInt(dateList[2])), (parseInt(dateList[0])));
+            }
+
             //Changes funny filter format to a new Date object
             let startDateFilterList = this.startDateFilter.substr(0, 10).split('-');
             let actualStartDateFilter = new Date(startDateFilterList[0], (parseInt(startDateFilterList[1]) - 1).toString(), (parseInt(startDateFilterList[2])).toString());
@@ -527,6 +543,8 @@ var app = new Vue({
             }
             if (!this.dayOfWeekFilter[lawnDay]) {
                 console.log("Day of the week filtered out");
+                console.log("Lawn day: " + lawnDay);
+                console.log("Day filter: " + this.dayOfWeekFilter[lawnDay]);
                 return false
             }
             if (filterLawnDate < actualStartDateFilter) {

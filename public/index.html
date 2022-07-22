@@ -248,7 +248,7 @@
       <div v-show="page == 'profile-page' && postedOrSaved == 'saved'">
           <v-card-title>Your saved Lawns <v-btn @click="postedOrSaved = 'posted'" class="mx-4 rounded-pill">Show Posted Lawns</v-btn></v-card-title>
               <v-divider></v-divider>
-          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null" v-for="(lawn, index) in targetUser.lawns" :key="index">
+          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null" v-for="(lawn, index) in targetUser.savedlawns" :key="index">
             <v-row dense>
               <v-col>
                 <v-img
@@ -458,6 +458,7 @@
                <v-text-field 
                    label="Esimated time to mow"
                    v-model="newLawnTime2Mow"
+                   type="number"
                >
                </v-text-field>
                <v-text-field 
@@ -468,6 +469,7 @@
                <v-text-field 
                    label="Pay"
                    v-model="newLawnPay"
+                   type="number"
                >
               </v-text-field>
                <v-text-field 
