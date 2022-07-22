@@ -103,7 +103,7 @@ app.post("/lawn", async (req, res) => {
             pay: req.body.pay,
             mowinterval: req.body.mowInterval,
             startdate: req.body.startDate,
-            enddate: req.body.endDate,
+            //enddate: req.body.endDate,
             //Time 2 mow should be submitted in minutes
             time2mow: req.body.time2Mow,
             haslawnmower: req.body.hasLawnMower,

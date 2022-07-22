@@ -478,6 +478,62 @@ var app = new Vue({
             }
 
             return true
+        },
+
+        formatDate_MMMMDDYYYY: function (datestring) {
+            year = datestring.slice(0, 4);
+            monthNumber = datestring.slice(5, 7);
+            switch (monthNumber) {
+                case '01':
+                    month = "January"
+                    break;
+                case '02':
+                    month = "February"
+                    break;
+                case '03':
+                    month = "March"
+                    break;
+                case '04':
+                    month = "April"
+                    break;
+                case '05':
+                    month = "May"
+                    break;
+                case '06':
+                    month = "June"
+                    break;
+                case '07':
+                    month = "July"
+                    break;
+                case '08':
+                    month = "August"
+                    break;
+                case '09':
+                    month = "September"
+                    break;
+                case '10':
+                    month = "October"
+                    break;
+                case '11':
+                    month = "November"
+                    break;
+                case '12':
+                    month = "December"
+                    break;
+            };
+            dateNumber = datestring.slice(8, 10);
+            if (dateNumber[0] == "0") {
+                date = dateNumber.slice(1, 2);
+            } else {
+                date = dateNumber;
+            };
+            newDate = new Date(datestring)
+            dayNumber = newDate.getDay()
+            weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+            day = weekday[dayNumber];
+            console.log(`Year: ${year}, Month: ${month}, Date: ${date}, Day: ${day}`)
+            formattedDate = day+", "+month+" "+date+", "+year
+            return formattedDate
         }
     },
 
