@@ -249,20 +249,24 @@
               <v-divider></v-divider>
           <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null && targetUser.savedlawns.includes(lawn._id)" v-for="(lawn, index) in allLawns" :key="index">
             <v-row dense>
-              <v-col>
+              <v-col cols="5" class="pa-0">
                 <v-img
                   lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
                   max-height="200" max-width="400" contain class="py-4 ml-n6"
                   src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
               </v-col>
-              <v-col style="cursor:pointer" v-on:click="getUser(lawn.user_id); page='target-profile-page';">
-                <v-card-text class="ml-n16 py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
-                <v-card-text v-if="lawn.public == true" class=" ml-n16 py-0"><b>Status: </b>Public</v-card-text>
-                <v-card-text v-if="lawn.public == false" class="ml-n16 py-0"><b>Status: </b>Private</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>One Time/Repeating: </b>Every {{ lawn.mowinterval }}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
+              <v-col style="cursor:pointer" v-on:click="getUser(lawn.user_id); page='target-profile-page';" cols="5">
+                <v-card-text class="py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
+                <v-card-text v-if="lawn.public == true" class="py-0"><b>Status: </b>Public</v-card-text>
+                <v-card-text v-if="lawn.public == false" class="py-0"><b>Status: </b>Private</v-card-text>
+                <v-card-text class="py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
+                <v-card-text class="py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
+                <v-card-text class="py-0"><b>One Time/Repeating: </b>Every {{ lawn.mowinterval }}</v-card-text>
+                <v-card-text class="py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
+              </v-col>
+              <v-col cols="1" class="pa-0">
+                <v-spacer></v-spacer><v-btn @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
+                <v-btn @click="toggleBookmark(lawn)" v-else><v-icon>mdi-bookmark</v-icon></v-btn>
               </v-col>
             </v-row>
           </v-card>
@@ -422,7 +426,7 @@
 
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
-              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px"class="my-5 overflow-auto" v-show="lawnFilterCheck(lawn)">
+              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px"class="my-5 overflow-auto" v-show="lawnFilterCheck(lawn) && !IDCheck(lawn)">
                 
                 <v-card-title class="ma-0 pa-2">Save Lawn
                 <v-spacer></v-spacer><v-btn @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
@@ -435,6 +439,7 @@
                 <v-card-text class="py-1 black--text"><b>Start Date: {{ formatDate_MMMMDDYYYY(lawn.startdate) }}</b></v-card-text>
                 <v-card-text class="py-1 black--text"><b>Interval: {{ lawn.mowinterval }}</b></v-card-text>
                 <v-card-text class="py-1 black--text"><b>Description: {{ lawn.description }}</b></v-card-text>
+                <v-card-text class="py-1 black--text"><b>User ID: {{ lawn.user_id }}</b></v-card-text>
               </div>
               </v-card>
             </v-col>

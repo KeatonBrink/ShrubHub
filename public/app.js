@@ -558,6 +558,17 @@ var app = new Vue({
 
             return true
         },
+
+        IDCheck: function (lawn) {
+            if (lawn.user_id == this.currentUserID) {
+                console.log("ID's match");
+                return true
+            } else {
+                console.log("ID's do Not match");
+                return false
+            }
+        },
+
         clearRepeat: function (){
         this.newRepeatInterval_number= "";
         this.newRepeatInterval_dayweek= "";
