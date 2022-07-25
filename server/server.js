@@ -191,6 +191,56 @@ app.get("/lawns", async (req, res) => {
     return;
 })
 
+app.patch("/lawn/:lawnid", async (req, res) => {
+    let lawnID = req.params.lawnid;
+    let lawnURL = req.body.newLawnImageURL;
+    console.log
+    if(!req.user) {
+        res.status(401).json({message: "unauthorized"});
+        return;
+    }
+    let lawn;
+    try {
+        lawn = await Lawn.findById(lawnID);
+        // console.log(lawn.user_id, " ", req.user.id)
+        if (lawn.user_id != req.user.id) {
+            res.status(403).json({
+                message: "The user is not owner of lawn"
+            })
+            return;
+        }
+    } catch(err) {
+        res.status(404).json({
+            message: "Lawn could not be found",
+            error: err,
+        })
+        return;
+    }
+    try {
+        lawn = await Lawn.findByIdAndUpdate(
+            lawnID,
+            {picture: lawnURL},
+            //Return after changes are made
+            {
+                new: true,
+            }
+        )
+        if (!lawn) {
+            res.status(404).json({
+                message: "Lawn not found"
+            })
+            return;
+        }
+    } catch(err) {
+        res.status(500).json({
+            message: "failed to change lawn URL",
+            error: err
+        })
+        return;
+    }
+    res.status(200).json(lawn)
+})
+
 app.patch("/lawn/:lawnid/:newPublicity", async (req, res) => {
     let lawnID = req.params.lawnid;
     let isPublic = req.params.newPublicity;

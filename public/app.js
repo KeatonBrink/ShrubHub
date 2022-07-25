@@ -175,6 +175,7 @@ var app = new Vue({
             
                 this.targetUser = body;
                 console.log("Successful user get");
+                this.$forceUpdate();
                 if (response.status == 200) {
                 //Succesful creation
                 if(this.currentUserID == this.targetUser._id){
@@ -379,11 +380,10 @@ var app = new Vue({
             }
             //Once user passes all checks, and no fields are null...
             await this.addLawnPhoto();
-            console.log("hey there ", this.newLawnImageURL);
             let lawnSpecifics = {
                 "address" : this.newLawnAddress,
                 "time2Mow": this.newLawnTime2Mow,
-                "image" : this.newLawnImageURL,
+                "image" : "",
                 "pay" : this.newLawnPay,
                 "description" : this.newLawnDescription,
                 "startDate" : this.newLawnStartDate,
@@ -404,8 +404,6 @@ var app = new Vue({
                 },
                 credentials: "include"
             });
-            
-            console.log("lawnSpecifics successfully stringified. No error.")
 
             //Parse response data
             let body = await response.json();
@@ -417,7 +415,6 @@ var app = new Vue({
                 //Succesful creation
                 this.newLawnDescription = "";
                 this.newLawnAddress = "";
-                this.newLawnImage = "",
                 this.newLawnPay = "";
                 this.newLawnStartDate = "";
                 this.newLawnEndDate = "";
@@ -454,6 +451,7 @@ var app = new Vue({
             //     body: file
             // });
 
+            console.log(photoKey)
             var upload = new AWS.S3.ManagedUpload({
                 params: {
                   Bucket: this.photoBucketName,
@@ -462,34 +460,52 @@ var app = new Vue({
                 }
               });
 
-            this.newLawnImageURL = this.awsURLs.awsPhotoURL + photoKey;
+            // console.log("Successfully uploaded photo.");
+            // return;
             
             var promise = upload.promise();
 
             promise.then(
-                function(data) {
-                console.log("Successfully uploaded photo.");
-                return;
+                async (data) => {
+                    console.log("Successfully uploaded photo.");
+                    this.newLawnImageURL = this.awsURLs.awsPhotoURL + photoKey;
+                    await this.patchLawnURL();
+                    this.$forceUpdate();
+                    return;
                 },
-                function(err) {
-                console.log("There was an error uploading your photo: ", err.message);
-                this.newLawnImageURL = "";
-                return;
+                (err) => {
+                    console.log("There was an error uploading your photo: ", err.message);
+                    this.newLawnImageURL = "";
+                    return;
                 }
             );
-
-            //Old code, don't look
-            // if (response.status >= 200 && response.status < 300) {
-            //     console.log("Successful put photo attempt");
-            //     this.newLawnImageURL = this.awsURLs.awsPhotoURL + photoKey;
-
-            //     return;
-            // } else if (response.status >= 400) {
-            //     console.log ("Unsuccesful PUT /photo")
-            // } else {
-            //     console.log("Some sort of error when PATCH /lawn");
-            // }
-            // this.newLawnImageURL = "";
+        },
+        
+        patchLawnURL: async function () {
+            let newURL = URL + "/lawn/" + this.targetUser.lawns[this.targetUser.lawns.length - 1]._id;
+            // console.log(newURL);
+            let lawnPackage = {
+                "newLawnImageURL": this.newLawnImageURL,
+            }
+            let response = await fetch(newURL, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(lawnPackage),
+                credentials: "include"
+            });
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful update
+                if (this.page == "profile-page") {
+                    this.getUser(this.currentUserID)
+                }
+                console.log("Successful patch attempt");
+            } else if (response.status >= 400) {
+                console.log ("Unsuccesful PATCH /lawn")
+            } else {
+                console.log("Some sort of error when PATCH /lawn");
+            }
         },
 
         // Switch a lawn from public to private or private to public
