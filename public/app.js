@@ -180,9 +180,9 @@ var app = new Vue({
                 if (response.status == 200) {
                 //Succesful creation
                 if(this.currentUserID == this.targetUser._id){
-                    this.screenDelay(1.5, 'profile-page');
+                    this.page = 'profile-page';
                 } else {
-                    this.screenDelay(1.5, 'target-profile-page');
+                    this.page = 'target-profile-page';
                 }
                 
             } else if (response.status >= 400) {
@@ -216,6 +216,9 @@ var app = new Vue({
                 console.log("Successful login attempt ");
                 //This is a terrible idea, I think
                 await this.getSession();
+
+                this.usernameInput = '';
+                this.passwordInput = '';
                 // console.log(this.currentUserID);
             } else if (response.status == 401) {
                 console.log("Unsuccessful login attempt")
@@ -435,7 +438,11 @@ var app = new Vue({
                 this.newLawnHasDogPoop = false;
                 this.newLawnHasFreeFood = false;
                 this.newLawnHasFreeWater = false;
-                this.getUser(this.currentUserID);
+                await this.getUser(this.currentUserID);               
+                await this.screenDelay(3, '');   
+                setTimeout(() => {
+                    document.location.reload(true);
+                }, 3000);
             } else if (response.status >= 400) {
                 console.log ("Unsuccesful lawn creation attempt. Error: "+response.status+response);
             } else {
@@ -713,6 +720,7 @@ var app = new Vue({
             await setTimeout(() => {              
                 this.page = nextPage;
                 console.log("Page set to: " + nextPage);
+                return
             }, time * 1000);
         },
 
