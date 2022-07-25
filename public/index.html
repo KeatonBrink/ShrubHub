@@ -228,22 +228,27 @@
             <v-row dense>
               <v-col>
                 <v-img
-                  lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+                  v-if="lawn.picture"
+                  max-height="200" max-width="300" contain class="py-4 ml-2"
+                  :src="lawn.picture">
+                  </v-img>
+                <v-img v-else
                   max-height="200" max-width="400" contain class="py-4 ml-n6"
                   src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
+                </v-img>
               </v-col>
-              <v-col >
+              <v-col>
                   <v-switch class="my-n4" v-model="lawn.public" color="green darken-4"v-if="lawn.user_id == currentUserID" @click="patchLawnPublicity(lawn._id, lawn.public)">
                     <template v-slot:label>
                       <v-card-text v-if="lawn.public == true" class="py-0"><b>Status: </b>Public</v-card-text>
                       <v-card-text v-if="lawn.public == false" class="py-0"><b>Status: </b>Private</v-card-text>
                     </template>
                   </v-switch>
-                <v-card-text class="ml-n16 py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>One Time/Repeating: </b>Every {{ lawn.mowinterval }}</v-card-text>
-                <v-card-text class="ml-n16 py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
+                <v-card-text class="py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
+                <v-card-text class="py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
+                <v-card-text class="py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
+                <v-card-text class="py-0"><b>One Time/Repeating: </b>Every {{ lawn.mowinterval }}</v-card-text>
+                <v-card-text class="py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
               </v-col>
             </v-row>
           </v-card>
@@ -255,9 +260,14 @@
             <v-row dense>
               <v-col cols="5" class="pa-0">
                 <v-img
-                  lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-                  max-height="200" max-width="400" contain class="py-4 ml-n6"
+                  v-if="lawn.picture"
+                  max-height="200" max-width="300" contain class="py-4 ml-2"
+                  :src="lawn.picture">
+                  </v-img>
+                <v-img v-else
+                  max-height="200" max-width="400" contain class="py-4 ml-4"
                   src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
+                </v-img>
               </v-col>
               <v-col style="cursor:pointer" v-on:click="getUser(lawn.user_id); page='target-profile-page';" cols="5">
                 <v-card-text class="py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
@@ -437,13 +447,13 @@
                 <v-btn @click="toggleBookmark(lawn)" v-else><v-icon>mdi-bookmark</v-icon></v-btn></v-card-title>
 
                 <div style="cursor:pointer" v-on:click="getUser(lawn.user_id); page='target-profile-page';">
-                <v-img class="mx-2 "src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"></v-img>
+                <v-img class="mx-2" v-if="lawn.picture" :src="lawn.picture"></v-img>
+                <v-img class="mx-2" v-else src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"></v-img>
                 <v-card-text class="py-1 black--text"><b>Address: {{ lawn.address }}</b></v-card-text>
                 <v-card-text class="py-1 black--text"><b>Pay: ${{ lawn.pay }}</b></v-card-text>
                 <v-card-text class="py-1 black--text"><b>Start Date: {{ formatDate_MMMMDDYYYY(lawn.startdate) }}</b></v-card-text>
                 <v-card-text class="py-1 black--text"><b>Interval: {{ lawn.mowinterval }}</b></v-card-text>
                 <v-card-text class="py-1 black--text"><b>Description: {{ lawn.description }}</b></v-card-text>
-                <v-card-text class="py-1 black--text"><b>User ID: {{ lawn.user_id }}</b></v-card-text>
               </div>
               </v-card>
             </v-col>

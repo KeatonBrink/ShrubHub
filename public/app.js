@@ -384,7 +384,12 @@ var app = new Vue({
             console.log(formattedStartDate);
 
             //Once user passes all checks, and no fields are null...
-            await this.addLawnPhoto();
+            let photoAdd = await this.addLawnPhoto();
+            if (photoAdd == 'failed') {
+                this.postLawnError="There was an error uploading your photo";
+                return
+            }
+
             let lawnSpecifics = {
                 "address" : this.newLawnAddress,
                 "time2Mow": this.newLawnTime2Mow,
@@ -481,7 +486,7 @@ var app = new Vue({
                 (err) => {
                     console.log("There was an error uploading your photo: ", err.message);
                     this.newLawnImageURL = "";
-                    return;
+                    return 'failed';
                 }
             );
         },
