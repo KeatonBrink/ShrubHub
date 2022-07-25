@@ -180,9 +180,9 @@ var app = new Vue({
                 if (response.status == 200) {
                 //Succesful creation
                 if(this.currentUserID == this.targetUser._id){
-                   this.page = "profile-page"; 
+                    this.screenDelay(1.5, 'profile-page');
                 } else {
-                    this.page = "target-profile-page";
+                    this.screenDelay(1.5, 'target-profile-page');
                 }
                 
             } else if (response.status >= 400) {
@@ -343,8 +343,6 @@ var app = new Vue({
             }
         },
         
-        
-
         postLawn: async function () {
             this.newLawnMowInterval = this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek;
             if (this.newLawnDescription == "") {
@@ -680,6 +678,16 @@ var app = new Vue({
         clearRepeat: function (){
         this.newRepeatInterval_number= "";
         this.newRepeatInterval_dayweek= "";
+        },
+
+        screenDelay: async function (time, nextPage) {
+            this.page = "loading";
+            console.log("Page is loading");
+
+            await setTimeout(() => {              
+                this.page = nextPage;
+                console.log("Page set to: " + nextPage);
+            }, time * 1000);
         },
 
         formatDate_MMMMDDYYYY: function (datestring) {

@@ -549,6 +549,10 @@
         
         </div>
 
+        <div class="text-center d-flex" height="100%" v-show="page == 'loading'">
+          <v-progress-circular class="ma-auto align-center py-16" :width="5" :size="50" v-show="page == 'loading'" color="green darken-4" indeterminate></v-progress-circular>
+        </div>
+
 
 
 
