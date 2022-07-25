@@ -456,6 +456,13 @@
                 <v-card-text class="py-1 black--text"><b>Description: {{ lawn.description }}</b></v-card-text>
               </div>
               </v-card>
+              
+              <v-row>
+                <!-- Show more button -->
+            <v-btn @click="page = 'mowermain'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+              <v-toolbar-title>Show more<v-icon dark>mdi-magnify</v-icon></v-toolbar-title>
+            </v-btn>
+              </v-row>
             </v-col>
           </v-row>
         </v-container>

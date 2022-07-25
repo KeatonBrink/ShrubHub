@@ -94,6 +94,7 @@ var app = new Vue({
         startDateFilterReveal: false,
         lawnmowerProvidedFilterReveal: false,
         lawnmowerProvidedFilter: null,
+        showMore: false,
 
         date1: (new Date(Date.now() - (new Date()).getTimezoneOffset())).toISOString().substr(0, 10),
         dayWeek: ["days", "weeks"],
