@@ -35,6 +35,12 @@ var app = new Vue({
 
         mapsAPIKey: null,
 
+        //Sorry, this is a terrible name now
+        awsURLs: null,
+        IdentityPoolId: null,
+        bucketRegion: null,
+        photoBucketName: null,
+
         usernameInput: "",
         passwordInput: "",
 
@@ -50,7 +56,7 @@ var app = new Vue({
         //input boxes
         newLawnAddress: "",
         newLawnTime2Mow: "",
-        newLawnImage: "",
+        newLawnImageURL: "",
         newLawnPay: "",
         newLawnDescription: "",
         //date selector and dropdown boxes
@@ -115,6 +121,7 @@ var app = new Vue({
                 // console.log(this.targetUser.fullname)
                 this.currentUserFullName = this.targetUser.fullname
                 this.getUser(this.currentUserID);
+                this.getURLs()
                 console.log("Log In Successful");
                 this.page = "profile-page";
                 return
@@ -122,6 +129,32 @@ var app = new Vue({
                 console.log("No User signed in.");
             } else {
                 console.log("Error logging in, status: " + response.status);
+            }
+        },
+
+        getURLs: async function () {
+            let response = await fetch(`${URL}/urls`, {
+                method: "GET",
+                credentials: "include"
+            });
+            if (response.status == 200) {
+                this.awsURLs = await response.json();
+                this.photoBucketName = this.awsURLs.photoBucketName;
+                this.bucketRegion = this.awsURLs.bucketRegion;
+                this.IdentityPoolId = this.awsURLs.IdentityPoolId
+                AWS.config.update({
+                    region: this.bucketRegion,
+                    credentials: new AWS.CognitoIdentityCredentials({
+                      IdentityPoolId: this.IdentityPoolId
+                    })
+                  });
+                  
+                  var s3 = new AWS.S3({
+                    apiVersion: "2006-03-01",
+                    params: { Bucket: this.photoBucketName }
+                  });
+            } else {
+                console.log("urls not delivered")
             }
         },
         
@@ -143,6 +176,7 @@ var app = new Vue({
             
                 this.targetUser = body;
                 console.log("Successful user get");
+                this.$forceUpdate();
                 if (response.status == 200) {
                 //Succesful creation
                 if(this.currentUserID == this.targetUser._id){
@@ -352,10 +386,11 @@ var app = new Vue({
             console.log(formattedStartDate);
 
             //Once user passes all checks, and no fields are null...
+            await this.addLawnPhoto();
             let lawnSpecifics = {
                 "address" : this.newLawnAddress,
                 "time2Mow": this.newLawnTime2Mow,
-                "image" : this.newLawnImage,
+                "image" : "",
                 "pay" : this.newLawnPay,
                 "description" : this.newLawnDescription,
                 "startDate" : formattedStartDate,
@@ -376,8 +411,6 @@ var app = new Vue({
                 },
                 credentials: "include"
             });
-            
-            console.log("lawnSpecifics successfully stringified. No error.")
 
             //Parse response data
             let body = await response.json();
@@ -389,7 +422,6 @@ var app = new Vue({
                 //Succesful creation
                 this.newLawnDescription = "";
                 this.newLawnAddress = "";
-                this.newLawnImage = "",
                 this.newLawnPay = "";
                 this.newLawnStartDate = "";
                 this.newLawnEndDate = "";
@@ -405,6 +437,81 @@ var app = new Vue({
                 console.log ("Unsuccesful lawn creation attempt. Error: "+response.status+response);
             } else {
                 console.log("Some sort of error when POST /lawn: "+response.status+response);
+            }
+        },
+        
+        addLawnPhoto: async function () {
+            var files = document.getElementById("myfile").files;
+            if (!files.length) {
+              console.log("Please choose a file to upload first.");
+              return;
+            }
+            console.log(files);
+            var file = files[0];
+            var photoKey = this.currentUserID + "-" + file.name;
+
+            // let response = await fetch(this.awsURLs.awsAPIURL + photoKey, {
+            //     //Never put body in get request
+            //     // mode: 'no-cors',
+            //     method: "PUT",
+            //     headers: {"Content-Type": "multipart/form-data"},
+            //     body: file
+            // });
+
+            console.log(photoKey)
+            var upload = new AWS.S3.ManagedUpload({
+                params: {
+                  Bucket: this.photoBucketName,
+                  Key: photoKey,
+                  Body: file
+                }
+              });
+
+            // console.log("Successfully uploaded photo.");
+            // return;
+            
+            var promise = upload.promise();
+
+            promise.then(
+                async (data) => {
+                    console.log("Successfully uploaded photo.");
+                    this.newLawnImageURL = this.awsURLs.awsPhotoURL + photoKey;
+                    await this.patchLawnURL();
+                    this.$forceUpdate();
+                    return;
+                },
+                (err) => {
+                    console.log("There was an error uploading your photo: ", err.message);
+                    this.newLawnImageURL = "";
+                    return;
+                }
+            );
+        },
+        
+        patchLawnURL: async function () {
+            let newURL = URL + "/lawn/" + this.targetUser.lawns[this.targetUser.lawns.length - 1]._id;
+            // console.log(newURL);
+            let lawnPackage = {
+                "newLawnImageURL": this.newLawnImageURL,
+            }
+            let response = await fetch(newURL, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(lawnPackage),
+                credentials: "include"
+            });
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful update
+                if (this.page == "profile-page") {
+                    this.getUser(this.currentUserID)
+                }
+                console.log("Successful patch attempt");
+            } else if (response.status >= 400) {
+                console.log ("Unsuccesful PATCH /lawn")
+            } else {
+                console.log("Some sort of error when PATCH /lawn");
             }
         },
 

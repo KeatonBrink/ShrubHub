@@ -52,7 +52,7 @@ const lawnSchema = mongoose.Schema({
     },
     public: {type: Boolean, required: true, default: false},
     // Picture needed here
-    image: {type: String, required: false, default: ""},
+    picture: {type: String, required: false, default: ""},
     pay: {type: String, required: true, default: 0},
     // We can either change type, or use a parser on the api
     mowinterval: {type: String, required: false, default: ""},
