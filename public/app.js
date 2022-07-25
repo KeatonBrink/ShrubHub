@@ -537,6 +537,27 @@ var app = new Vue({
             }
         },
 
+        userLogout: async function () {
+            let newURL = URL + "/logout";
+            let response = await fetch(newURL, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.status == 200) {
+                console.log("User has logged out");
+                this.currentUserID = null;
+                this.page = "landing-page";
+                this.getSession();
+            } else {
+                console.log("User is still logged in");
+                this.getSession();
+            }
+        },
+
         addSavedLawn: async function (lawn) {
             let newURL = URL + "/savedlawn";
             let parsedBody = {

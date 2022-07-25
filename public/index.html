@@ -28,8 +28,11 @@
           </v-btn>
 
           
-            <v-btn v-show="currentUserID == null && page != 'login-page'" width="auto" height="30px" class="rounded-pill grey lighten-2">
+            <v-btn v-if="currentUserID == null && page != 'login-page'" width="auto" height="30px" class="rounded-pill grey lighten-2">
               <v-toolbar-title @click="page= 'login-page'">Log in <v-icon dark>mdi-login</v-icon></v-toolbar-title>
+            </v-btn>
+            <v-btn v-if="currentUserID != null && page != 'login-page'" width="auto" height="30px" class="rounded-pill grey lighten-2">
+              <v-toolbar-title @click="userLogout()">Sign out <v-icon dark>mdi-login</v-icon></v-toolbar-title>
             </v-btn>
           
 
@@ -558,7 +561,6 @@
 
       </v-main>
     </v-app>
-    
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>

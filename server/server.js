@@ -59,6 +59,19 @@ app.post("/user", async (req, res) => {
     }
 });
 
+//How the backend handles a create mower request
+app.post("/logout", async (req, res) => {
+    req.logout((err) => {
+        if (err) { return next(err); }
+        res.redirect('/');
+        });
+    //     res.status(200);
+    // } catch(err) {
+    //     console.log(err);
+    //     res.status(500);
+    // }
+});
+
 app.get("/urls", async (req, res) => {
     if(!req.user) {
         res.status(401).json({message: "unauthorized"});
