@@ -513,6 +513,30 @@ var app = new Vue({
             }
         },
 
+        patchLawn: async function () {
+            let newURL = URL + "/updatelawn";
+            let response = await fetch(newURL, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(targetLawn),
+                credentials: "include"
+            });
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful update
+                if (this.page == "profile-page") {
+                    this.getUser(this.currentUserID)
+                }
+                this.$forceUpdate();
+                console.log("Successful patch attempt");
+            } else if (response.status >= 400) {
+                console.log ("Unsuccesful PATCH /lawn")
+            } else {
+                console.log("Some sort of error when PATCH /lawn");
+            }
+        },
+
         // Switch a lawn from public to private or private to public
         patchLawnPublicity: async function (lawnID, newState) {
             let newURL = URL + "/lawn/" + lawnID + "/" + newState;
