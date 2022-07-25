@@ -86,7 +86,8 @@ var app = new Vue({
         },
         startDateFilter: (new Date(Date.now() - (new Date()).getTimezoneOffset())).toISOString().substr(0, 10),
         startDateFilterReveal: false,
-        lawnmowerProvidedFilter: false,
+        lawnmowerProvidedFilterReveal: false,
+        lawnmowerProvidedFilter: null,
 
         date1: (new Date(Date.now() - (new Date()).getTimezoneOffset())).toISOString().substr(0, 10),
         dayWeek: ["days", "weeks"],
@@ -551,8 +552,8 @@ var app = new Vue({
                 console.log("Date to start filtered out");
                 return false
             }
-            if (!(lawn.haslawnmower == this.lawnmowerProvidedFilter)) {
-                console.log("Has Lawn Mower Filtered Out");
+            if (!(lawn.haslawnmower == this.lawnmowerProvidedFilter) && this.lawnmowerProvidedFilter != null) {
+                console.log(lawn.address + " Has Lawn Mower Filtered Out");
                 return false
             }
 

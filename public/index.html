@@ -417,7 +417,7 @@
 
                 <!-- Lawnmower Provided -->
                 <v-row class="mx-auto justify-center">
-                  <v-checkbox v-model="lawnmowerProvidedFilter" :label="`LawnMower Provided`" color="#005921"></v-checkbox>
+                  <v-checkbox @click="lawnmowerProvidedFilterReveal = true" color="#005921" v-model="lawnmowerProvidedFilter" :label="`LawnMower Provided`" indeterminate></v-checkbox>
 
                 </v-row>
 
@@ -426,7 +426,7 @@
 
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
-              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px"class="my-5 overflow-auto" v-show="lawnFilterCheck(lawn) && !IDCheck(lawn)">
+              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px"class="my-5 overflow-auto" v-show="lawnFilterCheck(lawn) && !IDCheck(lawn) && lawn.public == true">
                 
                 <v-card-title class="ma-0 pa-2">Save Lawn
                 <v-spacer></v-spacer><v-btn @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
