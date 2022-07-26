@@ -202,7 +202,7 @@
                 </template>
             <v-card-text class="ml-n16 py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
             <v-card-text class="ml-n16 py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
-            <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startDate) }}</v-card-text>
+            <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
             <v-card-text class="ml-n16 py-0"><b>One Time/Repeating: </b>{{ lawn.mowinterval }}</v-card-text>
             <v-card-text class="ml-n16 py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
           </v-col>
@@ -230,7 +230,7 @@
                 <v-img
                   lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
                   max-height="200" max-width="400" contain class="py-4 ml-n6"
-                  src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
+                  :src="lawn.picture">
               </v-col>
               <v-col >
                   <v-switch class="my-n4" v-model="lawn.public" color="green darken-4"v-if="lawn.user_id == currentUserID" @click="patchLawnPublicity(lawn._id, lawn.public)">
