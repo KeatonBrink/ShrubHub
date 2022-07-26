@@ -424,4 +424,92 @@ app.patch("/lawn/:lawnid/:newPublicity", async (req, res) => {
     res.status(200).json(lawn)
 })
 
+app.delete("/user/:userid/lawn/:lawnid", async (req, res) => {
+    let userID = req.params.userid;
+    let lawnID = req.params.lawnid;
+    //Check authentication
+    if(!req.user) {
+        res.status(403).json({message: "unauthorized"});
+        return;
+    }
+
+    let lawn
+    //Find lawn
+    try {
+        lawn = await Lawn.findById(lawnID);
+        if (!lawn) {
+            res.status(404).json({
+                message: "Lawn could not be found",
+            })
+            return;
+        }
+    } catch(err) {
+        res.status(500).json({
+            message: "Server error finding lawn",
+            error: err,
+        })
+        return;
+    }
+
+    let user
+    //Find lawn
+    try {
+        user = await User.findById(userID);
+        if (!user) {
+            res.status(404).json({
+                message: "User could not be found",
+            })
+            return;
+        }
+    } catch(err) {
+        res.status(500).json({
+            message: "Server error finding User",
+            error: err,
+        })
+        return;
+    }
+
+    if (lawn.user_id != userID) {
+        res.status(401).json({message: "Current user is not owner of Lawn"});
+        return
+    }
+
+    let delLawn
+    try {
+        delLawn = await User.findByIdAndUpdate(userID, {
+            $pull: {
+                lawns: {
+                    _id: lawnID,
+                }
+            },
+        },
+        )
+    } catch(err) {
+        res.status(500).json({
+            message: "Could not find and delete lawn",
+            error: err,
+        })
+        return;
+    }
+
+    try {
+        delLawn = await Lawn.findByIdAndDelete(lawnID);
+        if (!delLawn) {
+            res.status(404).json({
+                message: "Lawn could not be found",
+            })
+            return;
+        }
+    } catch(err) {
+        res.status(500).json({
+            message: "Error finding lawn",
+            error: err,
+        })
+        return;
+    }
+
+    // Return deleted post
+    res.status(200).json(post);
+})
+
 module.exports = app;
