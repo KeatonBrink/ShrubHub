@@ -695,39 +695,32 @@ var app = new Vue({
             }
         },
 
-        getDisplayedLawns: function () {
+        /*getDisplayedLawns: function () {
             this.displayedLawns = [];
 
-            console.log("getDisplayedLawns ran");
             for (lawn in this.allLawns) {
-                console.log("lawn ran through: " + lawn);
                 if (this.lawnFilterCheck(this.allLawns[lawn])) {
                     this.displayedLawns.push(this.allLawns[lawn]);
-                    console.log("Displayed Lawn: " + this.allLawns[lawn]._id);
                 }
             }
 
-            console.log("Displayed Lawns Original List: " + this.displayedLawns);
-            console.log("Displayed Lawns Length: " + this.displayedLawns.length);
             let firstLawns = []
             if (this.displayedLawns.length > 6) {
-                console.log("List to be sliced: " + this.displayedLawns);
                 firstLawns = this.displayedLawns.slice(0, 6);
-                console.log("Sliced List: " + firstLawns);
             } else {
                 firstLawns = this.displayedLawns;
-                console.log("Default Log: " + firstLawns);
             }
             
             if (this.showMore) {
                 this.showMore = true;
+                console.log("show more set to " + this.showMore);
                 console.log("Returned original List")
                 return
             } else {
                 console.log("Set to sliced List");
                 this.displayedLawns = firstLawns;
             }
-        },
+        },*/
 
         lawnFilterCheck: function (lawn) {
             //format dates to Date objects so they can be compared and day of the week can be found
@@ -761,37 +754,35 @@ var app = new Vue({
 
             //Check filters
             if (!(lawn.pay >= this.minimumPayFilter && lawn.pay <= this.maximumPayFilter)) {
-                console.log("Pay Filtered Out");
+                console.log("'" + lawn.address + "' Pay Filtered Out");
                 return false
             }
             if (!(parseInt(lawn.time2mow) >= this.minimumJobDurationFilter && parseInt(lawn.time2mow) <= this.maximumJobDurationFilter)) {
-                console.log("Job Duration Filtered Out");
+                console.log("'" + lawn.address + "' Job Duration Filtered Out");
                 return false
             }
             if (!this.dayOfWeekFilter[lawnDay]) {
-                console.log("Day of the week filtered out");
-                console.log("Lawn day: " + lawnDay);
-                console.log("Day filter: " + this.dayOfWeekFilter[lawnDay]);
+                console.log("'" + lawn.address + "' Day of the week filtered out");
                 return false
             }
             if (filterLawnDate < actualStartDateFilter) {
-                console.log("Date to start filtered out");
+                console.log("'" + lawn.address + "' Date to start filtered out");
                 return false
             }
             if (!(lawn.haslawnmower == this.lawnmowerProvidedFilter) && this.lawnmowerProvidedFilter != null) {
-                console.log(lawn.address + " Has Lawn Mower Filtered Out");
+                console.log("'" + lawn.address + "' Has Lawn Mower Filtered Out");
                 return false
             }
 
             //Check if the lawn belongs to the user signed in
-            if (!this.IDCheck(lawn)) {
-                console.log(lawn.address + " belongs to signed in user");
+            if (this.IDCheck(lawn)) {
+                console.log("'" + lawn.address + "' belongs to signed in user");
                 return false
             }
 
             //Check if the lawn is public
             if (!lawn.public) {
-                console.log(lawn.address + " is private");
+                console.log("'" + lawn.address + "' is private");
                 return false
             }          
 
@@ -800,10 +791,8 @@ var app = new Vue({
 
         IDCheck: function (lawn) {
             if (lawn.user_id == this.currentUserID) {
-                console.log("ID's match");
                 return true
             } else {
-                console.log("ID's do Not match");
                 return false
             }
         },

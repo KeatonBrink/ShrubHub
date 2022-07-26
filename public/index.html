@@ -23,7 +23,7 @@
             <v-img style="cursor:pointer"src="https://svgur.com/i/jDN.svg" height="80px" width="80px"></v-img>
           </div>
           <v-spacer></v-spacer>
-          <v-btn v-show="page != 'mowermain' && currentUserID != null" @click="page = 'mowermain'; getDisplayedLawns()" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+          <v-btn v-show="page != 'mowermain' && currentUserID != null" @click="page = 'mowermain'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
             <v-toolbar-title>Lawn Search <v-icon dark>mdi-magnify</v-icon></v-toolbar-title>
           </v-btn>
 
@@ -441,7 +441,7 @@
 
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
-              <v-card v-for="(lawn, i) in displayedLawns" :key="i" width="30%" height="300px" class="my-5 overflow-auto">
+              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px" class="my-5 overflow-auto" v-show="lawnFilterCheck(lawn)">
                 
                 <v-card-title class="ma-0 pa-2">Save Lawn
                 <v-spacer></v-spacer><v-btn @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
@@ -458,12 +458,14 @@
               </div>
               </v-card>
               
+              <!--
               <v-row v-if="!showMore">
-                <!-- Show more button -->
+                 Show more button 
                 <v-btn @click="showMore = true ; getDisplayedLawns()" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4 mx-auto">
                   <v-toolbar-title>Show more<v-icon dark>mdi-tune-vertical</v-icon></v-toolbar-title>
                 </v-btn>
               </v-row>
+            -->
             </v-col>
           </v-row>
         </v-container>
