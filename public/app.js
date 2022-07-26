@@ -93,7 +93,8 @@ var app = new Vue({
         startDateFilter: (new Date(Date.now() - (new Date()).getTimezoneOffset())).toISOString().substr(0, 10),
         startDateFilterReveal: false,
         lawnmowerProvidedFilterReveal: false,
-        lawnmowerProvidedFilter: null,
+        lawnmowerProvidedFilter: null,       
+        displayedLawns: [],
         showMore: false,
 
         date1: (new Date(Date.now() - (new Date()).getTimezoneOffset())).toISOString().substr(0, 10),
@@ -642,6 +643,40 @@ var app = new Vue({
             }
         },
 
+        getDisplayedLawns: function () {
+            this.displayedLawns = [];
+
+            console.log("getDisplayedLawns ran");
+            for (lawn in this.allLawns) {
+                console.log("lawn ran through: " + lawn);
+                if (this.lawnFilterCheck(this.allLawns[lawn])) {
+                    this.displayedLawns.push(this.allLawns[lawn]);
+                    console.log("Displayed Lawn: " + this.allLawns[lawn]._id);
+                }
+            }
+
+            console.log("Displayed Lawns Original List: " + this.displayedLawns);
+            console.log("Displayed Lawns Length: " + this.displayedLawns.length);
+            let firstLawns = []
+            if (this.displayedLawns.length > 6) {
+                console.log("List to be sliced: " + this.displayedLawns);
+                firstLawns = this.displayedLawns.slice(0, 6);
+                console.log("Sliced List: " + firstLawns);
+            } else {
+                firstLawns = this.displayedLawns;
+                console.log("Default Log: " + firstLawns);
+            }
+            
+            if (this.showMore) {
+                this.showMore = true;
+                console.log("Returned original List")
+                return
+            } else {
+                console.log("Set to sliced List");
+                this.displayedLawns = firstLawns;
+            }
+        },
+
         lawnFilterCheck: function (lawn) {
             //format dates to Date objects so they can be compared and day of the week can be found
 
@@ -695,6 +730,18 @@ var app = new Vue({
                 console.log(lawn.address + " Has Lawn Mower Filtered Out");
                 return false
             }
+
+            //Check if the lawn belongs to the user signed in
+            if (!this.IDCheck(lawn)) {
+                console.log(lawn.address + " belongs to signed in user");
+                return false
+            }
+
+            //Check if the lawn is public
+            if (!lawn.public) {
+                console.log(lawn.address + " is private");
+                return false
+            }          
 
             return true
         },
