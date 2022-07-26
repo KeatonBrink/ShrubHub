@@ -20,7 +20,7 @@
         <!-- header -->
         <v-app-bar height="75px" class="pb-16" fixed elevation="3 green darken-4">
           <div @click="page='landing-page'">
-            <v-img style="cursor:pointer"src="https://svgur.com/i/jDN.svg" height="80px" width="80px"></v-img>
+            <v-img v-ripple style="cursor:pointer; border-radius: 70%"src="https://svgur.com/i/jDN.svg" height="80px" width="80px"></v-img>
           </div>
           <v-spacer></v-spacer>
           <v-btn v-show="page != 'mowermain' && currentUserID != null" @click="page = 'mowermain'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
@@ -32,7 +32,7 @@
               <v-toolbar-title @click="page= 'login-page'">Log in <v-icon dark>mdi-login</v-icon></v-toolbar-title>
             </v-btn>
             <v-btn v-if="currentUserID != null && page != 'login-page'" width="auto" height="30px" class="rounded-pill grey lighten-2">
-              <v-toolbar-title @click="userLogout()">Sign out <v-icon dark>mdi-login</v-icon></v-toolbar-title>
+              <v-toolbar-title @click="userLogout()">Sign out <v-icon dark>mdi-logout</v-icon></v-toolbar-title>
             </v-btn>
           
 
@@ -119,7 +119,7 @@
                 Login
               </v-btn>
             </v-card-actions>
-            <v-card-text>Dont have an account? Create one. <v-btn v-on:click="page = 'create-account-page'" elevation="0"
+            <v-card-text>Dont have an account? Create one <v-btn v-on:click="page = 'create-account-page'" elevation="0"
                 class="lime lighten-5">here</v-btn>
             </v-card-text>
           </v-card>
@@ -247,7 +247,7 @@
                 <v-card-text class="py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
                 <v-card-text class="py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
                 <v-card-text class="py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
-                <v-card-text class="py-0"><b>One Time/Repeating: </b>Every {{ lawn.mowinterval }}</v-card-text>
+                <v-card-text class="py-0"><b>One Time/Repeating: </b>{{ lawn.mowinterval }}</v-card-text>
                 <v-card-text class="py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
               </v-col>
             </v-row>
@@ -275,7 +275,7 @@
                 <v-card-text v-if="lawn.public == false" class="py-0"><b>Status: </b>Private</v-card-text>
                 <v-card-text class="py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
                 <v-card-text class="py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
-                <v-card-text class="py-0"><b>One Time/Repeating: </b>Every {{ lawn.mowinterval }}</v-card-text>
+                <v-card-text class="py-0"><b>One Time/Repeating: </b>{{ lawn.mowinterval }}</v-card-text>
                 <v-card-text class="py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
               </v-col>
               <v-col cols="1" class="pa-0">
@@ -480,12 +480,21 @@
                >
                </v-text-field>
                <!-- I Changed this Line -->
-               <input type="file" id="myfile">
-               <v-text-field 
+               
+               <!-- <v-card-text class="px-0">Insert Image Of Lawn: <input type="file" accept="image/png, image/jpeg" id="myfile"></v-card-text> -->
+              <v-file-input
+                prepend-icon="mdi-camera"
+                truncate-length="50"
+                color="green darken-4"
+                accept="image/png, image/jpeg"
+                label="File input"
+                id="myfile"
+              ></v-file-input>
+              <v-text-field 
                    label="Pay"
                    v-model="newLawnPay"
                    type="number"
-               >
+              >
               </v-text-field>
                <v-text-field 
                label="Description/Extra Info"

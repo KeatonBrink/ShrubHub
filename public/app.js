@@ -347,7 +347,12 @@ var app = new Vue({
         },
         
         postLawn: async function () {
-            this.newLawnMowInterval = this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek;
+            if (this.dontRepeatBox == true){
+                this.newLawnMowInterval = "One Time"
+            } else {
+                this.newLawnMowInterval = "Repeat Every " + this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek;
+                console.log(this.newLawnMowInterval);
+            }
             if (this.newLawnDescription == "") {
                 console.log("Please add a description.");
                 this.postLawnError="Please add a description.";
@@ -364,7 +369,7 @@ var app = new Vue({
                 console.log("Please pick a start date");
                 this.postLawnError="Please pick a start date";
                 return
-            } else if (this.newLawnMowInterval == "") {
+            } else if (this.newLawnMowInterval == " ") {
                 console.log("Please pick a mow interval");
                 this.postLawnError="Please pick a mow interval";
                 return
