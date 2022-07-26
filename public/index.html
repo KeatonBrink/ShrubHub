@@ -191,9 +191,14 @@
         <v-row dense>
           <v-col>
             <v-img
-              lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-              max-height="200" max-width="400" contain class="py-4 ml-n6"
-              src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
+                  v-if="lawn.picture"
+                  max-height="200" max-width="300" contain class="py-4 ml-2"
+                  :src="lawn.picture">
+                  </v-img>
+                <v-img v-else
+                  max-height="200" max-width="400" contain class="py-4 ml-n6"
+                  src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
+                </v-img>
           </v-col>
           <v-col>
                 <template v-slot:label>
