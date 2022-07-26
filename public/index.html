@@ -245,7 +245,7 @@
                 <v-card-text class="ml-n16 py-0"><b>One Time/Repeating: </b>Every {{ lawn.mowinterval }}</v-card-text>
                 <v-card-text class="ml-n16 py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
                 <!-- Edit lawn button that I am unsure what to do with -->
-            <v-btn @click="page = 'edit-lawn-page'; targetLawn = lawn;" class="mx-4 rounded-pill">Edit This Lawn</v-btn>
+            <v-btn @click="page = 'edit-lawn-page'; targetLawn = lawn; newLawnStartDate = '';" class="mx-4 rounded-pill">Edit This Lawn</v-btn>
               </v-col>
             </v-row>
           </v-card>
@@ -586,21 +586,21 @@
          </v-card-text>
          <v-card-title class="text-h5">When do you want your lawn mowed?</v-card-title>
          <v-row justify="center">
-          <v-date-picker color="green darken-4" v-model="targetLawn.startdate" min="2022-07-20"></v-date-picker>
+          <v-date-picker color="green darken-4" v-model="newLawnStartDate" min="2022-07-20"></v-date-picker>
         </v-row>
         <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
         
         
         <!-- I am unsure what to do with the don't repeat box -->
 
-        <!-- <v-checkbox
+        <v-checkbox
         @click="clearRepeat"
         width="100px"
         color="green darken-4"
             class="mx-auto"
             v-model="dontRepeatBox"
            :label= "'Dont Repeat'"
-            ></v-checkbox> -->
+            ></v-checkbox>
           
           <v-card-text  align="center" class="mt-n3 text-h6 mx-auto">Repeat Every<v-select
             :disabled="dontRepeatBox"

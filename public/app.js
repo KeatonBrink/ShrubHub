@@ -514,6 +514,42 @@ var app = new Vue({
         },
 
         patchLawn: async function () {
+            this.targetLawn.mowinterval = this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek;
+            if (this.newLawnDescription == "") {
+                console.log("Please add a description.");
+                this.postLawnError="Please add a description.";
+                return
+            } else if (this.newLawnAddress == "") {
+                console.log("Please insert an address");
+                this.postLawnError="Please insert an address";
+                return
+            } else if (this.newLawnPay == "") {
+                console.log("Please insert a pay scale");
+                this.postLawnError="Please insert a pay scale";
+                return
+            } else if (this.newLawnStartDate == "") {
+                console.log("Please pick a start date");
+                this.postLawnError="Please pick a start date";
+                return
+            } else if (this.newLawnMowInterval == "") {
+                console.log("Please pick a mow interval");
+                this.postLawnError="Please pick a mow interval";
+                return
+            // } else if (this.newLawnEndDate == "") {
+            //     console.log("Please pick an end date.");
+            //     this.postLawnError="Please pick an end date.";
+            //     return
+            // } else if (this.newLawnEndDate == "") {
+            //     console.log("Please pick an end date.");
+            //     return
+            } else if (this.newLawnTime2Mow == "") {
+                console.log("Please pick an appropriate time to mow");
+                this.postLawnError="Please pick an appropriate time to mow";
+                return
+            }
+            if (this.newLawnStartDate != "") {
+                this.targetLawn.startdate = this.newLawnStartDate;
+            }
             let newURL = URL + "/updatelawn";
             let response = await fetch(newURL, {
                 method: "PATCH",
