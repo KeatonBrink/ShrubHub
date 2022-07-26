@@ -93,9 +93,7 @@ var app = new Vue({
         startDateFilter: (new Date(Date.now() - (new Date()).getTimezoneOffset())).toISOString().substr(0, 10),
         startDateFilterReveal: false,
         lawnmowerProvidedFilterReveal: false,
-        lawnmowerProvidedFilter: null,       
-        displayedLawns: [],
-        showMore: false,
+        lawnmowerProvidedFilter: null,
 
         date1: (new Date(Date.now() - (new Date()).getTimezoneOffset())).toISOString().substr(0, 10),
         dayWeek: ["days", "weeks"],
@@ -648,32 +646,6 @@ var app = new Vue({
             }
         },
 
-        getDisplayedLawns: function () {
-            this.displayedLawns = [];
-
-            for (lawn in this.allLawns) {
-                if (this.lawnFilterCheck(this.allLawns[lawn])) {
-                    this.displayedLawns.push(this.allLawns[lawn]);
-                }
-            }
-
-            let firstLawns = []
-            if (this.displayedLawns.length > 6) {
-                firstLawns = this.displayedLawns.slice(0, 6);
-            } else {
-                firstLawns = this.displayedLawns;
-            }
-            
-            if (this.showMore) {
-                this.showMore = true;
-                console.log("Returned original List")
-                return
-            } else {
-                console.log("Set to sliced List");
-                this.displayedLawns = firstLawns;
-            }
-        },
-
         lawnFilterCheck: function (lawn) {
             //format dates to Date objects so they can be compared and day of the week can be found
 
@@ -727,18 +699,6 @@ var app = new Vue({
                 console.log(lawn.address + " Has Lawn Mower Filtered Out");
                 return false
             }
-
-            //Check if the lawn belongs to the user signed in
-            if (this.IDCheck(lawn)) {
-                console.log(lawn.address + " belongs to signed in user");
-                return false
-            }
-
-            //Check if the lawn is public
-            if (!lawn.public) {
-                console.log(lawn.address + " is private");
-                return false
-            }          
 
             return true
         },
