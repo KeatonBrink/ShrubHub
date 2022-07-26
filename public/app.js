@@ -80,7 +80,7 @@ var app = new Vue({
         minimumPayFilter: 0,
         maximumPayFilter: 1000,
         minimumJobDurationFilter: 0,
-        maximumJobDurationFilter: 10,
+        maximumJobDurationFilter: 60,
         dayOfWeekFilter: {
             'Sunday': true,
             'Monday': true,
