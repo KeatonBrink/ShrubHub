@@ -23,7 +23,7 @@
             <v-img v-ripple style="cursor:pointer; border-radius: 70%"src="https://svgur.com/i/jDN.svg" height="80px" width="80px"></v-img>
           </div>
           <v-spacer></v-spacer>
-          <v-btn v-show="page != 'mowermain' && currentUserID != null" @click="page = 'mowermain'" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
+          <v-btn v-show="page != 'mowermain' && currentUserID != null" @click="page = 'mowermain'; getDisplayedLawns()" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
             <v-toolbar-title>Lawn Search <v-icon dark>mdi-magnify</v-icon></v-toolbar-title>
           </v-btn>
 
@@ -187,7 +187,7 @@
           <v-card-title>{{targetUser.fullname}}'s Posted Lawns</v-card-title>
 
           <v-divider></v-divider>
-      <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null && lawn.user_id == targetUser._id" v-for="(lawn, index) in allLawns" key="index">
+      <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="lawn.user_id == targetUser._id" v-for="(lawn, index) in allLawns" :key="index">
         <v-row dense>
           <v-col>
             <v-img
@@ -202,7 +202,7 @@
                 </template>
             <v-card-text class="ml-n16 py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
             <v-card-text class="ml-n16 py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
-            <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startDate) }}</v-card-text>
+            <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
             <v-card-text class="ml-n16 py-0"><b>One Time/Repeating: </b>{{ lawn.mowinterval }}</v-card-text>
             <v-card-text class="ml-n16 py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
           </v-col>
@@ -224,7 +224,7 @@
               <v-card-title>Your Posted Lawns <v-btn @click="postedOrSaved= 'saved'" class="mx-4 rounded-pill">Show Saved Lawns</v-btn></v-card-title>
 
               <v-divider></v-divider>
-          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="lawn.user_id == currentUserID && targetUser.lawns[0] != null" v-for="(lawn, index) in allLawns" :key="index">
+          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="lawn.user_id == currentUserID" v-for="(lawn, index) in allLawns" :key="index">
             <v-row dense>
               <v-col>
                 <v-img
@@ -256,7 +256,7 @@
       <div v-show="page == 'profile-page' && postedOrSaved == 'saved'">
           <v-card-title>Your Saved Lawns <v-btn @click="postedOrSaved = 'posted'" class="mx-4 rounded-pill">Show Posted Lawns</v-btn></v-card-title>
               <v-divider></v-divider>
-          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null && targetUser.savedlawns.includes(lawn._id)" v-for="(lawn, index) in allLawns" :key="index">
+          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.savedlawns.includes(lawn._id)" v-for="(lawn, index) in allLawns" :key="index">
             <v-row dense>
               <v-col cols="5" class="pa-0">
                 <v-img
@@ -440,7 +440,7 @@
 
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
-              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px"class="my-5 overflow-auto" v-show="lawnFilterCheck(lawn) && !IDCheck(lawn) && lawn.public == true">
+              <v-card v-for="(lawn, i) in displayedLawns" :key="i" width="30%" height="300px" class="my-5 overflow-auto">
                 
                 <v-card-title class="ma-0 pa-2">Save Lawn
                 <v-spacer></v-spacer><v-btn @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
@@ -456,6 +456,13 @@
                 <v-card-text class="py-1 black--text"><b>Description: {{ lawn.description }}</b></v-card-text>
               </div>
               </v-card>
+              
+              <v-row v-if="!showMore">
+                <!-- Show more button -->
+                <v-btn @click="showMore = true ; getDisplayedLawns()" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4 mx-auto">
+                  <v-toolbar-title>Show more<v-icon dark>mdi-tune-vertical</v-icon></v-toolbar-title>
+                </v-btn>
+              </v-row>
             </v-col>
           </v-row>
         </v-container>
