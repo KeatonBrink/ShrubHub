@@ -187,7 +187,7 @@
           <v-card-title>{{targetUser.fullname}}'s Posted Lawns</v-card-title>
 
           <v-divider></v-divider>
-      <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null && lawn.user_id == targetUser._id" v-for="(lawn, index) in allLawns" key="index">
+      <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null && lawn.user_id == targetUser._id" v-for="(lawn, index) in allLawns" :key="index">
         <v-row dense>
           <v-col>
             <v-img
