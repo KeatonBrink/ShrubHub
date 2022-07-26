@@ -249,6 +249,7 @@
                 <v-card-text class="py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
                 <v-card-text class="py-0"><b>One Time/Repeating: </b>Every {{ lawn.mowinterval }}</v-card-text>
                 <v-card-text class="py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
+                <v-btn @click="page = 'edit-lawn-page'; targetLawn = lawn; newLawnStartDate = '';" class="mx-4 rounded-pill">Edit This Lawn</v-btn>
               </v-col>
             </v-row>
           </v-card>
@@ -486,7 +487,6 @@
                    type="number"
                >
                </v-text-field>
-               <!-- I Changed this Line -->
                <input type="file" id="myfile">
                <v-text-field 
                    label="Pay"
@@ -560,6 +560,109 @@
          <v-card-actions justify-center>
               <v-btn @click="postLawn()" class="mx-auto"  color="grey lighten-4">
                   Post Lawn
+              </v-btn>
+           </v-card-actions>
+
+          </v-card>
+        
+        
+        
+        </div>
+
+        <!-- Update A LAWN -->
+        <div v-if="page == 'edit-lawn-page'">
+          <v-card width="500" elevation="5" class="ma-auto mt-8 lime lighten-5">
+            <v-card-title class="text-h2">Edit Your Lawn</v-card-title>
+            <v-card-text>The information provided below will be displayed on a public page. 
+              Please be concise and clear for faster mower reservations.</v-card-text>
+            <v-card-text>
+               <v-text-field 
+                   label="Address"
+                   v-model="targetLawn.address"
+               >
+               </v-text-field>
+               <v-text-field 
+                   label="Esimated time to mow"
+                   v-model="targetLawn.time2mow"
+                   type="number"
+               >
+               </v-text-field>
+               <v-text-field 
+                   label="Pay"
+                   v-model="targetLawn.pay"
+                   type="number"
+               >
+              </v-text-field>
+               <v-text-field 
+               label="Description/Extra Info"
+               v-model="targetLawn.description"
+           > </v-text-field>
+
+
+         </v-card-text>
+         <v-card-title class="text-h5">When do you want your lawn mowed?</v-card-title>
+         <v-row justify="center">
+          <v-date-picker color="green darken-4" v-model="newLawnStartDate" min="2022-07-20"></v-date-picker>
+        </v-row>
+        <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
+        
+        
+        <!-- I am unsure what to do with the don't repeat box -->
+
+        <v-checkbox
+        @click="clearRepeat"
+        width="100px"
+        color="green darken-4"
+            class="mx-auto"
+            v-model="dontRepeatBox"
+           :label= "'Dont Repeat'"
+            ></v-checkbox>
+          
+          <v-card-text  align="center" class="mt-n3 text-h6 mx-auto">Repeat Every<v-select
+            :disabled="dontRepeatBox"
+            dense
+              :items="repeatIntervalInput"
+              outlined
+              label=""
+              v-model="newRepeatInterval_number"
+            ></v-select>
+            <v-select        
+            :disabled="dontRepeatBox" 
+            dense
+              :items="dayWeek"
+              outlined
+              label=""
+              v-model="newRepeatInterval_dayweek"
+            ></v-select>
+          </v-card-text>
+          <v-checkbox
+            color="green darken-4"
+            class="mr-16 pr-16"
+            v-model="targetLawn.haslawnmower"
+           :label= "'Lawn Mower will be Provided'"
+          ></v-checkbox>
+          <v-checkbox
+            color="green darken-4"
+            class="mr-16 pr-16"
+            v-model="targetLawn.hasdogpoop"
+           :label= "'Dog Poop Needs to be Removed'"
+          ></v-checkbox>
+          <v-checkbox
+            color="green darken-4"
+            class="mr-16 pr-16"
+            v-model="targetLawn.hasfreewater"
+           :label= "'Free Water - water bottles are recommended for mowers.'"
+          ></v-checkbox>
+          <v-checkbox
+            color="green darken-4"
+            class="mr-16 pr-16"
+            v-model="targetLawn.hasfreefood"
+           :label= "'Free Food - granola bars, fruit, whatever isnt weird to feed to strangers.'"
+          ></v-checkbox>
+          <v-card-text class="red--text">{{postLawnError}}</v-card-text>
+         <v-card-actions justify-center>
+              <v-btn @click="patchLawn()" class="mx-auto"  color="grey lighten-4">
+                  Edit Lawn
               </v-btn>
            </v-card-actions>
 

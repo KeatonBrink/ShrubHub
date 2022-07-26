@@ -435,6 +435,7 @@ var app = new Vue({
                 this.newLawnEndDate = "";
                 this.newLawnTime2Mow = "";
                 this.newLawnMowInterval = "";
+                this.clearRepeat();
                 this.dontRepeatBox = false;
                 this.newLawnHasLawnMower = false;
                 this.newLawnHasDogPoop = false;
@@ -519,6 +520,57 @@ var app = new Vue({
                 if (this.page == "profile-page") {
                     this.getUser(this.currentUserID)
                 }
+                console.log("Successful patch attempt");
+            } else if (response.status >= 400) {
+                console.log ("Unsuccesful PATCH /lawn")
+            } else {
+                console.log("Some sort of error when PATCH /lawn");
+            }
+        },
+
+        patchLawn: async function () {
+            this.targetLawn.mowinterval = this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek;
+            if (this.targetLawn.description == "") {
+                console.log("Please add a description.");
+                this.postLawnError="Please add a description.";
+                return
+            } else if (this.targetLawn.address == "") {
+                console.log("Please insert an address");
+                this.postLawnError="Please insert an address";
+                return
+            } else if (this.targetLawn.pay == "") {
+                console.log("Please insert a pay scale");
+                this.postLawnError="Please insert a pay scale";
+                return
+            } else if (this.targetLawn.mowinterval == "") {
+                console.log("Please pick a mow interval");
+                this.postLawnError="Please pick a mow interval";
+                return
+            } else if (this.targetLawn.time2mow == "") {
+                console.log("Please pick an appropriate time to mow");
+                this.postLawnError="Please pick an appropriate time to mow";
+                return
+            }
+            if (this.newLawnStartDate != "") {
+                let splitStartDate = this.newLawnStartDate.split('-');
+                this.targetLawn.startdate = new Date(parseInt(splitStartDate[0]), (parseInt(splitStartDate[1]) - 1).toString(), (parseInt(splitStartDate[2])).toString());
+                console.log(this.targetLawn.startdate);
+            }
+            this.postLawnError="";
+            let newURL = URL + "/updatelawn";
+            let response = await fetch(newURL, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(this.targetLawn),
+                credentials: "include"
+            });
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful update
+                this.getUser(this.currentUserID)
+                this.page = "profile-page";
+                this.$forceUpdate();
                 console.log("Successful patch attempt");
             } else if (response.status >= 400) {
                 console.log ("Unsuccesful PATCH /lawn")
