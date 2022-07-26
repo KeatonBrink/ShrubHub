@@ -34,6 +34,7 @@ var app = new Vue({
         allLawns: null,
 
         mapsAPIKey: null,
+        googleURL: null,
 
         //Sorry, this is a terrible name now
         awsURLs: null,
@@ -878,7 +879,14 @@ var app = new Vue({
             console.log(`Year: ${year}, Month: ${month}, Date: ${date}, Day: ${day}`)
             formattedDate = day+", "+month+" "+date+", "+year
             return formattedDate
+        },
+
+        generateGoogleURL: function (curAddress) {
+            this.googleURL = "https://www.google.com/maps/place/";
+            this.googleURL = this.googleURL + address.replace(/ /g, "+");
+            console.log(this.googleURL);
         }
+
     },
 
     created: function () {
