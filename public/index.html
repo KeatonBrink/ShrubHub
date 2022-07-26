@@ -32,7 +32,7 @@
               <v-toolbar-title @click="page= 'login-page'">Log in <v-icon dark>mdi-login</v-icon></v-toolbar-title>
             </v-btn>
             <v-btn v-if="currentUserID != null && page != 'login-page'" width="auto" height="30px" class="rounded-pill grey lighten-2">
-              <v-toolbar-title @click="userLogout()">Sign out <v-icon dark>mdi-login</v-icon></v-toolbar-title>
+              <v-toolbar-title @click="userLogout()">Sign out <v-icon dark>mdi-logout</v-icon></v-toolbar-title>
             </v-btn>
           
 
@@ -494,7 +494,14 @@
                    type="number"
                >
                </v-text-field>
-               <input type="file" id="myfile">
+               <v-file-input
+                prepend-icon="mdi-camera"
+                truncate-length="50"
+                color="green darken-4"
+                accept="image/png, image/jpeg"
+                label="File input"
+                id="myfile"
+              ></v-file-input>
                <v-text-field 
                    label="Pay"
                    v-model="newLawnPay"
