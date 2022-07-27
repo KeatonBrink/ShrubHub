@@ -24,7 +24,8 @@ var app = new Vue({
         logInputError:"",
         createAccError:"",
         postLawnError:"",
-        postedOrSaved:"posted",
+        postedOrSaved:"posted",       
+        localSavedLawns: [],
         
         currentUserID: null,
         currentUserFullName: null,
@@ -717,10 +718,48 @@ var app = new Vue({
                 let i = this.targetUser.savedlawns.indexOf(lawn._id);
                 this.targetUser.savedlawns.splice(i, 1);
                 this.removeSavedLawn(lawn);
+                console.log(lawn._id + " removed from saved");
             } else {
                 this.targetUser.savedlawns.push(lawn._id);
                 this.addSavedLawn(lawn);
+                console.log(lawn._id + " added to saved");
             }
+        },
+
+        toggleLocalBookmark: function (lawn) {
+            if (this.localSavedLawns.includes(lawn._id)) {
+                let i = this.localSavedLawns.indexOf(lawn._id);
+                this.localSavedLawns.splice(i, 1);
+                this.removeSavedLawn(lawn);
+                console.log(lawn._id + " removed from saved");
+            } else {
+                this.localSavedLawns.push(lawn._id);
+                this.addSavedLawn(lawn);
+                console.log(lawn._id + " added to saved");
+            }
+        },
+
+        savedLawnsToLocal: async function (lawn) {
+            this.localSavedLawns = await JSON.parse(JSON.stringify(this.targetUser.savedlawns));
+            this.getUser(lawn.user_id);
+        },
+
+        pageRefresh: async function (newPage) {
+            if (this.page == 'target-profile-page') {
+                await this.getUser(this.currentUserID);
+
+                //clear backend
+                for (lawn in this.targetUser.savedlawns) {
+                    this.removeSavedLawn({'_id': this.targetUser.savedlawns[lawn]});
+                }
+
+                //update backend with frontend
+                for (lawn in this.localSavedLawns) {
+                    this.addSavedLawn({'_id': this.localSavedLawns[lawn]})
+                }
+            }
+
+            this.page = newPage;
         },
 
         /*getDisplayedLawns: function () {
