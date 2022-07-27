@@ -508,6 +508,65 @@ app.delete("/user/:userid/lawn/:lawnid", async (req, res) => {
 
     // Return deleted lawn
     res.status(200).json(lawn);
-})
+});
+
+app.delete("/user/:userid", async (req, res) => {
+    let userID = req.params.userid;
+    //Check authentication
+    if(!req.user) {
+        res.status(403).json({message: "unauthorized"});
+        return;
+    }
+    if(req.user.id != userID) {
+        res.status()
+    }
+    let user
+    //Find lawn
+    try {
+        user = await User.findById(userID);
+        if (!user) {
+            res.status(404).json({
+                message: "Lawn could not be found",
+            })
+            return;
+        }
+    } catch(err) {
+        res.status(500).json({
+            message: "Server error finding lawn",
+            error: err,
+        })
+        return;
+    }
+    let lawn
+    //Find lawn
+    try {
+        for (let i = 0; i < user.lawns.length; i++){
+            lawn = await Lawn.findByIdAndDelete(user.lawns[i]);
+            if (!lawn) {
+                console.log("Lawn could not be found: ", user.lawns[i])
+            }
+        }
+    } catch(err) {
+        res.status(500).json({
+            message: "Server error finding Lawn of User",
+            error: err,
+        })
+        return;
+    }
+
+    let delUser
+    try {
+        delUser = await User.findByIdAndDelete(userID)
+    } catch(err) {
+        res.status(500).json({
+            message: "Could not find and delete lawn",
+            error: err,
+        })
+        return;
+    }
+
+    // Return deleted lawn
+    res.status(200).json(delUser);
+});
 
 module.exports = app;

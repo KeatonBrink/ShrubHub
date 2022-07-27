@@ -599,6 +599,26 @@ var app = new Vue({
             }
         },
 
+        deleteUser: async function (userID) {
+            let newURL = URL + "/user/" + userID;
+            let response = await fetch(newURL, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
+            if (response.status >= 200 && response.status < 300) {
+                //Succesful update
+                this.getUser(this.currentUserID)
+                console.log("Successful delete attempt");
+            } else if (response.status < 500) {
+                console.log ("Unsuccesful DELETE /lawn")
+            } else {
+                console.log("Some sort of error when DELETE /lawn");
+            }
+        },
+
         // Switch a lawn from public to private or private to public
         patchLawnPublicity: async function (lawnID, newState) {
             let newURL = URL + "/lawn/" + lawnID + "/" + newState;
