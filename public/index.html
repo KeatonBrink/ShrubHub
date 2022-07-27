@@ -108,9 +108,9 @@
           <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
             <v-card-title>Log in</v-card-title>
             <v-card-text>
-              <v-text-field label="Username" v-model="usernameInput">
+              <v-text-field color="green darken-4" label="Username" v-model="usernameInput">
               </v-text-field>
-              <v-text-field v-on:keyup.enter="postSession"label="Password" v-model="passwordInput" type="password">
+              <v-text-field color="green darken-4" v-on:keyup.enter="postSession"label="Password" v-model="passwordInput" type="password">
               </v-text-field>
               <v-card-text class="red--text ml-n4">{{logInputError}}</v-card-text>
             </v-card-text>
@@ -131,11 +131,11 @@
           <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
             <v-card-title>Create Account</v-card-title>
             <v-card-text>
-              <v-text-field label="Username" v-model="newUsernameInput" required>
+              <v-text-field color="green darken-4" label="Username" v-model="newUsernameInput" required>
               </v-text-field>
-              <v-text-field label="Password" v-model="newPasswordInput" type="password" required>
+              <v-text-field color="green darken-4" label="Password" v-model="newPasswordInput" type="password" required>
               </v-text-field>
-              <v-text-field label="Retype Password" v-model="newPasswordInput2" type="password" required>
+              <v-text-field color="green darken-4" label="Retype Password" v-model="newPasswordInput2" type="password" required>
               </v-text-field>
               Are you planning on mowing or posting a lawn?
             </v-card-text>
@@ -154,11 +154,11 @@
               </v-btn>
             </v-card-actions>
             <v-card-text>
-              <v-text-field label="Full Name" v-model="newFullNameInput" required>
+              <v-text-field color="green darken-4" label="Full Name" v-model="newFullNameInput" required>
               </v-text-field>
-              <v-text-field label="Email" v-model="newEmailInput" required>
+              <v-text-field color="green darken-4" label="Email" v-model="newEmailInput" required>
               </v-text-field>
-              <v-text-field label="Phone Number" v-model="newPhoneInput" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+              <v-text-field color="green darken-4" label="Phone Number" v-model="newPhoneInput" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
               </v-text-field>
               <v-card-text class="red--text">{{createAccError}}</v-card-text>
             </v-card-text>
@@ -322,7 +322,7 @@
                   class="align-center"
                 >
                 </v-range-slider> -->
-                  <v-text-field label="Minimum"
+                  <v-text-field color="green darken-4" label="Minimum"
                   color="green darken-4"
                   type="number"
                   style="max-width: 40%"
@@ -330,7 +330,7 @@
                   v-model="minimumPayFilter">
                   </v-text-field>
 
-                  <v-text-field label="Maximum"
+                  <v-text-field color="green darken-4" label="Maximum"
                   color="green darken-4"
                   type="number"
                   style="max-width: 40%"
@@ -356,7 +356,7 @@
                   hide-details
                   class="align-center"
                 > -->
-                  <v-text-field label="Minimum"
+                  <v-text-field color="green darken-4" label="Minimum"
                   color="green darken-4"
                   type="number"
                   style="max-width: 40%"
@@ -364,7 +364,7 @@
                   v-model='minimumJobDurationFilter'>
                   </v-text-field>
 
-                  <v-text-field label="Maximum"
+                  <v-text-field color="green darken-4" label="Maximum"
                   color="green darken-4"
                   type="number"
                   style="max-width: 40%"
@@ -481,17 +481,19 @@
         <!-- POST A LAWN -->
         <div v-if="page == 'create-post-page'">
           <v-card width="500" elevation="5" class="ma-auto mt-8 lime lighten-5">
-            <v-card-title class="text-h2">Post Your Lawn</v-card-title>
-            <v-card-text>The information provided below will be displayed on a public page. 
+            <v-card-title class="justify-center text-h2">Post Your Lawn</v-card-title>
+            <v-card-text class="justify-center">The information provided below will be displayed on a public page. 
               Please be concise and clear for faster mower reservations.</v-card-text>
             <v-card-text>
                <v-text-field 
+               color="green darken-4" 
                    label="Address"
                    v-model="newLawnAddress"
                >
                </v-text-field>
                <v-text-field 
-                   label="Esimated time to mow"
+               color="green darken-4" 
+                   label="Estimated time to mow in minutes"
                    v-model="newLawnTime2Mow"
                    type="number"
                >
@@ -501,16 +503,18 @@
                 truncate-length="50"
                 color="green darken-4"
                 accept="image/png, image/jpeg"
-                label="File input"
+                label="Insert Lawn Image Here"
                 id="myfile"
               ></v-file-input>
                <v-text-field 
-                   label="Pay"
+               color="green darken-4" 
+                   label="Pay $"
                    v-model="newLawnPay"
                    type="number"
                >
               </v-text-field>
                <v-text-field 
+               color="green darken-4" 
                label="Description/Extra Info"
                v-model="newLawnDescription"
            > </v-text-field>
@@ -519,19 +523,20 @@
          </v-card-text>
          <v-card-title class="text-h5">When do you want your lawn mowed?</v-card-title>
          <v-row justify="center">
-          <v-date-picker color="green darken-4" v-model="newLawnStartDate" min="2022-07-20"></v-date-picker>
+          <v-date-picker color="green darken-4" v-model="newLawnStartDate" min="2022-07-27"></v-date-picker>
         </v-row>
-        <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
+        <v-card-title class="text-h5 mx-auto">How often do you want it mowed?</v-card-title>
         <v-checkbox
         @click="clearRepeat"
         width="100px"
         color="green darken-4"
-            class="mx-auto"
+            class="mx-auto pl-4"
             v-model="dontRepeatBox"
            :label= "'Dont Repeat'"
             ></v-checkbox>
           
           <v-card-text  align="center" class="mt-n3 text-h6 mx-auto">Repeat Every<v-select
+            
             :disabled="dontRepeatBox"
             dense
               :items="repeatIntervalInput"
@@ -550,25 +555,25 @@
           </v-card-text>
           <v-checkbox
             color="green darken-4"
-            class="mr-16 pr-16"
+            class="mr-16 pr-16 pl-4"
             v-model="newLawnHasLawnMower"
            :label= "'Lawn Mower will be Provided'"
           ></v-checkbox>
           <v-checkbox
             color="green darken-4"
-            class="mr-16 pr-16"
+            class="mr-16 pr-16 pl-4"
             v-model="newLawnHasDogPoop"
            :label= "'Dog Poop Needs to be Removed'"
           ></v-checkbox>
           <v-checkbox
             color="green darken-4"
-            class="mr-16 pr-16"
+            class="mr-16 pr-16 pl-4"
             v-model="newLawnHasFreeWater"
            :label= "'Free Water - water bottles are recommended for mowers.'"
           ></v-checkbox>
           <v-checkbox
             color="green darken-4"
-            class="mr-16 pr-16"
+            class="mr-16 pr-16 pl-4"
             v-model="newLawnHasFreeFood"
            :label= "'Free Food - granola bars, fruit, whatever isnt weird to feed to strangers.'"
           ></v-checkbox>
@@ -593,23 +598,27 @@
               Please be concise and clear for faster mower reservations.</v-card-text>
             <v-card-text>
                <v-text-field 
+               color="green darken-4" 
                    label="Address"
                    v-model="targetLawn.address"
                >
                </v-text-field>
                <v-text-field 
-                   label="Esimated time to mow"
+               color="green darken-4" 
+                   label="Estimated time to mow in minutes"
                    v-model="targetLawn.time2mow"
                    type="number"
                >
                </v-text-field>
                <v-text-field 
+               color="green darken-4" 
                    label="Pay"
                    v-model="targetLawn.pay"
                    type="number"
                >
               </v-text-field>
                <v-text-field 
+               color="green darken-4" 
                label="Description/Extra Info"
                v-model="targetLawn.description"
            > </v-text-field>
@@ -629,7 +638,7 @@
         @click="clearRepeat"
         width="100px"
         color="green darken-4"
-            class="mx-auto"
+            class="mx-auto pl-4"
             v-model="dontRepeatBox"
            :label= "'Dont Repeat'"
             ></v-checkbox>
@@ -653,25 +662,25 @@
           </v-card-text>
           <v-checkbox
             color="green darken-4"
-            class="mr-16 pr-16"
+            class="mr-16 pr-16 pl-4"
             v-model="targetLawn.haslawnmower"
            :label= "'Lawn Mower will be Provided'"
           ></v-checkbox>
           <v-checkbox
             color="green darken-4"
-            class="mr-16 pr-16"
+            class="mr-16 pr-16 pl-4"
             v-model="targetLawn.hasdogpoop"
            :label= "'Dog Poop Needs to be Removed'"
           ></v-checkbox>
           <v-checkbox
             color="green darken-4"
-            class="mr-16 pr-16"
+            class="mr-16 pr-16 pl-4"
             v-model="targetLawn.hasfreewater"
            :label= "'Free Water - water bottles are recommended for mowers.'"
           ></v-checkbox>
           <v-checkbox
             color="green darken-4"
-            class="mr-16 pr-16"
+            class="mr-16 pr-16 pl-4"
             v-model="targetLawn.hasfreefood"
            :label= "'Free Food - granola bars, fruit, whatever isnt weird to feed to strangers.'"
           ></v-checkbox>
