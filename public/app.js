@@ -773,8 +773,10 @@ var app = new Vue({
             
 
             //Check filters
-            if (!(lawn.pay >= this.minimumPayFilter && lawn.pay <= this.maximumPayFilter)) {
+            if (!(parseInt(lawn.pay) >= this.minimumPayFilter && parseInt(lawn.pay) <= this.maximumPayFilter)) {
                 console.log("'" + lawn.address + "' Pay Filtered Out");
+                console.log("Pay of lawn: " + parseInt(lawn.pay) + " vs. maximum pay: " + this.maximumPayFilter);
+                console.log("type of lawn pay: " + typeof parseInt(lawn.pay));
                 return false
             }
             if (!(parseInt(lawn.time2mow) >= this.minimumJobDurationFilter && parseInt(lawn.time2mow) <= this.maximumJobDurationFilter)) {
