@@ -478,9 +478,7 @@ app.delete("/user/:userid/lawn/:lawnid", async (req, res) => {
     try {
         delLawn = await User.findByIdAndUpdate(userID, {
             $pull: {
-                lawns: {
-                    _id: lawnID,
-                }
+                lawns: lawnID,
             },
         },
         )
@@ -508,8 +506,8 @@ app.delete("/user/:userid/lawn/:lawnid", async (req, res) => {
         return;
     }
 
-    // Return deleted post
-    res.status(200).json(post);
+    // Return deleted lawn
+    res.status(200).json(lawn);
 })
 
 module.exports = app;
