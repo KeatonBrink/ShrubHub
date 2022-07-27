@@ -590,7 +590,10 @@ var app = new Vue({
             });
             if (response.status >= 200 && response.status < 300) {
                 //Succesful update
-                this.getUser(this.currentUserID)
+                await this.screenDelay(3, '');   
+                setTimeout(() => {
+                    document.location.reload(true);
+                }, 3000);
                 console.log("Successful delete attempt");
             } else if (response.status < 500) {
                 console.log ("Unsuccesful DELETE /lawn")
