@@ -255,6 +255,7 @@
                 <v-card-text class="py-0"><b>One Time/Repeating: </b>Every {{ lawn.mowinterval }}</v-card-text>
                 <v-card-text class="py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
                 <v-btn @click="page = 'edit-lawn-page'; targetLawn = lawn; newLawnStartDate = '';" class="mx-4 rounded-pill">Edit This Lawn</v-btn>
+                <v-btn @click="deleteLawn(lawn._id, lawn.user_id);" color="red" class="mx-4 mt-1 rounded-pill">Delete This Lawn</v-btn>
               </v-col>
             </v-row>
           </v-card>
