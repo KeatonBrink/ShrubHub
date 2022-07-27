@@ -817,8 +817,6 @@ var app = new Vue({
             //Check filters
             if (!(parseInt(lawn.pay) >= this.minimumPayFilter && parseInt(lawn.pay) <= this.maximumPayFilter)) {
                 console.log("'" + lawn.address + "' Pay Filtered Out");
-                console.log("Pay of lawn: " + parseInt(lawn.pay) + " vs. maximum pay: " + this.maximumPayFilter);
-                console.log("type of lawn pay: " + typeof parseInt(lawn.pay));
                 return false
             }
             if (!(parseInt(lawn.time2mow) >= this.minimumJobDurationFilter && parseInt(lawn.time2mow) <= this.maximumJobDurationFilter)) {
@@ -847,11 +845,24 @@ var app = new Vue({
             //Check if the lawn is public
             if (!lawn.public) {
                 console.log("'" + lawn.address + "' is private");
+                this.toggleDisplayedLawn(lawn, 'remove');
                 return false
             }          
 
             return true
         },
+
+        /*toggleDisplayedLawn: function (lawn, action) {
+            if (action == 'add') {
+                this.displayedLawns.push(lawn._id);
+                console.log("lawn added to display");
+            } else if (this.displayedLawns.includes(lawn._id)){
+                let i = this.displayedLawns.indexOf(lawn._id);
+                this.displayedLawns.splice(i, 1);
+                console.log("lawn removed from display");
+            }
+            return
+        },*/
 
         IDCheck: function (lawn) {
             if (lawn.user_id == this.currentUserID) {
