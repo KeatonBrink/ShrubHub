@@ -349,7 +349,12 @@ var app = new Vue({
         },
         
         postLawn: async function () {
-            this.newLawnMowInterval = this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek;
+            if (this.dontRepeatBox == true){
+                this.newLawnMowInterval = "One Time Job"
+            } else {
+                this.newLawnMowInterval = "Repeat Every " + this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek;
+                console.log(this.newLawnMowInterval);
+            }
             if (this.newLawnDescription == "") {
                 console.log("Please add a description.");
                 this.postLawnError="Please add a description.";

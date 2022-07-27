@@ -252,7 +252,7 @@
                 <v-card-text class="py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
                 <v-card-text class="py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
                 <v-card-text class="py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
-                <v-card-text class="py-0"><b>One Time/Repeating: </b>Every {{ lawn.mowinterval }}</v-card-text>
+                <v-card-text class="py-0"><b>One Time/Repeating: </b>{{ lawn.mowinterval }}</v-card-text>
                 <v-card-text class="py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
                 <v-btn @click="page = 'edit-lawn-page'; targetLawn = lawn; newLawnStartDate = '';" class="mx-4 rounded-pill">Edit This Lawn</v-btn>
                 <v-btn @click="deleteLawn(lawn._id, lawn.user_id);" color="red" class="mx-4 mt-1 rounded-pill">Delete This Lawn</v-btn>
@@ -282,7 +282,7 @@
                 <v-card-text v-if="lawn.public == false" class="py-0"><b>Status: </b>Private</v-card-text>
                 <v-card-text class="py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
                 <v-card-text class="py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
-                <v-card-text class="py-0"><b>One Time/Repeating: </b>Every {{ lawn.mowinterval }}</v-card-text>
+                <v-card-text class="py-0"><b>One Time/Repeating: </b>{{ lawn.mowinterval }}</v-card-text>
                 <v-card-text class="py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
               </v-col>
               <v-col cols="1" class="pa-0">
