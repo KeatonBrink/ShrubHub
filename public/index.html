@@ -485,42 +485,48 @@
         </v-container>
 
         <!-- INDIVIDUAL LAWN PAGE -- page = "individual-lawn-page"-->
-        <div v-if="page == 'individual-lawn-page'">
+        <div style="width: 800px;" class="mx-auto" v-if="page == 'individual-lawn-page'">
+          <v-card class="grey lighten-2 mx-auto pt-8" max-width="1100px">
           <v-img 
+          contain
+          class="mx-auto"
           lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-          max-height="300"
-          max-width="238" 
+          max-height="400"
+          max-width="1000" 
           :src="targetLawn.picture"
           ></v-img>
-          <v-row>
-            Start Date: {{targetLawn.startdate}}
-          </v-row>
-          <v-row>
-            Pay: ${{targetLawn.pay}}
-          </v-row>
-          <v-row>
-            Time to Mow Lawn: {{targetLawn.time2mow}} minutes
-          </v-row>
-          <v-row>
-            Recurring: {{targetLawn.mowinterval}}
-          </v-row>
-          <v-row>
-            Description: {{targetLawn.description}}
-          </v-row>
-          <!-- I need to change the text color -->
-          <v-row color="green" v-on:click="savedLawnsToLocal(lawn); page='target-profile-page';">
+          <v-card-title style="cursor:pointer;"class="green--text darken-4" v-on:click="savedLawnsToLocal(lawn); page='target-profile-page';">
             Posted by: {{targetUser.fullname}}
-          </v-row>
-          <v-row>
+          </v-card-title>
+          <v-card-title>
+            Start Date: {{formatDate_MMMMDDYYYY(targetLawn.startdate)}}
+          </v-card-title>
+          <v-card-title>
+            Pay: ${{targetLawn.pay}}
+          </v-card-title>
+          <v-card-title>
+            Time to Mow Lawn: {{targetLawn.time2mow}} minutes
+          </v-card-title>
+          <v-card-title>
+            Recurring: {{targetLawn.mowinterval}}
+          </v-card-title>
+          <v-card-title>
+            Description: {{targetLawn.description}}
+          </v-card-title>
+          <!-- I need to change the text color -->
+          
+          <v-card-title>
             Contact Phone Number: {{targetUser.phonenumber}}
-          </v-row>
+          </v-card-title>
+          <v-card-title v-show="targetLawn.hasdogpoop">Warning, dog poop on lawn!</v-card-title>
           Perks:
           <ul>
             <li v-show="targetLawn.haslawnmower">Lawn Mower Provided</li>
             <li v-show="targetLawn.hasfreefood">Snacks Upon Request</li>
             <li v-show="targetLawn.hasfreewater">Water Bottles as Needed</li>
           </ul>
-          <v-row v-show="targetLawn.hasdogpoop">Warning, dog poop on lawn!</v-row>
+          
+        </v-card>
         </div>
 
         <!-- POST A LAWN -->
