@@ -570,7 +570,6 @@ var app = new Vue({
             if (response.status >= 200 && response.status < 300) {
                 console.log("User credentials updated. Please Log in.")
                 this.updatedPassword = "";
-                this.inputOldPassword = "";
                 this.updatePasswordInput1 = "";
                 this.updatePasswordInput2 = "";
                 this.updateFullNameInput = "";
@@ -578,7 +577,13 @@ var app = new Vue({
                 this.updateEmailInput = "";
                 this.updatePhoneInput = "";
                 console.log(body)
-                this.userLogout();
+                if (this.inputOldPassword != "" && this.inputOldPassword != null) {
+                    this.userLogout();
+                    this.inputOldPassword = "";
+                    return
+                } else {
+                    this.page = 'profile-page';
+                }
 
             } else if (response.status == 400 ) {
                 console.log("Old password input does not match current password. Please try again.")
