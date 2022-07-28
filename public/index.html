@@ -20,7 +20,7 @@
         <!-- header -->
         <v-app-bar height="75px" class="pb-16" fixed elevation="3 green darken-4">
           <div @click="pageRefresh('landing-page')">
-            <v-img style="cursor:pointer"src="https://svgur.com/i/jDN.svg" height="80px" width="80px"></v-img>
+            <v-img v-ripple style="cursor:pointer; border-radius: 50%;"src="https://svgur.com/i/jDN.svg" height="80px" width="80px"></v-img>
           </div>
           <v-spacer></v-spacer>
           <v-btn v-show="page != 'mowermain' && currentUserID != null" @click="pageRefresh('mowermain')" width="auto" height="30px" class="rounded-pill grey lighten-2 ma-4">
@@ -54,7 +54,7 @@
           <v-img
           
             lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-            height="650"
+            height="auto"
             src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
             <v-row align="center" justify="center">
               <v-col class="text-center" cols="12">
@@ -62,43 +62,18 @@
                   Shrubhub
                 </h1>
                 <h4 class="text-h4 white--text">
-                  Get Your Lawn Mowed Today!
+                  Sign Up To Get Your Lawn Mowed Today, 
+                  <br>
+                   Or Start Mowing Lawns Now!
                 </h4>
+                <v-card-actions class="mt-8 justify-center">
+                    <v-btn v-on:click="page = 'create-account-page' ; newDefaultRole = 'mower'" width="300px" height="60px"
+                      class="mt-16px green darken-4 white--text text-h4"
+                      elevation="8" raised>Sign Up</v-btn>
+                  </v-card-actions>
               </v-col>
             </v-row>
           </v-img>
-
-
-          <v-container fluid>
-            <v-row dense>
-              <v-col>
-                <v-card elevation="10" width="550" height="400" class="mx-auto green darken-4 white--text">
-                  <v-card-title class="mx-auto justify-center text-h4 mb-10">Lawn-Mowers</v-card-title>
-                  <v-card-text class="white--text subtitle-1 mb-16">
-                    <div style="width: fit-content" class="mx-auto">Sign up today to find jobs. Completely free to use
-                    </div>
-                  </v-card-text>
-                  <v-card-actions class="justify-center">
-                    <v-btn v-on:click="page = 'create-account-page' ; newDefaultRole = 'mower'" width="300px" height="60px"
-                      class="mt-16px grey lighten-2">Sign Up</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-col>
-
-              <v-col>
-                <v-card elevation="10" width="550" height="400" class="mx-auto green darken-4 white--text">
-                  <v-card-title class="mx-auto justify-center text-h4 mb-10">Lawn-Posters</v-card-title>
-                  <v-card-text class="white--text subtitle-1 mb-16">
-                    <div style="width: fit-content" class="mx-auto">Sign up today to get your lawn mowed </div>
-                  </v-card-text>
-                  <v-card-actions class="justify-center">
-                    <v-btn v-on:click="page = 'create-account-page' ; newDefaultRole = 'poster'" width="300px" height="60px"
-                      class="mt-16px grey lighten-2">Sign Up</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-container>
 
         </div>
 
@@ -119,7 +94,7 @@
                 Login
               </v-btn>
             </v-card-actions>
-            <v-card-text>Dont have an account? Create one. <v-btn v-on:click="page = 'create-account-page'" elevation="0"
+            <v-card-text>Dont have an account? Create one <v-btn v-on:click="page = 'create-account-page'" elevation="0"
                 class="lime lighten-5">here</v-btn>
             </v-card-text>
           </v-card>
@@ -131,36 +106,20 @@
           <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
             <v-card-title>Create Account</v-card-title>
             <v-card-text>
-              <v-text-field color="green darken-4" label="Username" v-model="newUsernameInput" required>
+              <v-text-field :rules="[(v) => !!v || 'Username is required']" color="green darken-4" label="Username" v-model="newUsernameInput" required>
               </v-text-field>
-              <v-text-field color="green darken-4" label="Password" v-model="newPasswordInput" type="password" required>
+              <v-text-field :rules="[(v) => !!v || 'Password is required']" color="green darken-4" label="Password" v-model="newPasswordInput" type="password" required>
               </v-text-field>
-              <v-text-field color="green darken-4" label="Retype Password" v-model="newPasswordInput2" type="password" required>
+              <v-text-field :rules="[(v) => !!v || 'Retype Password is required']" color="green darken-4" label="Retype Password" v-model="newPasswordInput2" type="password" required>
               </v-text-field>
-              Are you planning on mowing or posting a lawn?
-            </v-card-text>
-            <v-card-actions>
-              <v-btn v-on:click="newDefaultRole = `mower`"
-              class="mx-auto"
-              :color='newDefaultRole == "mower" ? "#005921" : "grey lighten-4"'
-              :class='newDefaultRole == "mower" ? "white--text" : "black--text"'>
-                Mowing
-              </v-btn>
-              <v-btn v-on:click="newDefaultRole = `poster`"
-              class="mx-auto"
-              :color='newDefaultRole == "poster" ? "#005921" : "grey lighten-4"'
-              :class='newDefaultRole == "poster" ? "white--text" : "black--text"'>
-                Posting
-              </v-btn>
-            </v-card-actions>
-            <v-card-text>
-              <v-text-field color="green darken-4" label="Full Name" v-model="newFullNameInput" required>
+
+              <v-text-field :rules="[(v) => !!v || 'Fullname is required']"  color="green darken-4" label="Full Name" v-model="newFullNameInput" required>
               </v-text-field>
-              <v-text-field color="green darken-4" label="Email" v-model="newEmailInput" required>
+              <v-text-field :rules="[(v) => !!v || 'Email is required']"  color="green darken-4" label="Email" v-model="newEmailInput" required>
               </v-text-field>
-              <v-text-field color="green darken-4" label="Phone Number" v-model="newPhoneInput" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+              <v-text-field :rules="[(v) => !!v || 'Phone Number is required']" color="green darken-4" label="Phone Number" v-model="newPhoneInput" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
               </v-text-field>
-              <v-card-text class="red--text">{{createAccError}}</v-card-text>
+              <v-card-text class="red--text my-1 py-1">{{createAccError}}</v-card-text>
             </v-card-text>
             <v-card-actions>
               <v-btn v-on:click="postUser" class="mx-auto" color="grey lighten-4">
@@ -239,7 +198,7 @@
               <v-col>
                 <v-img
                   v-if="lawn.picture"
-                  max-height="200" max-width="300" contain class="py-4 ml-2"
+                  height="200" width="300" contain class="py-4 ml-2"
                   :src="lawn.picture">
                   </v-img>
                 <v-img v-else
@@ -271,7 +230,7 @@
           <v-card-text class="red--text mx-auto" v-show="targetUser.savedlawns.length == 0">You haven't saved any lawns yet ;(</v-card-text>
           <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null && targetUser.savedlawns.includes(lawn._id)" v-for="(lawn, index) in allLawns" :key="index">
             <v-row dense>
-              <v-col cols="5" class="pa-0">
+              <v-col cols="5" class="pa-1">
                 <v-img
                   v-if="lawn.picture"
                   max-height="200" max-width="300" contain class="py-4 ml-2"
@@ -493,12 +452,16 @@
               Please be concise and clear for faster mower reservations.</v-card-text>
             <v-card-text>
                <v-text-field 
+               :rules="[(v) => !!v || 'Address is required']" 
+               required
                color="green darken-4" 
                    label="Address"
                    v-model="newLawnAddress"
                >
                </v-text-field>
                <v-text-field 
+               :rules="[(v) => !!v || 'Estimated mow time is required']" 
+               required
                color="green darken-4" 
                    label="Estimated time to mow in minutes"
                    v-model="newLawnTime2Mow"
@@ -506,6 +469,8 @@
                >
                </v-text-field>
                <v-file-input
+               :rules="[(v) => !!v || 'A picture of the lawn is required']" 
+               required
                 prepend-icon="mdi-camera"
                 truncate-length="50"
                 color="green darken-4"
@@ -514,6 +479,8 @@
                 id="myfile"
               ></v-file-input>
                <v-text-field 
+               :rules="[(v) => !!v || 'Pay is required']" 
+               required
                color="green darken-4" 
                    label="Pay $"
                    v-model="newLawnPay"
@@ -521,6 +488,8 @@
                >
               </v-text-field>
                <v-text-field 
+               :rules="[(v) => !!v || 'Description is required']" 
+               required
                color="green darken-4" 
                label="Description/Extra Info"
                v-model="newLawnDescription"
@@ -530,7 +499,7 @@
          </v-card-text>
          <v-card-title class="text-h5">When do you want your lawn mowed?</v-card-title>
          <v-row justify="center">
-          <v-date-picker color="green darken-4" v-model="newLawnStartDate" min="2022-07-27"></v-date-picker>
+          <v-date-picker color="green darken-4" v-model="newLawnStartDate" min="2022-07-29"></v-date-picker>
         </v-row>
         <v-card-title class="text-h5 mx-auto">How often do you want it mowed?</v-card-title>
         <v-checkbox
@@ -605,12 +574,16 @@
               Please be concise and clear for faster mower reservations.</v-card-text>
             <v-card-text>
                <v-text-field 
+               :rules="[(v) => !!v || 'Address is required']" 
+               required
                color="green darken-4" 
                    label="Address"
                    v-model="targetLawn.address"
                >
                </v-text-field>
-               <v-text-field 
+               <v-text-field
+               :rules="[(v) => !!v || 'Estimated time to mow is required']"  
+               required
                color="green darken-4" 
                    label="Estimated time to mow in minutes"
                    v-model="targetLawn.time2mow"
@@ -618,6 +591,8 @@
                >
                </v-text-field>
                <v-text-field 
+               :rules="[(v) => !!v || 'Pay is required']" 
+               required
                color="green darken-4" 
                    label="Pay"
                    v-model="targetLawn.pay"
@@ -625,6 +600,8 @@
                >
               </v-text-field>
                <v-text-field 
+               :rules="[(v) => !!v || 'Description is required']" 
+               required
                color="green darken-4" 
                label="Description/Extra Info"
                v-model="targetLawn.description"
@@ -634,7 +611,7 @@
          </v-card-text>
          <v-card-title class="text-h5">When do you want your lawn mowed?</v-card-title>
          <v-row justify="center">
-          <v-date-picker color="green darken-4" v-model="newLawnStartDate" min="2022-07-20"></v-date-picker>
+          <v-date-picker color="green darken-4" v-model="newLawnStartDate" min="2022-07-29"></v-date-picker>
         </v-row>
         <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
         
