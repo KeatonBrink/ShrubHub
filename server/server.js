@@ -393,8 +393,9 @@ app.patch("/updateUser", async (req, res) => {
         return;
     }
     
-    if (req.body.oldpassword == "") {
+    if (req.body.oldpassword == "" || req.body.oldpassword == null) {
         try {
+            console.log(req.body)
             user = await User.findByIdAndUpdate(
                 userID,
                 {

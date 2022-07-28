@@ -218,6 +218,9 @@ var app = new Vue({
             //Check for successful login
             if (response.status == 201) {
                 console.log("Successful login attempt ");
+                this.logInputError = "";
+                this.usernameInput = "";
+                this.passwordInput = "";
                 //This is a terrible idea, I think
                 await this.getSession();
                 // console.log(this.currentUserID);
@@ -496,72 +499,78 @@ var app = new Vue({
             if (this.targetUser.fullname == "" || this.targetUser.fullname == null) {
                 console.log("Please insert your full name.");
                 this.createAccError="Please insert your full name.";
-                return;
+                return
             } else if (this.targetUser.email == "" || this.targetUser.email == null) {
                 console.log("Please insert a valid email address.");
                 this.createAccError="Please insert a valid email address.";
-                return;
+                return
             } else if (this.targetUser.phonenumber == "" || this.targetUser.phonenumber == null) {
                 console.log("Please insert a valid phone number");
                 this.createAccError="Please insert a valid phone number";
-                return;
+                return
             
             // verification for password changes - one box for old password, two read-only boxes to create new password that show if old password becomes available.
             } else if (this.inputOldPassword != "" && this.inputOldPassword != null) {
             // input backend function here that checks to see if you match the old password
-                console.log(this.updatePasswordInput1)
+                console.log("updatePasswordInput1: ", this.updatePasswordInput1)
+                console.log("updatePasswordInput2: ", this.updatePasswordInput2)
                 if (this.updatePasswordInput1 == "" || this.updatePasswordInput1 == null) {
                     console.log("Please insert a password");
                     this.createAccError="Please insert a password";
-                    return;
+                    return
                 } else if (this.updatePasswordInput1 != this.updatePasswordInput2) {
                     console.log("Password inputs do not match. Re-type your password.");
                     this.createAccError="Password inputs do not match. Re-type your password.";
-                    return;
-                } else {
-                    updatedPassword = this.updatePasswordInput1;
-                }
-            //Once user passes all checks, and no fields are null...
+                    return
+                }}
+            
+            updatedPassword = this.updatePasswordInput1;
+            this.createAccError="";
+            let newUserUpdates = {
+                "updatedpassword" : updatedPassword,
+                "oldpassword" : this.inputOldPassword,
+                "fullname" : this.targetUser.fullname,
+                "role" : this.targetUser.defaultrole,
+                "email" : this.targetUser.email,
+                "phone" : this.targetUser.phonenumber,
+            }
+            let newURL = URL + "/updateUser";
+            let response = await fetch(newURL, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newUserUpdates),
+                credentials: "include"
+            });
+            let body = await response.json();
+
+            if (response.status >= 200 && response.status < 300) {
+                console.log("User credentials updated. Please Log in.")
+                this.updatedPassword = "";
+                this.inputOldPassword = "";
+                this.updatePasswordInput1 = "";
+                this.updatePasswordInput2 = "";
+                this.updateFullNameInput = "";
+                this.updateDefaultRole = "";
+                this.updateEmailInput = "";
+                this.updatePhoneInput = "";
+                console.log(body)
+                this.userLogout();
+
+            } else if (response.status == 400 ) {
+                console.log("Old password input does not match current password. Please try again.")
+                this.createAccError="Old password input does not match current password. Please try again.";
+                return
+            } else if (response.status >= 401 && response.status <= 403) {
+                console.log("Error updating. Could not update credentials. ", response," ", response.status)
+                return
+            } else if (response.status == 404) {
+                console.log("User not found. ", response," ", response.status)
+                return
             } else {
-                this.createAccError="";
-                let newUserUpdates = {
-                    "updatedpassword" : updatedPassword,
-                    "oldpassword" : this.inputOldPassword,
-                    "fullname" : this.updateFullNameInput,
-                    "role" : this.updateDefaultRole,
-                    "email" : this.updateEmailInput,
-                    "phone" : this.updatePhoneInput,
-                }
-                let newURL = URL + "/updateUser";
-                let response = await fetch(newURL, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(newUserUpdates),
-                    credentials: "include"
-                });
-                let body = await response.json();
-
-                if (response.status >= 200 && response.status < 300) {
-                    console.log("User credentials updated. Please Log in.")
-                    console.log(body)
-                    this.userLogout();
-
-                } else if (response.status == 400 ) {
-                    console.log("Password input does not match current password. Please try again.")
-                    this.createAccError="Password input does not match current password. Please try again.";
-                    return
-                } else if (response.status >= 401 && response.status <= 403) {
-                    console.log("Error updating. Could not update credentials. " + response + " " + response.status)
-                    return
-                } else if (response.status == 404) {
-                    console.log("User not found. " + response + " " + response.status)
-                    return
-                } else {
-                    console.log("Unique response.... " + response + " " + response.status)
-                    return
-                };
+                console.log("Unique response.... ", response, " ", response.status)
+                return
             };
         },
 
