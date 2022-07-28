@@ -745,6 +745,7 @@ var app = new Vue({
         },
 
         pageRefresh: async function (newPage) {
+            //If navigating from another user's page
             if (this.page == 'target-profile-page') {
                 await this.getUser(this.currentUserID);
 
@@ -759,6 +760,35 @@ var app = new Vue({
                 }
             }
 
+            //Clear inputs if navigating away from posting a lawn page
+            if (this.page == 'create-post-page') {
+                this.newLawnAddress = '';
+                this.newLawnTime2Mow = '';
+                this.newLawnImageURL = '';
+                this.newLawnPay = '';
+                this.newLawnDescription = '';
+                this.newLawnStartDate = '';
+                this.newRepeatInterval_number = '';
+                this.newRepeatInterval_dayweek = '';
+                this.dontRepeatBox = false;
+                this.newLawnHasLawnMower = false;
+                this.newLawnHasDogPoop = false;
+                this.newLawnHasFreeFood = false;
+                this.newLawnHasFreeWater = false;
+            }
+
+            //Clear create account page when navigating away
+            if (this.page == 'create-account-page') {
+                this.newUsernameInput = '';
+                this.newPasswordInput = '';
+                this.newPasswordInput2 = '';
+                this.newFullNameInput = '';
+                this.newEmailInput = '';
+                this.newPhoneInput = '';
+                this.newDefaultRole = '';
+            }
+
+            //Load and refresh page when going to profile
             if (newPage == 'profile-page') {
                 await this.screenDelay(1, '');   
                 setTimeout(() => {

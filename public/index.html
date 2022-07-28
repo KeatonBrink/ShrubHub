@@ -418,7 +418,7 @@
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
               <!--<v-card-text class="red--text mx-auto" v-show="displayedLawns == 0">There are no posted lawns to display</v-card-text>-->
-              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px" class="my-5 overflow-auto" v-if="lawnFilterCheck(lawn)">
+              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="auto" class="my-5" v-if="lawnFilterCheck(lawn)">
                 
                 <v-card-title class="ma-0 pa-2">Save Lawn
                 <v-spacer></v-spacer><v-btn @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
@@ -427,12 +427,9 @@
                 <div style="cursor:pointer" v-on:click="savedLawnsToLocal(lawn); page='target-profile-page';">
                 <v-img class="mx-2" v-if="lawn.picture" :src="lawn.picture"></v-img>
                 <v-img class="mx-2" v-else src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"></v-img>
-                <v-card-text class="py-1 black--text"><b>Address: {{ lawn.address }}</b></v-card-text>
-                <v-card-text class="py-1 black--text"><b>Pay: ${{ lawn.pay }}</b></v-card-text>
-                <v-card-text class="py-1 black--text"><b>Start Date: {{ formatDate_MMMMDDYYYY(lawn.startdate) }}</b></v-card-text>
-                <v-card-text class="py-1 black--text"><b>Interval: {{ lawn.mowinterval }}</b></v-card-text>
-                <v-card-text class="py-1 black--text"><b>Estimated Job Time: {{ lawn.time2mow }} minutes</b></v-card-text>
-                <v-card-text class="py-1 black--text"><b>Description: {{ lawn.description }}</b></v-card-text>
+                <v-card-text class="py-1 black--text"><b>Address:</b> {{ lawn.address }}</v-card-text>
+                <v-card-text class="py-1 black--text"><b>Pay:</b> ${{ lawn.pay }}</v-card-text>
+                <v-card-text class="py-1 black--text"><b>Start Date:</b> {{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
               </div>
               </v-card>
               
@@ -648,18 +645,7 @@
             v-model="targetLawn.hasdogpoop"
            :label= "'Dog Poop Needs to be Removed'"
           ></v-checkbox>
-          <v-checkbox
-            color="green darken-4"
-            class="mr-16 pr-16 pl-4"
-            v-model="targetLawn.hasfreewater"
-           :label= "'Free Water - water bottles are recommended for mowers.'"
-          ></v-checkbox>
-          <v-checkbox
-            color="green darken-4"
-            class="mr-16 pr-16 pl-4"
-            v-model="targetLawn.hasfreefood"
-           :label= "'Free Food - granola bars, fruit, whatever isnt weird to feed to strangers.'"
-          ></v-checkbox>
+          
           <v-card-text class="red--text">{{postLawnError}}</v-card-text>
          <v-card-actions justify-center>
               <v-btn @click="patchLawn()" class="mx-auto"  color="grey lighten-4">
