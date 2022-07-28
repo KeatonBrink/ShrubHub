@@ -460,7 +460,7 @@
                 <v-spacer></v-spacer><v-btn @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
                 <v-btn @click="toggleBookmark(lawn)" v-else><v-icon>mdi-bookmark</v-icon></v-btn></v-card-title>
 
-                <div style="cursor:pointer" v-on:click="savedLawnsToLocal(lawn); page='target-profile-page';">
+                <div style="cursor:pointer" @click="page = 'individual-lawn-page'; targetLawn = lawn">
                 <v-img class="mx-2" v-if="lawn.picture" :src="lawn.picture"></v-img>
                 <v-img class="mx-2" v-else src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"></v-img>
                 <v-card-text class="py-1 black--text"><b>Address: {{ lawn.address }}</b></v-card-text>
@@ -508,7 +508,7 @@
             Description: {{targetLawn.description}}
           </v-row>
           <!-- I need to change the text color -->
-          <v-row color="green">
+          <v-row color="green" v-on:click="savedLawnsToLocal(lawn); page='target-profile-page';">
             Posted by: {{targetUser.fullname}}
           </v-row>
           <v-row>
