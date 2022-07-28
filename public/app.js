@@ -93,8 +93,8 @@ var app = new Vue({
         },
         startDateFilter: (new Date(Date.now() - (new Date()).getTimezoneOffset())).toISOString().substr(0, 10),
         startDateFilterReveal: false,
-        lawnmowerProvidedFilterReveal: false,
-        lawnmowerProvidedFilter: null,       
+        lawnmowerProvidedFilter: null,
+        dogPoopFilter: null,     
         displayedLawns: [],
         showMore: false,
 
@@ -177,16 +177,16 @@ var app = new Vue({
 
             //Check for successful creation
             
-                this.targetUser = body;
-                console.log("Successful user get");
-                this.$forceUpdate();
-                if (response.status == 200) {
-                //Succesful creation
-                if(this.currentUserID == this.targetUser._id){
-                    this.page = 'profile-page';
-                } else {
-                    this.page = 'target-profile-page';
-                }
+            this.targetUser = body;
+            console.log("Successful user get");
+            this.$forceUpdate();
+            if (response.status == 200) {
+            //Succesful creation
+            if(this.currentUserID == this.targetUser._id){
+                this.page = 'profile-page';
+            } else {
+                this.page = 'target-profile-page';
+            }
                 
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get user")
@@ -846,6 +846,10 @@ var app = new Vue({
             }
             if (!(lawn.haslawnmower == this.lawnmowerProvidedFilter) && this.lawnmowerProvidedFilter != null) {
                 console.log("'" + lawn.address + "' Has Lawn Mower Filtered Out");
+                return false
+            }
+            if (!(lawn.hasdogpoop == this.dogPoopFilter) && this.dogPoopFilter != null) {
+                console.log("'" + lawn.address + "' Has Dog Poop Filtered Out");
                 return false
             }
 

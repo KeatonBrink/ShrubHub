@@ -236,7 +236,7 @@
           <v-card-text class="red--text mx-auto" v-show="targetUser.lawns.length == 0">You haven't posted any lawns yet ;(</v-card-text>
           <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="lawn.user_id == currentUserID && targetUser.lawns[0] != null" v-for="(lawn, index) in allLawns" :key="index">
             <v-row dense>
-              <v-col>
+              <v-col cols="6">
                 <v-img
                   v-if="lawn.picture"
                   max-height="200" max-width="300" contain class="py-4 ml-2"
@@ -247,7 +247,7 @@
                   src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
                 </v-img>
               </v-col>
-              <v-col>
+              <v-col cols="6">
                   <v-switch class="my-n4" v-model="lawn.public" color="green darken-4"v-if="lawn.user_id == currentUserID" @click="patchLawnPublicity(lawn._id, lawn.public)">
                     <template v-slot:label>
                       <v-card-text v-if="lawn.public == true" class="py-0"><b>Status: </b>Public</v-card-text>
@@ -444,7 +444,12 @@
 
                 <!-- Lawnmower Provided -->
                 <v-row class="mx-auto justify-center">
-                  <v-checkbox @click="lawnmowerProvidedFilterReveal = true" color="#005921" v-model="lawnmowerProvidedFilter" :label="`LawnMower Provided`" indeterminate></v-checkbox>
+                  <v-checkbox color="#005921" v-model="lawnmowerProvidedFilter" :label="`LawnMower Provided`" indeterminate></v-checkbox>
+
+                <!-- Dog poop -->
+                <v-row class="mx-auto justify-center">
+                  <v-checkbox color="#005921" v-model="dogPoopFilter" :label="`Has dog poop`" indeterminate></v-checkbox>
+
 
                 </v-row>
 
@@ -571,18 +576,6 @@
             class="mr-16 pr-16 pl-4"
             v-model="newLawnHasDogPoop"
            :label= "'Dog Poop Needs to be Removed'"
-          ></v-checkbox>
-          <v-checkbox
-            color="green darken-4"
-            class="mr-16 pr-16 pl-4"
-            v-model="newLawnHasFreeWater"
-           :label= "'Free Water - water bottles are recommended for mowers.'"
-          ></v-checkbox>
-          <v-checkbox
-            color="green darken-4"
-            class="mr-16 pr-16 pl-4"
-            v-model="newLawnHasFreeFood"
-           :label= "'Free Food - granola bars, fruit, whatever isnt weird to feed to strangers.'"
           ></v-checkbox>
           <v-card-text class="red--text">{{postLawnError}}</v-card-text>
          <v-card-actions justify-center>
