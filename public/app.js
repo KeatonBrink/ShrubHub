@@ -992,10 +992,8 @@ var app = new Vue({
             return formattedDate
         }
     },
-
     created: function () {
         this.getSession();
         this.getLawns();
-    }
-            
+    }        
 });
