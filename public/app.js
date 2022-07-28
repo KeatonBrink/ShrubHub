@@ -448,10 +448,10 @@ var app = new Vue({
                 this.newLawnHasFreeFood = false;
                 this.newLawnHasFreeWater = false;
                 await this.getUser(this.currentUserID);               
-                await this.screenDelay(3, '');   
+                await this.screenDelay(1, '');   
                 setTimeout(() => {
                     document.location.reload(true);
-                }, 3000);
+                }, 1000);
             } else if (response.status >= 400) {
                 console.log ("Unsuccesful lawn creation attempt. Error: "+response.status+response);
             } else {
@@ -596,10 +596,10 @@ var app = new Vue({
             });
             if (response.status >= 200 && response.status < 300) {
                 //Succesful update
-                await this.screenDelay(3, '');   
+                await this.screenDelay(1, '');   
                 setTimeout(() => {
                     document.location.reload(true);
-                }, 3000);
+                }, 1000);
                 console.log("Successful delete attempt");
             } else if (response.status < 500) {
                 console.log ("Unsuccesful DELETE /lawn")
