@@ -763,6 +763,11 @@ var app = new Vue({
                 }
             }
 
+            //Clear the target lawn when navigating away from an individual lawn
+            if (this.page == 'individual-lawn-page') {
+                this.targetLawn = null;
+            }
+
             this.page = newPage;
         },
 
