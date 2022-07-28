@@ -454,7 +454,7 @@
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
               <!--<v-card-text class="red--text mx-auto" v-show="displayedLawns == 0">There are no posted lawns to display</v-card-text>-->
-              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px" class="my-5 overflow-auto" v-if="lawnFilterCheck(lawn)">
+              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px" class="my-5 overflow-auto" v-if="lawnFilterCheck(lawn)" @click="individualLawn(lawn)">
                 
                 <v-card-title class="ma-0 pa-2">Save Lawn
                 <v-spacer></v-spacer><v-btn @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
@@ -484,6 +484,44 @@
           </v-row>
         </v-container>
 
+        <!-- INDIVIDUAL LAWN PAGE -- page = "individual-lawn-page"-->
+        <div v-if="page == 'individual-lawn-page'">
+          <v-img 
+          lazy-src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+          max-height="300"
+          max-width="238" 
+          :src="targetLawn.picture"
+          ></v-img>
+          <v-row>
+            Start Date: {{targetLawn.startdate}}
+          </v-row>
+          <v-row>
+            Pay: ${{targetLawn.pay}}
+          </v-row>
+          <v-row>
+            Time to Mow Lawn: {{targetLawn.time2mow}} minutes
+          </v-row>
+          <v-row>
+            Recurring: {{targetLawn.mowinterval}}
+          </v-row>
+          <v-row>
+            Description: {{targetLawn.description}}
+          </v-row>
+          <!-- I need to change the text color -->
+          <v-row color="green">
+            Posted by: {{targetUser.fullname}}
+          </v-row>
+          <v-row>
+            Contact Phone Number: {{targetUser.phonenumber}}
+          </v-row>
+          Perks:
+          <ul>
+            <li v-show="targetLawn.haslawnmower">Lawn Mower Provided</li>
+            <li v-show="targetLawn.hasfreefood">Snacks Upon Request</li>
+            <li v-show="targetLawn.hasfreewater">Water Bottles as Needed</li>
+          </ul>
+          <v-row v-show="targetLawn.hasdogpoop">Warning, dog poop on lawn!</v-row>
+        </div>
 
         <!-- POST A LAWN -->
         <div v-if="page == 'create-post-page'">
@@ -636,11 +674,8 @@
          <v-row justify="center">
           <v-date-picker color="green darken-4" v-model="newLawnStartDate" min="2022-07-20"></v-date-picker>
         </v-row>
-        <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
-        
-        
-        <!-- I am unsure what to do with the don't repeat box -->
 
+        <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
         <v-checkbox
         @click="clearRepeat"
         width="100px"
@@ -703,7 +738,6 @@
         
         
         </div>
-
         <div class="text-center d-flex" height="100%" v-show="page == 'loading'">
           <v-progress-circular class="ma-auto align-center py-16" :width="5" :size="50" v-show="page == 'loading'" color="green darken-4" indeterminate></v-progress-circular>
         </div>

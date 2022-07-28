@@ -32,6 +32,8 @@ var app = new Vue({
         currentLawn: null,
         targetUser: null,
         targetLawn: null,
+        targetLawnUser: null,
+        targetLawnLook: false,
         allLawns: null,
 
         mapsAPIKey: null,
@@ -176,18 +178,19 @@ var app = new Vue({
             let body = await response.json();
 
             //Check for successful creation
-            
+            if (response.status == 200) {
+                //Succesful creation
                 this.targetUser = body;
                 console.log("Successful user get");
                 this.$forceUpdate();
-                if (response.status == 200) {
-                //Succesful creation
-                if(this.currentUserID == this.targetUser._id){
+                console.log(this.targetLawn);
+                if(this.targetLawnLook == true){
+                    this.page = 'individual-lawn-page';
+                } else if(this.currentUserID == this.targetUser._id){
                     this.page = 'profile-page';
                 } else {
                     this.page = 'target-profile-page';
                 }
-                
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get user")
             } else {
@@ -575,9 +578,10 @@ var app = new Vue({
             if (response.status >= 200 && response.status < 300) {
                 //Succesful update
                 this.getUser(this.currentUserID)
-                this.page = "profile-page";
                 this.$forceUpdate();
+                targetLawn = null;
                 console.log("Successful patch attempt");
+
             } else if (response.status >= 400) {
                 console.log ("Unsuccesful PATCH /lawn")
             } else {
@@ -947,7 +951,17 @@ var app = new Vue({
             console.log(`Year: ${year}, Month: ${month}, Date: ${date}, Day: ${day}`)
             formattedDate = day+", "+month+" "+date+", "+year
             return formattedDate
+        },
+
+        individualLawn: async function (lawn) {
+            this.targetLawnLook = true;
+            console.log("lawn page we are entering", lawn)
+            this.targetLawn = lawn;  
+            await this.getUser(lawn.user_id); 
+            this.page = "individual-lawn-page";
+            this.targetLawnLook = false;
         }
+
     },
 
     created: function () {
