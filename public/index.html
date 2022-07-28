@@ -67,7 +67,7 @@
                    Or Start Mowing Lawns Now!
                 </h4>
                 <v-card-actions class="mt-8 justify-center">
-                    <v-btn v-on:click="page = 'create-account-page' ; newDefaultRole = 'mower'" width="300px" height="60px"
+                    <v-btn v-show="currentUserID == null" v-on:click="page = 'create-account-page' ; newDefaultRole = 'mower'" width="300px" height="60px"
                       class="mt-16px green darken-4 white--text text-h4"
                       elevation="8" raised>Sign Up</v-btn>
                   </v-card-actions>
@@ -106,7 +106,7 @@
           <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
             <v-card-title>Create Account</v-card-title>
             <v-card-text>
-              <v-text-field :rules="[(v) => !!v || 'Username is required']" color="green darken-4" label="Username" v-model="newUsernameInput" required>
+              <v-text-field  maxlength="15" :rules="[(v) => !!v || 'Username is required', v => v.length <= 14.5 || 'Max 15 characters']" color="green darken-4" label="Username" v-model="newUsernameInput" required>
               </v-text-field>
               <v-text-field :rules="[(v) => !!v || 'Password is required']" color="green darken-4" label="Password" v-model="newPasswordInput" type="password" required>
               </v-text-field>
@@ -165,7 +165,7 @@
                   <v-card-text v-if="lawn.public == false" class="py-0"><b>Status: </b>Private</v-card-text>
                 </template>
             <v-card-text class=" py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
-            <v-card-text class=" py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
+            <v-card-text class=" py-0"><b>Pay: </b>${{ lawn.pay }}</v-card-text>
             <v-card-text class=" py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
             <v-card-text class=" py-0"><b>One Time/Repeating: </b>{{ lawn.mowinterval }}</v-card-text>
             <v-card-text class=" py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
@@ -214,7 +214,7 @@
                     </template>
                   </v-switch>
                 <v-card-text class="py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
-                <v-card-text class="py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
+                <v-card-text class="py-0"><b>Pay: </b>${{ lawn.pay }}</v-card-text>
                 <v-card-text class="py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
                 <v-card-text class="py-0"><b>One Time/Repeating: </b>{{ lawn.mowinterval }}</v-card-text>
                 <v-card-text class="py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
@@ -245,7 +245,7 @@
                 <v-card-text class="py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
                 <v-card-text v-if="lawn.public == true" class="py-0"><b>Status: </b>Public</v-card-text>
                 <v-card-text v-if="lawn.public == false" class="py-0"><b>Status: </b>Private</v-card-text>
-                <v-card-text class="py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
+                <v-card-text class="py-0"><b>Pay: </b>${{ lawn.pay }}</v-card-text>
                 <v-card-text class="py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startdate) }}</v-card-text>
                 <v-card-text class="py-0"><b>One Time/Repeating: </b>{{ lawn.mowinterval }}</v-card-text>
                 <v-card-text class="py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
@@ -462,10 +462,12 @@
                >
                </v-text-field>
                <v-text-field 
+               suffix="mins"
+               max="999"
                :rules="[(v) => !!v || 'Estimated mow time is required']" 
                required
                color="green darken-4" 
-                   label="Estimated time to mow in minutes"
+                   label="Estimated time to mow"
                    v-model="newLawnTime2Mow"
                    type="number"
                >
@@ -479,18 +481,22 @@
                 label="Insert Lawn Image Here"
                 id="myfile"
               ></v-file-input>
-               <v-text-field 
+               <v-text-field
+               prefix="$" 
+               max="999"
                :rules="[(v) => !!v || 'Pay is required']" 
                required
                color="green darken-4" 
-                   label="Pay $"
+                   label="Pay"
                    v-model="newLawnPay"
                    type="number"
                >
               </v-text-field>
                <v-text-field 
-               :rules="[(v) => !!v || 'Description is required']" 
+               :rules="[(v) => !!v || 'Description is required', v => v.length <= 249.5 || 'Max 250 characters']" 
                required
+               counter
+               maxlength="250"
                color="green darken-4" 
                label="Description/Extra Info"
                v-model="newLawnDescription"
@@ -571,15 +577,19 @@
                >
                </v-text-field>
                <v-text-field
+               suffix="mins"
+               max="999"
                :rules="[(v) => !!v || 'Estimated time to mow is required']"  
                required
                color="green darken-4" 
-                   label="Estimated time to mow in minutes"
+                   label="Estimated time to mow"
                    v-model="targetLawn.time2mow"
                    type="number"
                >
                </v-text-field>
-               <v-text-field 
+               <v-text-field
+               prefix="$"  
+               max="999"
                :rules="[(v) => !!v || 'Pay is required']" 
                required
                color="green darken-4" 
@@ -589,7 +599,8 @@
                >
               </v-text-field>
                <v-text-field 
-               :rules="[(v) => !!v || 'Description is required']" 
+               maxlength="250"
+               :rules="[(v) => !!v || 'Description is required', v => v.length <= 249.5 || 'Max 250 characters']" 
                required
                color="green darken-4" 
                label="Description/Extra Info"
