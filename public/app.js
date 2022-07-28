@@ -32,6 +32,8 @@ var app = new Vue({
         currentLawn: null,
         targetUser: null,
         targetLawn: null,
+        targetLawnUser: null,
+        targetLawnLook: false,
         allLawns: null,
 
         mapsAPIKey: null,
@@ -181,6 +183,7 @@ var app = new Vue({
             let body = await response.json();
 
             //Check for successful creation
+<<<<<<< HEAD
             
             this.targetUser = body;
             console.log("Successful user get");
@@ -193,6 +196,21 @@ var app = new Vue({
                 this.page = 'target-profile-page';
             }
                 
+=======
+            if (response.status == 200) {
+                //Succesful creation
+                this.targetUser = body;
+                console.log("Successful user get");
+                this.$forceUpdate();
+                console.log(this.targetLawn);
+                if(this.targetLawnLook == true){
+                    this.page = 'individual-lawn-page';
+                } else if(this.currentUserID == this.targetUser._id){
+                    this.page = 'profile-page';
+                } else {
+                    this.page = 'target-profile-page';
+                }
+>>>>>>> add_lawn_page
             } else if (response.status >= 400) {
                 console.log("Unsuccesful get user")
             } else {
@@ -672,9 +690,10 @@ var app = new Vue({
             if (response.status >= 200 && response.status < 300) {
                 //Succesful update
                 this.getUser(this.currentUserID)
-                this.page = "profile-page";
                 this.$forceUpdate();
+                targetLawn = null;
                 console.log("Successful patch attempt");
+
             } else if (response.status >= 400) {
                 console.log ("Unsuccesful PATCH /lawn")
             } else {
@@ -896,6 +915,11 @@ var app = new Vue({
                 return
             }
 
+            //Clear the target lawn when navigating away from an individual lawn
+            if (this.page == 'individual-lawn-page') {
+                this.targetLawn = null;
+            
+
             this.page = newPage;
         },
 
@@ -1087,7 +1111,17 @@ var app = new Vue({
             day = weekday[dayNumber];
             formattedDate = day+", "+month+" "+date+", "+year
             return formattedDate
+        },
+
+        individualLawn: async function (lawn) {
+            this.targetLawnLook = true;
+            console.log("lawn page we are entering", lawn)
+            this.targetLawn = lawn;  
+            await this.getUser(lawn.user_id); 
+            this.page = "individual-lawn-page";
+            this.targetLawnLook = false;
         }
+
     },
     created: function () {
         this.getSession();

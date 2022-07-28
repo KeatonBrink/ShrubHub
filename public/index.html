@@ -147,7 +147,7 @@
           <v-card-title>{{targetUser.fullname}}'s Posted Lawns</v-card-title>
 
           <v-divider></v-divider>
-      <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null && lawn.user_id == targetUser._id" v-for="(lawn, index) in allLawns" :key="index">
+      <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null && lawn.user_id == targetUser._id" v-for="(lawn, index) in allLawns" :key="index" @click="page = 'individual-lawn-page'; targetLawn = lawn">
         <v-row dense>
           <v-col cols="5">
             <v-img
@@ -200,7 +200,7 @@
 
               <v-divider></v-divider>
           <v-card-text class="red--text mx-auto" v-show="targetUser.lawns.length == 0">You haven't posted any lawns yet ;(</v-card-text>
-          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="lawn.user_id == currentUserID && targetUser.lawns[0] != null" v-for="(lawn, index) in allLawns" :key="index">
+          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="lawn.user_id == currentUserID && targetUser.lawns[0] != null" v-for="(lawn, index) in allLawns" :key="index" @click="page = 'individual-lawn-page'; targetLawn = lawn">
             <v-row dense>
               <v-col cols="6">
                 <v-img
@@ -248,7 +248,7 @@
                   src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
                 </v-img>
               </v-col>
-              <v-col style="cursor:pointer" v-on:click="getUser(lawn.user_id); page='target-profile-page';" cols="5">
+              <v-col style="cursor:pointer" cols="5">
                 <v-card-text class="py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
                 <v-card-text v-if="lawn.public == true" class="py-0"><b>Status: </b>Public</v-card-text>
                 <v-card-text v-if="lawn.public == false" class="py-0"><b>Status: </b>Private</v-card-text>
@@ -488,7 +488,7 @@
                 <v-spacer></v-spacer><v-btn @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
                 <v-btn @click="toggleBookmark(lawn)" v-else><v-icon>mdi-bookmark</v-icon></v-btn></v-card-title>
 
-                <div style="cursor:pointer" v-on:click="savedLawnsToLocal(lawn); page='target-profile-page';">
+                <div style="cursor:pointer" @click="page = 'individual-lawn-page'; targetLawn = lawn">
                 <v-img class="mx-2" v-if="lawn.picture" :src="lawn.picture"></v-img>
                 <v-img class="mx-2" v-else src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"></v-img>
                 <v-card-text class="py-1 black--text"><b>Address:</b> {{ lawn.address }}</v-card-text>
@@ -509,6 +509,55 @@
           </v-row>
         </v-container>
 
+        <!-- INDIVIDUAL LAWN PAGE -- page = "individual-lawn-page"-->
+        <div style="width: 800px;" class="mx-auto" v-if="page == 'individual-lawn-page'">
+          <v-card class="grey lighten-2 mx-auto pt-8" max-width="1100px">
+            <v-img
+            contain
+            class="mx-auto"
+              v-if="targetLawn.picture"
+              max-height="400" max-width="1000" contain class="py-4 ml-2"
+              :src="targetLawn.picture">
+            </v-img>
+            <v-img v-else
+            contain
+            class="mx-auto"
+              max-height="400" max-width="1000" contain class="py-4 ml-4"
+              src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
+              </v-img>
+          <v-card-title style="cursor:pointer;"class="green--text darken-4" v-on:click="savedLawnsToLocal(lawn); page='target-profile-page';">
+            Posted by: {{targetUser.fullname}}
+          </v-card-title>
+          <v-card-title>
+            Start Date: {{formatDate_MMMMDDYYYY(targetLawn.startdate)}}
+          </v-card-title>
+          <v-card-title>
+            Pay: ${{targetLawn.pay}}
+          </v-card-title>
+          <v-card-title>
+            Time to Mow Lawn: {{targetLawn.time2mow}} minutes
+          </v-card-title>
+          <v-card-title>
+            Recurring: {{targetLawn.mowinterval}}
+          </v-card-title>
+          <v-card-title>
+            Description: {{targetLawn.description}}
+          </v-card-title>
+          <!-- I need to change the text color -->
+          
+          <v-card-title>
+            Contact Phone Number: {{targetUser.phonenumber}}
+          </v-card-title>
+          <v-card-title v-show="targetLawn.hasdogpoop">Warning, dog poop on lawn!</v-card-title>
+          Perks:
+          <ul>
+            <li v-show="targetLawn.haslawnmower">Lawn Mower Provided</li>
+            <li v-show="targetLawn.hasfreefood">Snacks Upon Request</li>
+            <li v-show="targetLawn.hasfreewater">Water Bottles as Needed</li>
+          </ul>
+          
+        </v-card>
+        </div>
 
 
 
@@ -680,11 +729,8 @@
          <v-row justify="center">
           <v-date-picker color="green darken-4" v-model="newLawnStartDate" min="2022-07-29"></v-date-picker>
         </v-row>
-        <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
-        
-        
-        <!-- I am unsure what to do with the don't repeat box -->
 
+        <v-card-title class="text-h5">How often do you want it mowed?</v-card-title>
         <v-checkbox
         @click="clearRepeat"
         width="100px"
@@ -736,11 +782,10 @@
         
         
         </div>
-
         <div class="text-center d-flex" height="100%" v-show="page == 'loading'">
           <v-progress-circular class="ma-auto align-center py-16" :width="5" :size="50" v-show="page == 'loading'" color="green darken-4" indeterminate></v-progress-circular>
         </div>
-
+        
 
 
 
