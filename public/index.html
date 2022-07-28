@@ -171,10 +171,11 @@
                 class="lime lighten-5">Log in</v-btn>
             </v-card-text>
           </v-card>
-
-
-
         </div>
+
+
+
+
         <!-- Other Profile Page For Different User than Yourself -->
         <div style="width: fit-content" class="mx-auto" v-if="page == 'target-profile-page'">
 
@@ -202,13 +203,17 @@
                 </template>
             <v-card-text class="ml-n16 py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
             <v-card-text class="ml-n16 py-0"><b>Pay: </b>{{ lawn.pay }}</v-card-text>
-            <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{ formatDate_MMMMDDYYYY(lawn.startDate) }}</v-card-text>
+            <v-card-text class="ml-n16 py-0"><b>Start Date: </b>{{ formatdate_MMMMDDYYYY(lawn.startDate) }}</v-card-text>
             <v-card-text class="ml-n16 py-0"><b>One Time/Repeating: </b>{{ lawn.mowinterval }}</v-card-text>
             <v-card-text class="ml-n16 py-0"><b>Description: </b>{{ lawn.description }}</v-card-text>
           </v-col>
         </v-row>
       </v-card>
         </div>
+
+
+
+
         <!-- PROFILE PAGE -->
         <div style="width: fit-content" class="mx-auto" v-if="page == 'profile-page'">
         
@@ -217,6 +222,8 @@
             <v-card-text><b>Name: </b>{{targetUser.fullname}}</v-card-text>
             <v-card-text><b>Email Address: </b>{{targetUser.email}}</v-card-text>
             <v-card-text><b>Phone Number: </b>{{targetUser.phonenumber}}</v-card-text>
+            <v-btn @click="page = 'edit-user-page'" class="mx-4 rounded-pill" >Edit User</v-btn>
+            <br><br>
           </v-card>
    
           <div v-show="page == 'profile-page' && postedOrSaved == 'posted'">
@@ -279,6 +286,59 @@
         </div>
           <!-- <v-btn class="mx-auto rounded-pill my-4" @click="page = 'create-post-page'">Add New Lawn +</v-btn> -->
         </div>
+
+
+
+
+
+        <!-- EDIT USER PAGE -->
+        <div v-if="page == 'edit-user-page'">
+          <v-card width="350" elevation="5" class="ma-auto mt-8 lime lighten-5">
+            <v-card-title>Edit Account Information</v-card-title>
+            <v-card-text>
+              <v-text-field label="Full Name" v-model="targetUser.fullname" clearable>
+              </v-text-field>
+              <v-text-field label="Email" v-model="targetUser.email" clearable>
+              </v-text-field>
+              <v-text-field label="Phone Number" v-model="targetUser.phonenumber" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" clearable>
+              </v-text-field>
+            </v-card-text>
+            <v-card-title>Edit Password</v-card-title>
+            <v-card-text>
+              <v-text-field label="Old Password" v-model="inputOldPassword" type="password" clearable>
+              </v-text-field>
+              <v-text-field label="New Password" v-model="updatePasswordInput1" type="password" clearable :disabled='inputOldPassword =="" || inputOldPassword == null'>
+              </v-text-field>
+              <v-text-field label="Retype New Password" v-model="updatePasswordInput2" type="password" clearable :disabled='inputOldPassword =="" || inputOldPassword == null'>
+              </v-text-field>
+            </v-card-text>
+            <p class = "text-center">Do you mainly use this site to<br>find lawns to mow, or to post your lawn?</p>
+            <v-card-actions>
+              <v-btn v-on:click="targetUser.defaultrole = `mower`"
+              class="mx-auto"
+              :color='targetUser.defaultrole == "mower" ? "#005921" : "grey lighten-4"'
+              :class='targetUser.defaultrole == "mower" ? "white--text" : "black--text"'>
+                Mowing
+              </v-btn>
+              <v-btn v-on:click="targetUser.defaultrole = `poster`"
+              class="mx-auto"
+              :color='targetUser.defaultrole == "poster" ? "#005921" : "grey lighten-4"'
+              :class='targetUser.defaultrole == "poster" ? "white--text" : "black--text"'>
+                Posting
+              </v-btn>
+            </v-card-actions>
+            <v-card-text class="red--text">{{createAccError}}</v-card-text>
+            <v-card-actions>
+              <v-btn v-on:click="patchUser()" class="mx-auto" color="grey lighten-4">
+                Update Account Data
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </div>
+
+
+
+
 
 
         <!-- MOWER MAIN PAGE -- page = "mowermain"-->
@@ -430,6 +490,10 @@
               </v-card>
             </v-col>
 
+
+
+
+
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
               <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px"class="my-5 overflow-auto" v-show="lawnFilterCheck(lawn) && !IDCheck(lawn) && lawn.public == true">
@@ -451,6 +515,9 @@
             </v-col>
           </v-row>
         </v-container>
+
+
+
 
 
         <!-- POST A LAWN -->
@@ -548,10 +615,10 @@
            </v-card-actions>
 
           </v-card>
-        
-        
-        
         </div>
+
+
+
 
         <!-- Update A LAWN -->
         <div v-if="page == 'edit-lawn-page'">

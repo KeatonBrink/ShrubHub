@@ -53,6 +53,10 @@ var app = new Vue({
         //newProfilePic: "",
         newDefaultRole: "",
 
+        inputOldPassword: "",
+        updatePasswordInput1: "",
+        updatePasswordInput2: "",
+
         //input boxes
         newLawnAddress: "",
         newLawnTime2Mow: "",
@@ -485,7 +489,83 @@ var app = new Vue({
                 }
             );
         },
-        
+
+
+        patchUser: async function () {
+            let updatedPassword = "";
+            if (this.targetUser.fullname == "" || this.targetUser.fullname == null) {
+                console.log("Please insert your full name.");
+                this.createAccError="Please insert your full name.";
+                return;
+            } else if (this.targetUser.email == "" || this.targetUser.email == null) {
+                console.log("Please insert a valid email address.");
+                this.createAccError="Please insert a valid email address.";
+                return;
+            } else if (this.targetUser.phonenumber == "" || this.targetUser.phonenumber == null) {
+                console.log("Please insert a valid phone number");
+                this.createAccError="Please insert a valid phone number";
+                return;
+            
+            // verification for password changes - one box for old password, two read-only boxes to create new password that show if old password becomes available.
+            } else if (this.inputOldPassword != "" && this.inputOldPassword != null) {
+            // input backend function here that checks to see if you match the old password
+                console.log(this.updatePasswordInput1)
+                if (this.updatePasswordInput1 == "" || this.updatePasswordInput1 == null) {
+                    console.log("Please insert a password");
+                    this.createAccError="Please insert a password";
+                    return;
+                } else if (this.updatePasswordInput1 != this.updatePasswordInput2) {
+                    console.log("Password inputs do not match. Re-type your password.");
+                    this.createAccError="Password inputs do not match. Re-type your password.";
+                    return;
+                } else {
+                    updatedPassword = this.updatePasswordInput1;
+                }
+            //Once user passes all checks, and no fields are null...
+            } else {
+                this.createAccError="";
+                let newUserUpdates = {
+                    "updatedpassword" : updatedPassword,
+                    "oldpassword" : this.inputOldPassword,
+                    "fullname" : this.updateFullNameInput,
+                    "role" : this.updateDefaultRole,
+                    "email" : this.updateEmailInput,
+                    "phone" : this.updatePhoneInput,
+                }
+                let newURL = URL + "/updateUser";
+                let response = await fetch(newURL, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(newUserUpdates),
+                    credentials: "include"
+                });
+                let body = await response.json();
+
+                if (response.status >= 200 && response.status < 300) {
+                    console.log("User credentials updated. Please Log in.")
+                    console.log(body)
+                    this.userLogout();
+
+                } else if (response.status == 400 ) {
+                    console.log("Password input does not match current password. Please try again.")
+                    this.createAccError="Password input does not match current password. Please try again.";
+                    return
+                } else if (response.status >= 401 && response.status <= 403) {
+                    console.log("Error updating. Could not update credentials. " + response + " " + response.status)
+                    return
+                } else if (response.status == 404) {
+                    console.log("User not found. " + response + " " + response.status)
+                    return
+                } else {
+                    console.log("Unique response.... " + response + " " + response.status)
+                    return
+                };
+            };
+        },
+
+        // this function calls and appends the url that is attached to the image stored in the AWS bucket.
         patchLawnURL: async function () {
             let newURL = URL + "/lawn/" + this.targetUser.lawns[this.targetUser.lawns.length - 1]._id;
             // console.log(newURL);
@@ -546,9 +626,11 @@ var app = new Vue({
                 console.log("Please pick an appropriate time to mow");
                 this.postLawnError="Please pick an appropriate time to mow";
                 return
-            }
+            } 
             if (this.newLawnStartDate != "") {
                 this.targetLawn.startdate = this.newLawnStartDate;
+                //if no new date is selected, the previous date is assumed.
+                // -- edit the html to show the previous date selected upon loading the page
             }
             let newURL = URL + "/updatelawn";
             let response = await fetch(newURL, {
@@ -569,7 +651,7 @@ var app = new Vue({
             } else if (response.status >= 400) {
                 console.log ("Unsuccesful PATCH /lawn")
             } else {
-                console.log("Some sort of error when PATCH /lawn");
+                console.log("Some sort of error when PATCH /lawn: "+ response.status + " " + response);
             }
         },
 
@@ -597,6 +679,8 @@ var app = new Vue({
             }
         },
 
+
+
         userLogout: async function () {
             let newURL = URL + "/logout";
             let response = await fetch(newURL, {
@@ -610,7 +694,7 @@ var app = new Vue({
             if (response.status == 200) {
                 console.log("User has logged out");
                 this.currentUserID = null;
-                this.page = "landing-page";
+                this.page = "login-page";
                 this.getSession();
             } else {
                 console.log("User is still logged in");
@@ -822,7 +906,6 @@ var app = new Vue({
             dayNumber = newDate.getDay()
             weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
             day = weekday[dayNumber];
-            console.log(`Year: ${year}, Month: ${month}, Date: ${date}, Day: ${day}`)
             formattedDate = day+", "+month+" "+date+", "+year
             return formattedDate
         }

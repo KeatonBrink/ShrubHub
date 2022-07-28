@@ -367,13 +367,95 @@ app.patch("/updateLawn", async (req, res) => {
         }
     } catch(err) {
         res.status(500).json({
-            message: "failed to change update lawn",
+            message: "failed to update lawn",
             error: err
         })
         return;
     }
     res.status(200).json(lawn)
 })
+
+app.patch("/updateUser", async (req, res) => {
+    if(!req.user) {
+        res.status(401).json({message: "unauthorized"});
+        return;
+    }
+    let userID = req.user.id
+    console.log(userID)
+    try { 
+        user = await User.findById(userID);
+        console.log("patchUser retrieved: "+user);
+    } catch (err) {
+        res.status(404).json({
+            message: "User not found. Could not be updated.",
+            error: err,
+        })
+        return;
+    }
+    
+    if (req.body.oldpassword == "") {
+        try {
+            user = await User.findByIdAndUpdate(
+                userID,
+                {
+                    fullname: req.body.fullname,
+                    defaultrole: req.body.role,
+                    email: req.body.email,
+                    phonenumber: req.body.phone,
+                },
+                {
+                    new: true,
+                }
+            )
+        console.log("User updated: "+user)
+        } catch (err) {
+            res.status(500).json({
+                message: "failed to update user.",
+                error: err
+            })
+            return;
+        }
+        res.status(200).json(user)
+        return;
+    } else {
+        user = await User.findById(userID)
+        if (user.password == req.body.oldpassword) {
+            try {
+                user = await User.findByIdAndUpdate(
+                    userID,
+                    {
+                        fullname: req.body.fullname,
+                        password: req.body.updatedpassword,
+                        defaultrole: req.body.role,
+                        email: req.body.email,
+                        phonenumber: req.body.phone,
+                    },
+                    {
+                        new: true,
+                    }
+                )
+            } catch (err) {
+                res.status(500).json({
+                    message: "failed to update user.",
+                    error: err
+                })
+                return;
+            }
+            res.status(200).json(user)
+            return;
+        } else {
+            res.status(400).json({
+                message: "Password input does not match current password."
+            })
+        } 
+    }
+
+    
+}
+
+
+
+)
 
 app.patch("/lawn/:lawnid/:newPublicity", async (req, res) => {
     let lawnID = req.params.lawnid;
