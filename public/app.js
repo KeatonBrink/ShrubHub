@@ -19,7 +19,7 @@ var app = new Vue({
     el: "#app",
     vuetify: new Vuetify(),
     data: {
-        page: "landing-page",
+        page: "",
 
         logInputError:"",
         createAccError:"",
@@ -133,6 +133,7 @@ var app = new Vue({
             } else {
                 console.log("Error logging in, status: " + response.status);
             }
+            this.page = 'landing-page';
         },
 
         getURLs: async function () {
