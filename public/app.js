@@ -759,6 +759,14 @@ var app = new Vue({
                 }
             }
 
+            if (newPage == 'profile-page') {
+                await this.screenDelay(1, '');   
+                setTimeout(() => {
+                    document.location.reload(true);
+                }, 1000);
+                return
+            }
+
             this.page = newPage;
         },
 

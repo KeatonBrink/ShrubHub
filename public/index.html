@@ -269,7 +269,7 @@
           <v-card-title>Your Saved Lawns <v-btn @click="postedOrSaved = 'posted'" class="mx-4 rounded-pill">Show Posted Lawns</v-btn></v-card-title>
               <v-divider></v-divider>
           <v-card-text class="red--text mx-auto" v-show="targetUser.savedlawns.length == 0">You haven't saved any lawns yet ;(</v-card-text>
-          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null && targetUser.savedlawns.includes(lawn._id)" v-for="(lawn, index) in allLawns" :key="index">
+          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.savedlawns.includes(lawn._id)" v-for="(lawn, index) in allLawns" :key="index">
             <v-row dense>
               <v-col cols="5" class="pa-0">
                 <v-img
