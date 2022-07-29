@@ -256,11 +256,11 @@ var app = new Vue({
                 console.log("Password inputs do not match. Re-type your password.");
                 this.createAccError="Password inputs do not match. Re-type your password.";
                 return
-            } else if (this.newDefaultRole == "") {
+            } /*else if (this.newDefaultRole == "") {
                 console.log("Please select a mowing or posting role.");
                 this.createAccError="Please select a mowing or posting role.";
                 return
-            } else if (this.newFullNameInput == "") {
+            } */else if (this.newFullNameInput == "") {
                 console.log("Please insert your full name.");
                 this.createAccError="Please insert your full name.";
                 return
