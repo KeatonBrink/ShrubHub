@@ -237,7 +237,7 @@
           <v-card-text class="red--text mx-auto" v-show="targetUser.savedlawns.length == 0">You haven't saved any lawns yet ;(</v-card-text>
           <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.savedlawns.includes(lawn._id)" v-for="(lawn, index) in allLawns" :key="index">
             <v-row dense>
-              <v-col cols="5" class="pa-1">
+              <v-col style="cursor:pointer" @click="page = 'individual-lawn-page'; targetLawn = lawn" cols="5" class="pa-1">
                 <v-img
                   v-if="lawn.picture"
                   max-height="200" max-width="300" contain class="py-4 ml-2"
@@ -248,7 +248,7 @@
                   src="https://images.unsplash.com/photo-1501520158826-76df880863a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80">
                 </v-img>
               </v-col>
-              <v-col style="cursor:pointer" cols="5">
+              <v-col style="cursor:pointer" @click="page = 'individual-lawn-page'; targetLawn = lawn; individualLawn(lawn)" cols="5">
                 <v-card-text class="py-0"><b>Address: </b>{{ lawn.address }}</v-card-text>
                 <v-card-text v-if="lawn.public == true" class="py-0"><b>Status: </b>Public</v-card-text>
                 <v-card-text v-if="lawn.public == false" class="py-0"><b>Status: </b>Private</v-card-text>
@@ -482,11 +482,11 @@
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
               <!--<v-card-text class="red--text mx-auto" v-show="displayedLawns == 0">There are no posted lawns to display</v-card-text>-->
-              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="auto" class="my-5" v-if="lawnFilterCheck(lawn)">
+              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px" class="my-5" v-if="lawnFilterCheck(lawn)">
                 
-                <v-card-title class="ma-0 pa-2">Save Lawn
-                <v-spacer></v-spacer><v-btn @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)"><v-icon>mdi-bookmark-outline</v-icon></v-btn>
-                <v-btn @click="toggleBookmark(lawn)" v-else><v-icon>mdi-bookmark</v-icon></v-btn></v-card-title>
+                <v-card-title class="ma-0 pa-2">
+                <v-spacer></v-spacer><v-btn block @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)">Save Lawn<v-icon>mdi-bookmark-outline</v-icon></v-btn>
+                <v-btn block @click="toggleBookmark(lawn)" v-else>Unsave Lawn<v-icon>mdi-bookmark</v-icon></v-btn></v-card-title>
 
                 <div style="cursor:pointer" @click="page = 'individual-lawn-page'; targetLawn = lawn">
                 <v-img class="mx-2" v-if="lawn.picture" :src="lawn.picture"></v-img>
