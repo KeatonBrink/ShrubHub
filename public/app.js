@@ -633,7 +633,6 @@ var app = new Vue({
         },
 
         patchLawn: async function () {
-            this.targetLawn.mowinterval = this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek;
             if (this.targetLawn.description == "") {
                 console.log("Please add a description.");
                 this.postLawnError="Please add a description.";
@@ -662,6 +661,11 @@ var app = new Vue({
                 //if no new date is selected, the previous date is assumed.
                 // -- edit the html to show the previous date selected upon loading the page
             }
+            if (this.dontRepeatBox == true) {
+                this.targetLawn.mowinterval = "One Time Job"
+            } else if (this.newRepeatInterval_dayweek != "" && this.newRepeatInterval_number != "" && this.newRepeatInterval_dayweek != null && this.newRepeatInterval_number != null) {
+                this.targetLawn.mowinterval = "Repeat Every " + this.newRepeatInterval_number+" "+this.newRepeatInterval_dayweek;
+            }
             this.postLawnError="";
             let newURL = URL + "/updatelawn";
             let response = await fetch(newURL, {
@@ -678,7 +682,9 @@ var app = new Vue({
                 this.$forceUpdate();
                 targetLawn = null;
                 console.log("Successful patch attempt");
-
+                this.newRepeatInterval_dayweek = "";
+                this.newRepeatInterval_number = ""
+                this.dontRepeatBox = false;
             } else if (response.status >= 400) {
                 console.log ("Unsuccesful PATCH /lawn")
             } else {
