@@ -844,7 +844,7 @@ var app = new Vue({
 
         savedLawnsToLocal: async function (lawn) {
             this.localSavedLawns = await JSON.parse(JSON.stringify(this.targetUser.savedlawns));
-            this.getUser(lawn.user_id);
+            await this.getUser(lawn.user_id);
         },
 
         pageRefresh: async function (newPage) {
@@ -1102,7 +1102,7 @@ var app = new Vue({
             this.targetLawnLook = true;
             console.log("lawn page we are entering", lawn)
             this.targetLawn = lawn;  
-            await this.getUser(lawn.user_id); 
+            await this.savedLawnsToLocal(lawn); 
             this.page = "individual-lawn-page";
             this.targetLawnLook = false;
         }
