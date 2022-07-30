@@ -147,9 +147,9 @@
           <v-card-title>{{targetUser.fullname}}'s Posted Lawns</v-card-title>
 
           <v-divider></v-divider>
-      <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null && lawn.user_id == targetUser._id" v-for="(lawn, index) in allLawns" :key="index" @click="page = 'individual-lawn-page'; targetLawn = lawn">
+      <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="targetUser.lawns[0] != null && lawn.user_id == targetUser._id" v-for="(lawn, index) in allLawns" :key="index" >
         <v-row dense>
-          <v-col cols="5">
+          <v-col cols="5" @click="page = 'individual-lawn-page'; targetLawn = lawn">
             <v-img
                   v-if="lawn.picture"
                   max-height="200" max-width="300" contain class="py-4 ml-2"
@@ -200,9 +200,9 @@
 
               <v-divider></v-divider>
           <v-card-text class="red--text mx-auto" v-show="targetUser.lawns.length == 0">You haven't posted any lawns yet ;(</v-card-text>
-          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="lawn.user_id == currentUserID && targetUser.lawns[0] != null" v-for="(lawn, index) in allLawns" :key="index" @click="page = 'individual-lawn-page'; targetLawn = lawn">
+          <v-card width="700" class="mx-auto my-6 py-6 grey lighten-4" v-if="lawn.user_id == currentUserID && targetUser.lawns[0] != null" v-for="(lawn, index) in allLawns" :key="index">
             <v-row dense>
-              <v-col cols="6">
+              <v-col cols="6" @click="page = 'individual-lawn-page'; targetLawn = lawn">
                 <v-img
                   v-if="lawn.picture"
                   height="200" width="300" contain class="py-4 ml-2"
@@ -482,7 +482,7 @@
             <!-- List of lawns -->
             <v-col cols="9" class="d-flex flex-wrap justify-space-around">
               <!--<v-card-text class="red--text mx-auto" v-show="displayedLawns == 0">There are no posted lawns to display</v-card-text>-->
-              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="300px" class="my-5" v-if="lawnFilterCheck(lawn)">
+              <v-card v-for="(lawn, i) in allLawns" :key="i" width="30%" height="400px" class="my-5" v-if="lawnFilterCheck(lawn)">
                 
                 <v-card-title class="ma-0 pa-2">
                 <v-spacer></v-spacer><v-btn block @click="toggleBookmark(lawn)" v-if="!targetUser.savedlawns.includes(lawn._id)">Save Lawn<v-icon>mdi-bookmark-outline</v-icon></v-btn>
