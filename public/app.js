@@ -256,11 +256,7 @@ var app = new Vue({
                 console.log("Password inputs do not match. Re-type your password.");
                 this.createAccError="Password inputs do not match. Re-type your password.";
                 return
-            } /*else if (this.newDefaultRole == "") {
-                console.log("Please select a mowing or posting role.");
-                this.createAccError="Please select a mowing or posting role.";
-                return
-            } */else if (this.newFullNameInput == "") {
+            } else if (this.newFullNameInput == "") {
                 console.log("Please insert your full name.");
                 this.createAccError="Please insert your full name.";
                 return
@@ -278,7 +274,7 @@ var app = new Vue({
                     "username" : this.newUsernameInput,
                     "password" : this.newPasswordInput,
                     "fullname" : this.newFullNameInput,
-                    "role" : this.newDefaultRole,
+                    "role" : "mower",
                     "email" : this.newEmailInput,
                     "phone" : this.newPhoneInput,
                 }
@@ -415,7 +411,7 @@ var app = new Vue({
             let lawnSpecifics = {
                 "address" : this.newLawnAddress,
                 "time2Mow": this.newLawnTime2Mow,
-                "image" : "",
+                "image" : this.newLawnImageURL,
                 "pay" : this.newLawnPay,
                 "description" : this.newLawnDescription,
                 "startDate" : formattedStartDate,
@@ -499,13 +495,13 @@ var app = new Vue({
 
             // console.log("Successfully uploaded photo.");
             // return;
-            
+            this.newLawnImageURL = this.awsURLs.awsPhotoURL + photoKey;
             var promise = upload.promise();
 
             promise.then(
                 async (data) => {
                     console.log("Successfully uploaded photo.");
-                    this.newLawnImageURL = this.awsURLs.awsPhotoURL + photoKey;
+                    
                     await this.patchLawnURL();
                     this.$forceUpdate();
                     return;
@@ -850,7 +846,7 @@ var app = new Vue({
 
         savedLawnsToLocal: async function (lawn) {
             this.localSavedLawns = await JSON.parse(JSON.stringify(this.targetUser.savedlawns));
-            this.getUser(lawn.user_id);
+            await this.getUser(lawn.user_id);
         },
 
         pageRefresh: async function (newPage) {
@@ -1108,7 +1104,7 @@ var app = new Vue({
             this.targetLawnLook = true;
             console.log("lawn page we are entering", lawn)
             this.targetLawn = lawn;  
-            await this.getUser(lawn.user_id); 
+            await this.savedLawnsToLocal(lawn); 
             this.page = "individual-lawn-page";
             this.targetLawnLook = false;
         }
