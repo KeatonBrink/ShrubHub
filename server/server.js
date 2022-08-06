@@ -119,10 +119,26 @@ app.post("/lawn", async (req, res) => {
         res.status(401).json({message: "unauthorized"});
         return;
     }
+
     let updatedUser;
+    try {
+        updatedUser = await User.findById(req.user.id, "-password -username");
+        if (!updatedUser) {
+            res.status(404).json({
+                message: "User could not be found",
+            })
+            return;
+        }
+        console.log("Updated User");
+    } catch(err) {
+        res.status(404).json({messag: "User not found"})
+        return
+    }
+
     try {
         let lawn = await Lawn.create({
             user_id: req.user.id,
+            user_fullname: updatedUser.fullname,
             description: req.body.description,
             address: req.body.address,
             public: true,
@@ -160,12 +176,14 @@ app.post("/lawn", async (req, res) => {
             }
         } catch(err) {
             res.status(500).json({message: "could not connect lawn to user", error: err,})
+            return
         }
         res.status(201).json(lawn);
+        return
     } catch(err) {
         res.status(500).json({message: "could not create lawn", error: err,})
+        return
     }
-    return;
 })
 
 app.patch("/savedlawn", async (req, res) => {

@@ -50,6 +50,7 @@ const lawnSchema = mongoose.Schema({
         ref: "User",
         required: true,
     },
+    user_fullname: {type: String, required: true},
     public: {type: Boolean, required: true, default: false},
     // Picture needed here
     picture: {type: String, required: false, default: ""},
